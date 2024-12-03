@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Role;
+use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -12,61 +11,62 @@ use Illuminate\Support\Facades\Redirect;
 class RegisterController extends Controller
 {
     // User registration and creating users
-    public function register(Request $request)
+    public function register(RegisterUserRequest $request)
     {
+
         try {
-            // Validate the request data
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'phone_number' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'fitness_goal' => 'nullable|string|max:255',
-                'preferences' => 'nullable|string|max:255',
-                'password' => 'required|string|min:8|confirmed',
-                'role_id' => 'required|exists:roles,id',
-            ]);
+             // Validate the request, including password confirmation
+        $validatedData = $request->validated();
 
-            // Find the role based on the provided role ID (User or Admin)
-            $role = Role::findOrFail($request->role_id);
+        // dd($validatedData);
 
-    ;
+        // Automatically hash the password before saving
+        $validatedData['password'] = Hash::make($validatedData['password']);
 
-            // Create the new user
-            $user = User::create([
-                'name' => $request->name,
-                'phone_number' => $request->phone_number,
-                'email' => $request->email,
-                'fitness_goal' => $request->fitness_goal,
-                'preferences' => $request->preferences,
-                'password' => Hash::make($request->password), // Hash the password
-                'role_id' => $role->id,
-            ]);
+            // // Create the new user with validated data
+            $user = User::create($validatedData);
 
-            // Log::info('User Created:', $user->toArray());
             if ($user) {
                 Log::info('User Created:', $user->toArray());
             } else {
                 Log::error('Failed to create user.');
+                return Redirect::back()->with('error', 'Failed to create user.');
             }
 
+        //   $email = 'moshwanjiku@gmail.com';
+        //   $user = User::where('email', $email)->first();
 
-            // Authenticate user
+
+
+            try {
+                // Attempt to send the email verification notification
+                $user->sendEmailVerificationNotification();
+
+                // Log successful email send
+                Log::info('Verification email sent to user: ' . $user->email);
+
+
+            } catch (\Exception $e) {
+                // Log error if the email fails to send
+                // dd($e->getMessage());
+                Log::error('Error sending verification email: ' . $e->getMessage());
+                return Redirect::back()->with('error', 'Failed to send verification email.');
+            }
+
+            // Authenticate the user
             auth()->login($user);
 
-            // Redirect to dashboard or login page with a success message
-            return redirect()->route('dashboard')->with('success', 'Registration successful. Please login.');
+            // Redirect to the user dashboard or any other route
+            return redirect()->route('verify')->with('success', 'Welcome to your dashboard! Please verify your email.');
+
+
 
         } catch (\Exception $e) {
             // Handle any errors by returning an error message
+            Log::error('Registration Error: ' . $e->getMessage());
+
             return Redirect::back()->with('error', 'Something went wrong: ' . $e->getMessage());
         }
-    }
-
-    // Get all users
-    public function index()
-    {
-        $users = User::all();
-        return response()->json($users);
     }
 }
 

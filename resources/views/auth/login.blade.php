@@ -32,18 +32,29 @@
                 </div>
             @endif
 
+            @if (session('status'))
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
+@endif
+
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Login</button>
             </div>
         </form>
 
+        <!-- Forgot Password Link -->
+        <div class="mt-3 text-center">
+            <a href="{{ route('password.request') }}" class="btn btn-link" style="font-size: 14px;">Forgot your password?</a>
+        </div>
+
         <!-- Link to Register if the user doesn't have an account -->
         <div class="mt-3 text-center" style="margin-top: -10px;">
             <p>Don't have an account? <a href="{{ url('/register') }}" class="btn btn-outline-secondary btn-sm" style="font-size: 12px; padding: 5px 15px;">Register Now</a></p>
-
         </div>
     </div>
 </div>
 @endsection
+
 
 

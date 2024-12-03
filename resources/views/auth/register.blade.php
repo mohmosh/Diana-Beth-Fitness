@@ -72,18 +72,17 @@
             <div class="mb-3">
                 <label for="password_confirmation" class="form-label">Confirm Password</label>
                 <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" required>
-                {{-- <input type="password" name="password_confirmation" id="password_confirmation" required> --}}
-
+                <input type="hidden" name="role_id"   value="2">
             </div>
 
-            <div class="mb-3">
+            {{-- <div class="mb-3">
                 <label for="role_id" class="form-label">Role</label>
                 <select class="form-control" name="role_id" id="role_id" required>
                     <option value="">Select Role</option>
                     <option value="2">User</option>
                     <option value="1">Admin</option>
                 </select>
-            </div>
+            </div> --}}
 
             <button type="submit" class="btn btn-primary">Register</button>
         </form>

@@ -21,7 +21,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="password_confirmation" class="form-label">Confirm Password</label>
+            <label for="password_confirmation" class="form-label">Confirm New Password</label>
             <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" required>
         </div>
 
@@ -31,3 +31,5 @@
     </form>
 </div>
 @endsection
+
+
