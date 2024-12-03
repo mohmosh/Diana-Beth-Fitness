@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Validator as ValidationValidator;
 
 class ResetPasswordController extends Controller
 {
@@ -20,14 +22,24 @@ class ResetPasswordController extends Controller
     // Handle the reset password form submission
     public function reset(Request $request)
     {
-        dd($request->validated());
+
 
         // Validate the request data
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|confirmed|min:8',
+            'password' => 'required|confirmed|min:6',
             'token' => 'required',
+        ],[
+            'email.required' => 'The email field is required.',
+        'email.email' => 'The email must be a valid email address.',
+        'password.required' => 'Please provide a password.',
+        'password.confirmed' => 'The password confirmation does not match.',
+        'password.min' => 'Password must be at least 6 characters long.',
+        'token.required' => 'A token is required to proceed.',
         ]);
+
+
+
 
         // Attempt to reset the password
         $response = Password::reset(
@@ -40,7 +52,7 @@ class ResetPasswordController extends Controller
 
             }
         );
-        
+
 
         // Check if password reset was successful and return response
         if ($response == Password::PASSWORD_RESET) {

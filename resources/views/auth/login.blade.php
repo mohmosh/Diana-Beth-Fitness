@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Login')
+@section('title', 'DBF Login')
 
 @section('content')
 <div class="container mt-5 d-flex justify-content-center align-items-center" style="height: 80vh;">
