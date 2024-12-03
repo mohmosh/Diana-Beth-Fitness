@@ -42,7 +42,13 @@ class RegisterController extends Controller
                 'role_id' => $role->id,
             ]);
 
-            Log::info('User Created:', $user->toArray());
+            // Log::info('User Created:', $user->toArray());
+            if ($user) {
+                Log::info('User Created:', $user->toArray());
+            } else {
+                Log::error('Failed to create user.');
+            }
+
 
             // Authenticate user
             auth()->login($user);

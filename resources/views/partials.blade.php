@@ -8,6 +8,8 @@
             <li class="nav-item"><a class="nav-link" href="{{ url('/healthy-living') }}">Healthy Living</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url('/contact') }}">Contact</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url('/community') }}">Community</a></li>
+            {{-- <li class="nav-item"><a class="nav-link" href="{{ url('/community') }}">Social Media</a></li> --}}
+
             <li class="nav-item">
                 <a href="{{ url('/register') }}" class="btn btn-outline-light">Register</a>
             </li>

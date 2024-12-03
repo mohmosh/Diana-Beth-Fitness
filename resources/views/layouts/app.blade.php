@@ -9,7 +9,7 @@
 
         .dashboard {
             background: linear-gradient(135deg, #9b59b6, #8e44ad); /* Purple gradient */
-            height: 100vh;
+            height: 80vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -21,7 +21,7 @@
             background: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
             border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            padding: 40px;
             text-align: center;
             max-width: 400px;
         }
@@ -51,7 +51,7 @@
             padding: 10px 20px;
         }
         .navbar-brand, .navbar-nav .nav-link {
-            color: white;
+            color: rgb(14, 13, 13);
             font-weight: bold;
         }
         .navbar-nav .nav-link:hover {

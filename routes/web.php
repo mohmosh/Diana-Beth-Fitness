@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,4 +36,15 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 
 
+// Route::get('/fitness-content', [AuthController::class, 'fitnessContent'])->middleware('auth');
+Route::get('/fitness-content', function () {
+    return view('fitness.content'); //
+})->name('fitness.content')->middleware('auth'); // Protect route with 'auth' middleware
+
+
+//Log out routes (User
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/'); // Redirect to home or login page after logout
+})->name('logout');
 
