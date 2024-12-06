@@ -12,9 +12,9 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         return view('auth.login');
+        // return 'Login page is working!';
     }
 
-    // Login Logic
     public function login(Request $request)
     {
         // Validate the request
@@ -25,24 +25,25 @@ class AuthController extends Controller
 
         // Attempt to authenticate the user
         if (Auth::attempt($request->only('email', 'password'))) {
-            // Authentication passed
             $user = Auth::user();
 
-            // Redirect based on  the role
-            if ($user->role_id === 1) {
-                // Admin role
-                return redirect()->route('admin.dashboard')->with('success', 'Welcome Admin!');
-            }
+            // Create a personal access token for the authenticated user
+            $token = $user->createToken('DianaBethFitness')->plainTextToken;
 
-            if ($user->role_id === 2) {
-                // User role
-                return redirect()->route('user.dashboard')->with('success', 'Welcome back!');
-            }
+            // Return the token in the response
+            return response()->json([
+                'message' => 'Login successful',
+                'token' => $token,
+                'user' => $user
+            ]);
         }
 
         // Authentication failed
-        return back()->withErrors(['email' => 'Invalid email or password'])->withInput();
+        return response()->json([
+            'message' => 'Invalid email or password'
+        ], 401);
     }
+
 
     // Content Page
     public function fitnessContent()

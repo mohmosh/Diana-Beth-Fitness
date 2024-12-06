@@ -46,13 +46,18 @@ Route::get('verify', function () {
 
 
 // Login routes (User)
-// Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
 
-Route::get('/login', function () {
-    return view('auth.login'); // Registration form view
-})->name('login.form');
+// Login Form Display
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
 
+// Login Form Submission
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+
+
+
+
+
 
 
 

@@ -35,8 +35,8 @@
                             possibilities. Pixel-perfect replication of the designers is intended.</p>
                         <p class="mb-65 pera-bottom">Brook presents your services with flexible, convefnient and chient
                             anipurpose layouts. You can select your favorite layouts.</p>
-                        <a href="from.html" class="btn">became a member</a>
-                    </div>
+                            <a class="btn header-btn ms-2" href="{{ url('/register') }}">Become A Member</a>
+                        </div>
                 </div>
             </div>
         </div>

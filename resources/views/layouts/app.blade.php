@@ -26,6 +26,9 @@
 </head>
 <body>
 
+    {{-- Yield header section --}}
+    @yield('header')
+
     {{-- @include('partials.preloader') --}}
     @include('partials.header')
     @include('partials.slider')

@@ -47,9 +47,17 @@
                                         </ul>
                                     </nav>
                                 </div>
+
+                                {{-- Register Button --}}
                                 <div class="header-right-btn f-right d-none d-lg-block ml-30">
-                                    <a href="from.html" class="btn header-btn">became a member</a>
+                                    <a class="btn header-btn ms-2" href="{{ url('/register') }}">Register</a>
                                 </div>
+
+                                {{-- Login Button --}}
+                                <div class="header-right-btn f-right d-none d-lg-block ml-15">
+                                    <a class="btn header-btn ms-2" href="{{ url('/login') }}">Login</a>
+                                </div>
+
                             </div>
                         </div>
                         <!-- Mobile Menu -->

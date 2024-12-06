@@ -22,7 +22,7 @@
                                 <div class="hero__caption">
                                     <span data-animation="fadeInLeft" data-delay="0.1s">with patrick potter</span>
                                     <h1 data-animation="fadeInLeft" data-delay="0.4s">Build Perfect body Shape for good and Healthy life.</h1>
-                                    <a href="from.html" class="btn hero-btn" data-animation="fadeInLeft" data-delay="0.8s">became a member</a>
+                                    <a class="btn hero-btn " data-animation="fadeInLeft" data-delay="0.8s" href="{{ url('/register') }}">Become A Member</a>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +37,9 @@
                                 <div class="hero__caption">
                                     <span data-animation="fadeInLeft" data-delay="0.1s">with patrick potter</span>
                                     <h1 data-animation="fadeInLeft" data-delay="0.4s">Build Perfect body Shape for good and Healthy life.</h1>
-                                    <a href="from.html" class="btn hero-btn" data-animation="fadeInLeft" data-delay="0.8s">became a member</a>
+                                    <a class="btn hero-btn " data-animation="fadeInLeft" data-delay="0.8s" href="{{ url('/register') }}">Become A Member</a>
+
+                                    {{-- <a href="from.html" class="btn hero-btn" data-animation="fadeInLeft" data-delay="0.8s">became a member</a> --}}
                                 </div>
                             </div>
                         </div>

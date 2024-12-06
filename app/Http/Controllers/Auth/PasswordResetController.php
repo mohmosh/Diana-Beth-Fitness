@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Validator as ValidationValidator;
 
-class ResetPasswordController extends Controller
+class PasswordResetController extends Controller
 {
     // Display the form to reset the password
     public function showResetForm(Request $request, $token = null)
