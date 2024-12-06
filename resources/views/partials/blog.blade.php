@@ -10,8 +10,8 @@
     <!-- Include any CSS files here -->
 </head>
 <body>
-  <!--? Blog Area Start -->
-  <section class="home-blog-area section-padding30">
+   <!--? Blog Area Start -->
+   <section class="home-blog-area section-padding30">
     <div class="container">
         <!-- Section Tittle -->
         <div class="row justify-content-center">
@@ -63,5 +63,6 @@
     </div>
 </section>
 <!-- Blog Area End -->
+</main>
 </body>
 </html>

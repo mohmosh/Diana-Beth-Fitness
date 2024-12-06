@@ -23,16 +23,16 @@ Table of contents
 12. portfolio
 
 --------------------------------------------- */
-/*
+/* 
 ---------------------------------------------
 font & reset css
----------------------------------------------
+--------------------------------------------- 
 */
 @import url("https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
-/*
+/* 
 ---------------------------------------------
 reset
----------------------------------------------
+--------------------------------------------- 
 */
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, div
 pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q,
@@ -82,7 +82,7 @@ header, nav, section, article, aside, footer, hgroup {
 html, body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  background-color: #181616;
+  background-color: #fff;
   font-size: 16px;
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -108,24 +108,24 @@ p {
   color: #7a7a7a;
 }
 
-/*
+/* 
 ---------------------------------------------
 global styles
----------------------------------------------
+--------------------------------------------- 
 */
 html,
 body {
-  background: #aa93af;
+  background: #fff;
   font-family: 'Poppins', sans-serif;
 }
 
 ::selection {
-  background: #af10cf;
+  background: #ed563b;
   color: #fff;
 }
 
 ::-moz-selection {
-  background: #af10cf;
+  background: #ed563b;
   color: #fff;
 }
 
@@ -163,7 +163,7 @@ body {
 
 .section-heading h2 em {
   font-style: normal;
-  color: #af10cf;
+  color: #ed563b;
 }
 
 .section-heading img {
@@ -195,10 +195,10 @@ body {
 }
 
 
-/*
+/* 
 ---------------------------------------------
 header
----------------------------------------------
+--------------------------------------------- 
 */
 
 .background-header {
@@ -225,11 +225,11 @@ header
 }
 
 .background-header .main-nav .nav li:hover a {
-  color: #af10cf!important;
+  color: #ed563b!important;
 }
 
 .background-header .nav li a.active {
-  color: #af10cf!important;
+  color: #ed563b!important;
 }
 
 .header-area {
@@ -266,7 +266,7 @@ header
 
 .header-area .main-nav .logo em {
   font-style: normal;
-  color:#af10cf;
+  color: #ed563b;
   font-weight: 900;
 }
 
@@ -312,7 +312,7 @@ header
   display: inline-block;
   font-size: 13px;
   padding: 11px 17px;
-  background-color: #af10cf;
+  background-color: #ed563b;
   color: #fff;
   text-align: center;
   font-weight: 400;
@@ -324,13 +324,13 @@ header
 }
 
 .header-area .main-nav .nav li:last-child a:hover {
-  background-color: #56cf10;
+  background-color: #f9735b;
   opacity: 1;
 }
 
 .header-area .main-nav .nav li:hover a,
 .header-area .main-nav .nav li a.active {
-  color: #af10cf!important;
+  color: #ed563b!important;
   opacity: 1;
 }
 
@@ -592,10 +592,10 @@ header
 }
 
 
-/*
+/* 
 ---------------------------------------------
 banner
----------------------------------------------
+--------------------------------------------- 
 */
 
 .main-banner {
@@ -698,7 +698,7 @@ features
   display: inline-block;
   font-size: 13px;
   text-transform: uppercase;
-  color: #af10cf;
+  color: #ed563b;
   font-weight: 500;
 }
 
@@ -832,10 +832,10 @@ Our Classes
 }
 
 
-/*
+/* 
 ---------------------------------------------
 schedule
----------------------------------------------
+--------------------------------------------- 
 */
 
 #schedule {
@@ -853,7 +853,7 @@ schedule
 }
 
 #schedule table tbody {
-  border-top: 1px solid #fff;
+  border-top: 1px solid #fff; 
 }
 
 #schedule table tbody tr {
@@ -936,10 +936,10 @@ schedule
 }
 
 
-/*
+/* 
 ---------------------------------------------
 trainers
----------------------------------------------
+--------------------------------------------- 
 */
 
 #trainers .trainer-item {
@@ -994,10 +994,10 @@ trainers
 }
 
 
-/*
+/* 
 ---------------------------------------------
 contact
----------------------------------------------
+--------------------------------------------- 
 */
 
 #contact-us {
@@ -1078,10 +1078,10 @@ contact
 
 
 
-/*
+/* 
 ---------------------------------------------
 footer
----------------------------------------------
+--------------------------------------------- 
 */
 footer {
   text-align: center;
@@ -1104,10 +1104,10 @@ footer p a:hover {
 
 
 
-/*
+/* 
 ---------------------------------------------
 preloader
----------------------------------------------
+--------------------------------------------- 
 */
 
 .js-preloader {
@@ -1205,10 +1205,10 @@ preloader
 }
 
 
-/*
+/* 
 ---------------------------------------------
 responsive
----------------------------------------------
+--------------------------------------------- 
 */
 
 

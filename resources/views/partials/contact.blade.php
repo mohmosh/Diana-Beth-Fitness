@@ -10,8 +10,8 @@
     <!-- Include any CSS files here -->
 </head>
 <body>
- <!--? Contact form Start -->
- <section class="contact-form-main">
+  <!--? Contact form Start -->
+  <section class="contact-form-main">
     <div class="container">
         <div class="row justify-content-end">
             <div class="col-xl-7 col-lg-7">

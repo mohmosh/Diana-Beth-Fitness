@@ -23,16 +23,16 @@ Table of contents
 12. portfolio
 
 --------------------------------------------- */
-/* 
+/*
 ---------------------------------------------
 font & reset css
---------------------------------------------- 
+---------------------------------------------
 */
 @import url("https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
-/* 
+/*
 ---------------------------------------------
 reset
---------------------------------------------- 
+---------------------------------------------
 */
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, div
 pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q,
@@ -82,7 +82,7 @@ header, nav, section, article, aside, footer, hgroup {
 html, body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  background-color: #fff;
+  background-color: #181616;
   font-size: 16px;
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -108,24 +108,24 @@ p {
   color: #7a7a7a;
 }
 
-/* 
+/*
 ---------------------------------------------
 global styles
---------------------------------------------- 
+---------------------------------------------
 */
 html,
 body {
-  background: #fff;
+  background: #aa93af;
   font-family: 'Poppins', sans-serif;
 }
 
 ::selection {
-  background: #ed563b;
+  background: #af10cf;
   color: #fff;
 }
 
 ::-moz-selection {
-  background: #ed563b;
+  background: #af10cf;
   color: #fff;
 }
 
@@ -163,7 +163,7 @@ body {
 
 .section-heading h2 em {
   font-style: normal;
-  color: #ed563b;
+  color: #af10cf;
 }
 
 .section-heading img {
@@ -195,10 +195,10 @@ body {
 }
 
 
-/* 
+/*
 ---------------------------------------------
 header
---------------------------------------------- 
+---------------------------------------------
 */
 
 .background-header {
@@ -225,11 +225,11 @@ header
 }
 
 .background-header .main-nav .nav li:hover a {
-  color: #ed563b!important;
+  color: #af10cf!important;
 }
 
 .background-header .nav li a.active {
-  color: #ed563b!important;
+  color: #af10cf!important;
 }
 
 .header-area {
@@ -266,7 +266,7 @@ header
 
 .header-area .main-nav .logo em {
   font-style: normal;
-  color: #ed563b;
+  color:#af10cf;
   font-weight: 900;
 }
 
@@ -308,29 +308,30 @@ header
   color: #fff;
 }
 
+/* Register Button */
 .header-area .main-nav .nav li:last-child a {
-  display: inline-block;
-  font-size: 13px;
-  padding: 11px 17px;
-  background-color: #ed563b;
-  color: #fff;
-  text-align: center;
-  font-weight: 400;
-  letter-spacing: 0px;
-  text-transform: uppercase;
-  transition: all .3s;
-  height: auto;
-  line-height: 20px;
-}
+    display: inline-block;
+    font-size: 13px;
+    padding: 11px 17px;
+    background-color: #af10cf;
+    color: #fff;
+    text-align: center;
+    font-weight: 400;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    transition: all .3s;
+    height: auto;
+    line-height: 20px;
+  }
 
-.header-area .main-nav .nav li:last-child a:hover {
-  background-color: #f9735b;
-  opacity: 1;
-}
+  .header-area .main-nav .nav li:last-child a:hover {
+    background-color: #56cf10;
+    opacity: 1;
+  }
 
 .header-area .main-nav .nav li:hover a,
 .header-area .main-nav .nav li a.active {
-  color: #ed563b!important;
+  color: #af10cf!important;
   opacity: 1;
 }
 
@@ -532,7 +533,7 @@ header
   }
   .header-area .main-nav .nav li {
     width: 100%;
-    background: #fff;
+    background: #39df23;
     border-bottom: 1px solid #eee;
     padding-left: 0px !important;
     padding-right: 0px !important;
@@ -592,10 +593,10 @@ header
 }
 
 
-/* 
+/*
 ---------------------------------------------
 banner
---------------------------------------------- 
+---------------------------------------------
 */
 
 .main-banner {
@@ -670,11 +671,14 @@ features
 }
 
 .feature-item {
+
   display: inline-block;
   margin-bottom: 60px;
 }
 
 .feature-item .left-icon img {
+    width: 100px;
+    height: 100px;
   float: left;
   margin-right: 30px;
 }
@@ -698,7 +702,7 @@ features
   display: inline-block;
   font-size: 13px;
   text-transform: uppercase;
-  color: #ed563b;
+  color: #af10cf;
   font-weight: 500;
 }
 
@@ -727,7 +731,7 @@ subscribe
 
 .cta-content h2 em {
   font-style: normal;
-  color: #ed563b;
+  color: #af10cf;
 }
 
 .cta-content p {
@@ -785,10 +789,10 @@ Our Classes
   font-size: 19px;
   letter-spacing: 0.5px;
   font-weight: 600;
-  background-color: #ed563b;
+  background-color: #af10cf;
 }
 #tabs .main-rounded-button a:hover {
-  background-color: #f9735b;
+  background-color: #af10cf;
 }
 #tabs ul li a img {
   max-width: 100%;
@@ -832,10 +836,10 @@ Our Classes
 }
 
 
-/* 
+/*
 ---------------------------------------------
 schedule
---------------------------------------------- 
+---------------------------------------------
 */
 
 #schedule {
@@ -853,7 +857,7 @@ schedule
 }
 
 #schedule table tbody {
-  border-top: 1px solid #fff; 
+  border-top: 1px solid #fff;
 }
 
 #schedule table tbody tr {
@@ -936,10 +940,10 @@ schedule
 }
 
 
-/* 
+/*
 ---------------------------------------------
 trainers
---------------------------------------------- 
+---------------------------------------------
 */
 
 #trainers .trainer-item {
@@ -994,10 +998,10 @@ trainers
 }
 
 
-/* 
+/*
 ---------------------------------------------
 contact
---------------------------------------------- 
+---------------------------------------------
 */
 
 #contact-us {
@@ -1078,10 +1082,10 @@ contact
 
 
 
-/* 
+/*
 ---------------------------------------------
 footer
---------------------------------------------- 
+---------------------------------------------
 */
 footer {
   text-align: center;
@@ -1104,10 +1108,10 @@ footer p a:hover {
 
 
 
-/* 
+/*
 ---------------------------------------------
 preloader
---------------------------------------------- 
+---------------------------------------------
 */
 
 .js-preloader {
@@ -1205,10 +1209,10 @@ preloader
 }
 
 
-/* 
+/*
 ---------------------------------------------
 responsive
---------------------------------------------- 
+---------------------------------------------
 */
 
 

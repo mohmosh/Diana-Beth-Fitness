@@ -40,7 +40,7 @@ https://templatemo.com/tm-548-training-studio
                 <ul class="features-items">
                     <li class="feature-item">
                         <div class="left-icon">
-                            <img src="assets/images/features-first-icon.png" alt="First One">
+                            <img src="assets/images/dumbbell.png" alt="First One">
                         </div>
                         <div class="right-content">
                             <h4>Basic Fitness</h4>
@@ -50,7 +50,7 @@ https://templatemo.com/tm-548-training-studio
                     </li>
                     <li class="feature-item">
                         <div class="left-icon">
-                            <img src="assets/images/features-first-icon.png" alt="second one">
+                            <img src="assets/images/dumbbell.png" alt="second one">
                         </div>
                         <div class="right-content">
                             <h4>New Gym Training</h4>
@@ -60,7 +60,7 @@ https://templatemo.com/tm-548-training-studio
                     </li>
                     <li class="feature-item">
                         <div class="left-icon">
-                            <img src="assets/images/features-first-icon.png" alt="third gym training">
+                            <img src="assets/images/dumbbell.png" alt="third gym training">
                         </div>
                         <div class="right-content">
                             <h4>Basic Muscle Course</h4>
@@ -74,7 +74,7 @@ https://templatemo.com/tm-548-training-studio
                 <ul class="features-items">
                     <li class="feature-item">
                         <div class="left-icon">
-                            <img src="assets/images/features-first-icon.png" alt="fourth muscle">
+                            <img src="assets/images/dumbbell.png" alt="fourth muscle">
                         </div>
                         <div class="right-content">
                             <h4>Advanced Muscle Course</h4>
@@ -84,7 +84,7 @@ https://templatemo.com/tm-548-training-studio
                     </li>
                     <li class="feature-item">
                         <div class="left-icon">
-                            <img src="assets/images/features-first-icon.png" alt="training fifth">
+                            <img src="assets/images/dumbbell.png" alt="training fifth">
                         </div>
                         <div class="right-content">
                             <h4>Yoga Training</h4>
@@ -94,7 +94,7 @@ https://templatemo.com/tm-548-training-studio
                     </li>
                     <li class="feature-item">
                         <div class="left-icon">
-                            <img src="assets/images/features-first-icon.png" alt="gym training">
+                            <img src="assets/images/dumbbell.png" alt="gym training">
                         </div>
                         <div class="right-content">
                             <h4>Body Building Course</h4>

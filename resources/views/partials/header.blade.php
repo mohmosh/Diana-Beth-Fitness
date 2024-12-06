@@ -1,63 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-
+<html class="no-js" lang="en">
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@yield('title', 'Health & Fitness | Template')</title>
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}">
 
-    <title>Diana Beth Fitness</title>
-<!--
+    <!-- Link to external CSS file (adjust path as needed) -->
+    <link rel="stylesheet" href="{{ asset('assets/css/header.css') }}">
+</head>
+<body>
 
-TemplateMo 548 Training Studio
-
-https://templatemo.com/tm-548-training-studio
-
--->
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-
-    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
-
-    <link rel="stylesheet" href="assets/css/templatemo-training-studio.css">
-
-    </head>
-
-    <body>
-
-
-
- <!-- ***** Header Area Start ***** -->
- <header class="header-area header-sticky">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">Diana Beth<em> Fitness</em></a>
-                    <!-- ***** Logo End ***** -->
-                    <!-- ***** Menu Start ***** -->
-                    <ul class="nav">
-                        <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                        <li class="scroll-to-section"><a href="#features">About</a></li>
-                        <li class="scroll-to-section"><a href="#our-classes">Classes</a></li>
-                        <li class="scroll-to-section"><a href="#schedule">Schedules</a></li>
-                        <li class="scroll-to-section"><a href="#contact-us">Contact</a></li>
-                        <li class="main-button"><a href="#">Sign Up</a></li>
-                    </ul>
-                    <a class='menu-trigger'>
-                        <span>Menu</span>
-                    </a>
-                    <!-- ***** Menu End ***** -->
-                </nav>
+    <header>
+        <!--? Header Start -->
+        <div class="header-area header-transparent">
+            <div class="main-header header-sticky">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <!-- Logo -->
+                        <div class="col-xl-2 col-lg-2 col-md-1">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-xl-10 col-lg-10 col-md-10">
+                            <div class="menu-main d-flex align-items-center justify-content-end">
+                                <!-- Main-menu -->
+                                <div class="main-menu f-right d-none d-lg-block">
+                                    <nav>
+                                        <ul id="navigation">
+                                            <li><a href="index.html">Home</a></li>
+                                            <li><a href="about.html">About</a></li>
+                                            <li><a href="services.html">Services</a></li>
+                                            <li><a href="schedule.html">schedule</a></li>
+                                            <li><a href="gallery.html">gallery</a></li>
+                                            <li><a href="blog.html">Blog</a>
+                                                <ul class="submenu">
+                                                    <li><a href="blog.html">Blog</a></li>
+                                                    <li><a href="blog_details.html">Blog Details</a></li>
+                                                    <li><a href="elements.html">Element</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="contact.html">Contact</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div class="header-right-btn f-right d-none d-lg-block ml-30">
+                                    <a href="from.html" class="btn header-btn">became a member</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Mobile Menu -->
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+        <!-- Header End -->
+    </header>
 
-    <!-- Include the login and register modals -->
-    @include('auth.login')
-    @include('auth.register')
-   
-<!-- ***** Header Area End ***** -->
+</body>
+</html>
+
+
+
+
+
