@@ -1,0 +1,55 @@
+/* Custom styles for the header */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar background color */
+.custom-navbar {
+    background-color: #6a0dad; /* Purple */
+}
+
+/* Navbar links color */
+.navbar-nav .nav-link {
+    color: white !important; /* White text */
+}
+
+/* Navbar links hover color */
+.navbar-nav .nav-link:hover {
+    color: #000 !important; /* Black on hover */
+}
+
+/* Dropdown menu background */
+.custom-navbar .dropdown-menu {
+    background-color: #ffffff; /* White background */
+    border-color: #6a0dad; /* Purple border */
+}
+
+/* Dropdown items hover effect */
+.custom-navbar .dropdown-item:hover {
+    background-color: #6a0dad;
+    color: white;
+}
+
+/* Active link color */
+.nav-item.active .nav-link {
+    color: black !important;
+}
+
+/* Mobile navbar toggle icon color */
+.navbar-toggler-icon {
+    background-color: white;
+}
+
+/* Ensure text visibility in larger screens */
+.navbar-nav {
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .navbar-nav .nav-link {
+        font-size: 1rem;
+    }
+}
+
+
+
