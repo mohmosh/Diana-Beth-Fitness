@@ -11,6 +11,8 @@ class AdminController extends Controller
     public function dashboard()
     {
         $mediaFiles = Media::orderBy('created_at', 'desc')->get(); // Fetch all media
+        $mediaFiles = Media::orderBy('created_at', 'desc')->paginate(5); // 10 items per page
+
         return view('admin.dashboard', compact('mediaFiles'));
     }
 
