@@ -41,16 +41,16 @@ return [
     |
     */
 
-    // 'guards' => [
-    //     'web' => [
-    //         'driver' => 'session',
-    //         'provider' => 'users',
-    //     ],
-    // ],
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+    ],
 
     'guards' => [
     'api' => [
-        'driver' => 'sanctum',
+        'driver' => 'api',
         'provider' => 'users',
     ],
 ],

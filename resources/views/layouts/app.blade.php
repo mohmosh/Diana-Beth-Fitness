@@ -1,126 +1,72 @@
 <!doctype html>
-<html class="no-js" lang="zxx">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title> Health & Fitness | Template </title>
+    <title>@yield('title', 'Diana Beth Fitness')</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}">
 
-	<!-- CSS here -->
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-	<link rel="stylesheet" href="assets/css/slicknav.css">
+    <!-- External CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/slicknav.css">
     <link rel="stylesheet" href="assets/css/flaticon.css">
     <link rel="stylesheet" href="assets/css/gijgo.css">
     <link rel="stylesheet" href="assets/css/animate.min.css">
     <link rel="stylesheet" href="assets/css/animated-headline.css">
-	<link rel="stylesheet" href="assets/css/magnific-popup.css">
-	<link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
-	<link rel="stylesheet" href="assets/css/themify-icons.css">
-	<link rel="stylesheet" href="assets/css/slick.css">
-	<link rel="stylesheet" href="assets/css/nice-select.css">
-	<link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/nice-select.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Inline style for custom background -->
+    <style>
+        body {
+            background-color: #8e44ad; /* Purple background */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .card {
+            background: rgb(235, 223, 236);
+            border-radius: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 70px;
+            width: 800px;
+            height: 600px;
+        }
+
+        .card h1 {
+            font-size: 4rem;
+            color: #333333;
+            text-align: center;
+        }
+
+        .form-group label {
+            color: #333333;
+        }
+
+        .btn-primary {
+            width: 100%;
+        }
+    </style>
 </head>
+
 <body>
+    @include('partials.headerTwo') <!-- Include header -->
 
-    {{-- Yield header section --}}
-    @yield('header')
+    <main>
+        @yield('content')
+    </main>
 
-    {{-- @include('partials.preloader') --}}
-    @include('partials.header')
-    @include('partials.slider')
-    @include('partials.about')
-    @include('partials.service')
-    @include('partials.aboutTwo')
-    @include('partials.gallery')
-    @include('partials.work')
-    @include('partials.team')
-    @include('partials.wantWork')
-    @include('partials.dates')
-    @include('partials.contact')
-    @include('partials.blog')
-    @include('partials.footer')
-    @include('partials.scroll')
-
-     <!-- JS here -->
-
-     <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
-     <!-- Jquery, Popper, Bootstrap -->
-     <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
-     <script src="./assets/js/popper.min.js"></script>
-     <script src="./assets/js/bootstrap.min.js"></script>
-     <!-- Jquery Mobile Menu -->
-     <script src="./assets/js/jquery.slicknav.min.js"></script>
-
-     <!-- Jquery Slick , Owl-Carousel Plugins -->
-     <script src="./assets/js/owl.carousel.min.js"></script>
-     <script src="./assets/js/slick.min.js"></script>
-     <!-- One Page, Animated-HeadLin -->
-     <script src="./assets/js/wow.min.js"></script>
-     <script src="./assets/js/animated.headline.js"></script>
-     <script src="./assets/js/jquery.magnific-popup.js"></script>
-
-     <!-- Date Picker -->
-     <script src="./assets/js/gijgo.min.js"></script>
-     <!-- Nice-select, sticky -->
-     <script src="./assets/js/jquery.nice-select.min.js"></script>
-     <script src="./assets/js/jquery.sticky.js"></script>
-
-     <!-- counter , waypoint,Hover Direction -->
-     <script src="./assets/js/jquery.counterup.min.js"></script>
-     <script src="./assets/js/waypoints.min.js"></script>
-     <script src="./assets/js/jquery.countdown.min.js"></script>
-     <script src="./assets/js/hover-direction-snake.min.js"></script>
-
-     <!-- contact js -->
-     <script src="./assets/js/contact.js"></script>
-     <script src="./assets/js/jquery.form.js"></script>
-     <script src="./assets/js/jquery.validate.min.js"></script>
-     <script src="./assets/js/mail-script.js"></script>
-     <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
-
-     <!-- Jquery Plugins, main Jquery -->
-     <script src="./assets/js/plugins.js"></script>
-     <script src="./assets/js/main.js"></script>
-
-     </body>
- </html>
-
-
+    {{-- @include('partials.footerTwo') <!-- Include footer --> --}}
 </body>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</html>

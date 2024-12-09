@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Redirect;
 
 class RegisterController extends Controller
 {
+
+    public function viewAllUsers() {
+        $users = User::all(); // Fetch all users
+        dd($users); // Debug the output
+    }
     // User registration and creating users
     public function register(RegisterUserRequest $request)
     {

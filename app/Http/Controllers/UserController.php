@@ -2,31 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    // Show the user dashboard
-    public function dashboard()
 
+
+    public function index()
     {
-        // Example subscription plans
-        $plans = [
-            ['name' => 'Basic Plan', 'price' => '10', 'features' => ['Access to basic workouts', 'Community support']],
-            ['name' => 'Premium Plan', 'price' => '20', 'features' => ['Access to all workouts', 'Personalized programs', '1-on-1 coaching']],
-            ['name' => 'Pro Plan', 'price' => '30', 'features' => ['All Premium features', 'Diet plans', 'Priority support']],
-        ];
-
-        // Check if the user's email is verified
-        if (Auth::check() && Auth::user()->email_verified_at !== null) {
-            // Pass plans to the view for verified users
-            return view('user.dashboard', compact('plans'));
-        }
-
-        // Redirect to the verification notice page for unverified users
-        return redirect()->route('verification.notice');
+        $user = auth()->user(); // Get authenticated user
+        $progress = 50; // Example progress percentage, replace with actual logic
+        $subscription = true; // Example subscription check, replace with actual logic
+        return view('dashboard.user', compact('user', 'progress', 'subscription'));
     }
+
+
+
 }
 
 

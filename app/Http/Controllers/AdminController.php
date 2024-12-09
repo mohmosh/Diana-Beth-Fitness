@@ -1,40 +1,71 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Media;
+use App\Models\UserContent;
 
 class AdminController extends Controller
 {
-    // Admin Dashboard
+    // Display the admin dashboard
     public function dashboard()
     {
-        return view('admin.dashboard');
+        $mediaFiles = Media::orderBy('created_at', 'desc')->get(); // Fetch all media
+        return view('admin.dashboard', compact('mediaFiles'));
     }
 
-    // View All Users
-    public function viewUsers()
+
+    // Show the form for uploading media
+    public function showUploadMedia()
     {
-        $users = User::where('role_id', 2)->get(); // Fetch only users, not admins
-        return view('admin.users', compact('users'));
+        return view('admin.uploadMedia');
     }
 
-    // Add Exercise
-    public function addExercise()
+    // Handle media upload
+    public function uploadMedia(Request $request)
     {
-        return view('admin.addExercise');
+        $request->validate([
+            'media' => 'required|file|mimes:jpg,jpeg,png,mp4,mkv|max:10240',
+        ]);
+
+        $path = $request->file('media')->store('uploads', 'public');
+
+        Media::create([
+            'path' => $path,
+            'type' => $request->file('media')->getMimeType(),
+            'uploaded_by' => auth()->id(),
+        ]);
+
+        return redirect()->route('admin.dashboard')->with('success', 'Media uploaded successfully.');
     }
 
-    // Store Exercise
-//     public function storeExercise(Request $request)
-//     {
-//         $request->validate([
-//             'name' => 'required|string|max:255',
-//             'description' => 'nullable|string',
-//         ]);
+    // Display pending user content
+    public function getPendingContent()
+    {
+        $pendingContent = UserContent::where('status', 'pending')->get();
+        return view('admin.pendingContent', compact('pendingContent'));
+    }
 
-//         Exercise::create($request->all()); // Assuming Exercise model exists
-//         return redirect()->route('admin.dashboard')->with('success', 'Exercise added successfully.');
-//     }
+    // Approve user content
+    public function approveContent($id)
+    {
+        $content = UserContent::findOrFail($id);
+        $content->status = 'approved';
+        $content->save();
+
+        return redirect()->back()->with('success', 'Content approved successfully.');
+    }
+
+    // Reject user content
+    public function rejectContent($id)
+    {
+        $content = UserContent::findOrFail($id);
+        $content->status = 'rejected';
+        $content->save();
+
+        return redirect()->back()->with('success', 'Content rejected successfully.');
+    }
 }
+
+
+
