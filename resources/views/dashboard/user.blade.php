@@ -20,7 +20,7 @@
         <p>No active subscription. <a href="#">Subscribe now</a></p>
     @endif
 
-   
+
 @endsection
 
 

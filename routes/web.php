@@ -97,8 +97,25 @@ Route::prefix('forum')->name('forum.')->group(function () {
 // ADMIN DASHBOARD and routes
 Route::middleware(['isAdmin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/admin/upload-media', [AdminController::class, 'showUploadMedia'])->name('admin.showUploadMedia');
-    Route::post('/admin/upload-media', [AdminController::class, 'uploadMedia'])->name('admin.uploadMedia');
+
+    // Route::get('/admin/upload-photo', [AdminController::class, 'showUploadPhoto'])->name('admin.showUploadPhoto');
+    // Route::post('/admin/upload-photo', [AdminController::class, 'uploadPhoto'])->name('admin.uploadPhoto');
+
+    Route::get('/admin/upload-video', [AdminController::class, 'showUploadVideo'])->name('admin.showUploadVideo');
+    Route::post('/admin/upload-video', [AdminController::class, 'uploadVideo'])->name('admin.uploadVideo');
+
+    Route::get('/admin/dash', [AdminController::class, 'dash'])->name('admin.dash');
+
+
+
+
+
+
+
+
+
+
+
     Route::get('/admin/pending-content', [AdminController::class, 'getPendingContent'])->name('admin.pendingContent');
     Route::post('/admin/approve-content/{id}', [AdminController::class, 'approveContent'])->name('admin.approveContent');
     Route::post('/admin/reject-content/{id}', [AdminController::class, 'rejectContent'])->name('admin.rejectContent');

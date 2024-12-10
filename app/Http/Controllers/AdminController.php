@@ -13,18 +13,33 @@ class AdminController extends Controller
         $mediaFiles = Media::orderBy('created_at', 'desc')->get(); // Fetch all media
         $mediaFiles = Media::orderBy('created_at', 'desc')->paginate(5); // 10 items per page
 
-        return view('admin.dashboard', compact('mediaFiles'));
+        return view('adminTwo.dashboard', compact('mediaFiles'));
+
+        // return view('adminTwo.dashboard');
     }
 
 
     // Show the form for uploading media
-    public function showUploadMedia()
-    {
-        return view('admin.uploadMedia');
+    // public function showUploadPhoto()
+    // {
+    //     return view('adminTwo.uploadPhoto');
+
+    // }
+
+    public function dash() {
+        return view('adminTwo.dashboard');
     }
 
-    // Handle media upload
-    public function uploadMedia(Request $request)
+
+    public function showUploadVideo()
+    {
+        return view('adminTwo.uploadVideo');
+
+    }
+
+
+    // Handle photo upload
+    public function uploadPhoto(Request $request)
     {
         $request->validate([
             'media' => 'required|file|mimes:jpg,jpeg,png,mp4,mkv|max:10240',
@@ -38,8 +53,27 @@ class AdminController extends Controller
             'uploaded_by' => auth()->id(),
         ]);
 
-        return redirect()->route('admin.dashboard')->with('success', 'Media uploaded successfully.');
+        return redirect()->route('adminTwo.dashboard')->with('success', 'Media uploaded successfully.');
     }
+
+    // Handle upload video
+    public function uploadVideo(Request $request)
+    {
+        $request->validate([
+            'media' => 'required|file|mimes:jpg,jpeg,png,mp4,mkv|max:10240',
+        ]);
+
+        $path = $request->file('media')->store('uploads', 'public');
+
+        Media::create([
+            'path' => $path,
+            'type' => $request->file('media')->getMimeType(),
+            'uploaded_by' => auth()->id(),
+        ]);
+
+        return redirect()->route('adminTwo.dashboard')->with('success', 'Media uploaded successfully.');
+    }
+
 
     // Display pending user content
     public function getPendingContent()
@@ -67,6 +101,7 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Content rejected successfully.');
     }
+
 }
 
 

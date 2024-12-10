@@ -28,10 +28,10 @@
 <body>
 {{--
     {{-- Yield header section --}}
-    @yield('header') --}}
+    {{-- @yield('headerTwo') --}}
 
     {{-- @include('partials.preloader') --}}
-    @include('partials.header')
+    @include('partials.headerHome')
     @include('partials.slider')
     @include('partials.about')
     @include('partials.service')
