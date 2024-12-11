@@ -148,38 +148,39 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.dash') }}">
+            <a class="nav-link" href="{{ route('adminTwo.dashboard') }}">
               <i class="bi bi-grid"></i>
               <span>Admin Dashboard</span>
             </a>
           </li>
 
       <!-- End Dashboard Nav -->
-
-      {{-- Start of Videos Nav --}}
+      {{-- Start of Videos Nav  --}}
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Videos</span><i class="bi bi-chevron-down ms-auto"></i>
+            <i class="bi bi-journal-text"></i><span>Videos</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="forms-elements.html">
-              <i class="bi bi-circle"></i><span>View All Videos</span>
-            </a>
-          </li>
-
-          <a href="tables-data.html">
-            <a href="{{ route('admin.showUploadVideo') }}" class="d-flex align-items-center text-decoration-none">
-                <i class="bi bi-circle me-2"></i>
-                <span>Upload Videos</span>
-              </a>
+        <ul id="forms-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+            <li>
+                <a href="{{ route('admin.uploadVideo') }}" class="d-flex align-items-center text-decoration-none">
+                    <i class="bi bi-circle me-2"></i>
+                    <span>Upload Videos</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('adminTwo.dashboard') }}" class="d-flex align-items-center text-decoration-none">
+                    <i class="bi bi-circle me-2"></i>
+                    <span>View All Videos</span>
+                </a>
+            </li>
         </ul>
-      </li>
+    </li>
+
       <!-- End Videos Nav-->
 
 
-
-      {{-- Start of devotional nav --}}
+{{--
+      Start of devotional nav --}}
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-layout-text-window-reverse"></i><span>Devotionals</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -187,14 +188,18 @@
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="tables-general.html">
+                <a href="{{ route('admin.viewDevotional') }}" class="d-flex align-items-center text-decoration-none">
               <i class="bi bi-circle"></i><span>View All Devotionals</span>
             </a>
           </li>
+
           <a href="tables-data.html">
-            <a href="{{ route('admin.showUploadVideo') }}" class="d-flex align-items-center text-decoration-none">
+            <a href="{{ route('admin.uploadDevotional') }}" class="d-flex align-items-center text-decoration-none">
                 <i class="bi bi-circle me-2"></i>
                 <span>Upload Devotionals</span>
               </a>
+            </li>
+
         </ul>
       </li>
       <!-- End devotional Nav -->
@@ -206,15 +211,20 @@
   <main id="main" class="main">
 
 
-    <a href="{{ route('admin.dash') }}">Admin Dashboard</a>
-
-
+    <a href="{{ route('adminTwo.dashboard') }}">Admin Admin Dashboard</a>
 
     <!-- End Page Title -->
 
+  </main>
+
+
+
+
+
+
 
      <!-- ======= Footer ======= -->
-     {{-- <body>
+     <body>
   <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Copyright <strong><span>DBF</span></strong>. All Rights Reserved
@@ -227,7 +237,7 @@
       Designed by <a href="https://bootstrapmade.com/">Yada Innovations</a>
     </div>
   </footer><!-- End Footer -->
-     </body> --}}
+     </body>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

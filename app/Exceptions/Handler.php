@@ -27,4 +27,14 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+//     public function render($request, Throwable $exception)
+// {
+//     if ($exception instanceof \Illuminate\Http\Exceptions\PostTooLargeException) {
+//         return response()->json(['error' => 'Uploaded file is too large.'], 413);
+//     }
+
+//     return parent::render($request, $exception);
+// }
+
 }

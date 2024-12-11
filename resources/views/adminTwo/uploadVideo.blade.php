@@ -56,24 +56,28 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center mb-4">Upload Videos</h1>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Upload Video</h1>
 
-        @if ($errors->any())
-            <div class="alert alert-danger mb-4">
+        @if($errors->any())
+            <div class="alert alert-danger">
                 <ul>
-                    @foreach ($errors->all() as $error)
-                        <li class="text-danger">{{ $error }}</li>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>
         @endif
 
-        <form action="{{ route('admin.uploadVideo') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.storeVideo') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
-                <label for="media" class="form-label">Choose a file:</label>
-                <input type="file" id="media" name="media" class="form-control" required>
+                <label for="title" class="form-label">Video Title:</label>
+                <input type="text" id="title" name="title" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="video" class="form-label">Upload Video:</label>
+                <input type="file" id="video" name="video" class="form-control" required>
             </div>
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>

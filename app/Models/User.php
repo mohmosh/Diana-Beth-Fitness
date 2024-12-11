@@ -55,5 +55,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Role::class);
     }
 
+    public function devotionals()
+{
+    return $this->hasMany(Devotional::class, 'uploaded_by');
+}
+
 
 }

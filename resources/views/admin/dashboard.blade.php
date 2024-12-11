@@ -92,6 +92,7 @@
     </style>
 </head>
 
+
 <body>
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -102,7 +103,7 @@
                     </div>
                     <div class="card-body p-5">
                         <div class="d-flex justify-content-center mb-4">
-                            <a href="{{ route('admin.showUploadMedia') }}" class="btn btn-primary mx-2 px-4 py-2">Upload Media</a>
+                            <a href="{{ route('admin.uploadVideo') }}" class="btn btn-primary mx-2 px-4 py-2">Upload Video</a>
                             <a href="{{ route('admin.pendingContent') }}" class="btn btn-secondary mx-2 px-4 py-2">Manage Pending Content</a>
                         </div>
 

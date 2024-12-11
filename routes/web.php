@@ -3,13 +3,14 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DevotionalController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ForumController;
-
+use App\Http\Controllers\VideoController;
 
 // Auth::routes(['verify' => true]);
 
@@ -70,20 +71,18 @@ Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify']
 // User dashboard
 Route::get('usersDashboard', [UserController::class, 'index'])->name('users.index');
 
-     // Testimonials (User)
-     Route::middleware(['auth'])->group(function () {
-        //Getting all my testimonies
-     Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
+// Testimonials (User)
+Route::middleware(['auth'])->group(function () {
+    //Getting all my testimonies
+    Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
 
 
-     Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
+    Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
 
-     Route::get('/testimonials/upload', [TestimonialController::class, 'store'])->name('testimonials.index');
-     Route::post('/testimonials/upload', [TestimonialController::class, 'create'])->name('testimonials.upload');
-
-
-
+    Route::get('/testimonials/upload', [TestimonialController::class, 'store'])->name('testimonials.index');
+    Route::post('/testimonials/upload', [TestimonialController::class, 'create'])->name('testimonials.upload');
 });
+
 
 // Forum API's
 Route::prefix('forum')->name('forum.')->group(function () {
@@ -96,15 +95,39 @@ Route::prefix('forum')->name('forum.')->group(function () {
 
 // ADMIN DASHBOARD and routes
 Route::middleware(['isAdmin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('adminTwo.dashboard');
 
-    // Route::get('/admin/upload-photo', [AdminController::class, 'showUploadPhoto'])->name('admin.showUploadPhoto');
-    // Route::post('/admin/upload-photo', [AdminController::class, 'uploadPhoto'])->name('admin.uploadPhoto');
 
-    Route::get('/admin/upload-video', [AdminController::class, 'showUploadVideo'])->name('admin.showUploadVideo');
-    Route::post('/admin/upload-video', [AdminController::class, 'uploadVideo'])->name('admin.uploadVideo');
+    // Videos
 
-    Route::get('/admin/dash', [AdminController::class, 'dash'])->name('admin.dash');
+    Route::get('/admin/videos', [VideoController::class, 'index'])->name('admin.viewVideos');
+
+    Route::get('/admin/videos/upload', [VideoController::class, 'create'])->name('admin.uploadVideo');
+
+    Route::post('/admin/videos/upload', [VideoController::class, 'store'])->name('admin.storeVideo');
+
+
+    // Devotionals
+    Route::get('/admin/devotionals', [DevotionalController::class, 'index'])->name('admin.viewDevotional');
+
+    Route::get('/admin/upload-devotional', [DevotionalController::class, 'uploadDevotional'])->name('admin.uploadDevotional');
+    Route::post('/admin/upload-devotional', [DevotionalController::class, 'storeDevotional'])->name('admin.storeDevotional');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -120,31 +143,3 @@ Route::middleware(['isAdmin'])->group(function () {
     Route::post('/admin/approve-content/{id}', [AdminController::class, 'approveContent'])->name('admin.approveContent');
     Route::post('/admin/reject-content/{id}', [AdminController::class, 'rejectContent'])->name('admin.rejectContent');
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
