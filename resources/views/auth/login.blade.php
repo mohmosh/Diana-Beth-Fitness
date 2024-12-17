@@ -1,8 +1,8 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('title', 'Login')
 
-@section('content')
+@section('content') --}}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -87,7 +87,7 @@
             <div class="col-md-6 d-flex align-items-center justify-content-center">
                 <div class="card shadow-lg">
                     <div class="card-header">
-                        <h3 class="text-center mb-0">Login</h3>
+                        {{-- <h3 class="text-center mb-0">Login</h3> --}}
                     </div>
                     <div class="card-body p-5">
                         <form action="{{ url('login') }}" method="POST">
@@ -123,7 +123,7 @@
 </body>
 </html>
 
-@endsection
+{{-- @endsection --}}
 
 
 

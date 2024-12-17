@@ -10,7 +10,8 @@
     <!-- Include any CSS files here -->
 </head>
 <body>
-    <div class="gallery-area">
+    <div class="gallery-area" id="gallery">
+
         <div class="container-fluid p-0 fix">
             <div class="row">
                 <div class="col-lg-6">
@@ -83,3 +84,13 @@
     <!-- Gallery Area End -->
 </body>
 </html>
+
+
+<script>
+    function scrollToGallery() {
+        const element = document.getElementById('gallery');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+</script>

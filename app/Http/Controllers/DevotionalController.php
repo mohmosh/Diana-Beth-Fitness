@@ -17,29 +17,36 @@ class DevotionalController extends Controller
 
         // Return the view with the data
         return view('adminTwo.viewDevotionals', compact('devotionals'));
-
     }
 
-        // Devotional
-        public function uploadDevotional()
-        {
-            return view('adminTwo.uploadDevotional');
-        }
+    // Devotional
+    public function uploadDevotional()
+    {
+        return view('adminTwo.uploadDevotional');
+    }
 
-        public function storeDevotional(Request $request)
-        {
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'content' => 'required|string',
-            ]);
+    public function storeDevotional(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
 
-            Devotional::create([
-                'title' => $request->title,
-                'content' => $request->content,
-                'uploaded_by' => auth()->id(),
-            ]);
+        Devotional::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'uploaded_by' => auth()->id(),
+        ]);
 
-            return redirect()->route('admin.dashboard')->with('success', 'Devotional uploaded successfully.');
-        }
+        return redirect()->route('admin.dashboard')->with('success', 'Devotional uploaded successfully.');
+    }
 
+
+    public function usersDevotionals()
+    {
+        $user = auth()->user();
+        $devotionals = Devotional::where('plan_id', $user->subscription_plan_id)->get();
+
+        return view('user.devotionals.index', compact('devotionals'));
+    }
 }

@@ -76,6 +76,10 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         // Other middleware
         'isAdmin' => \App\Http\Middleware\IsAdmin::class,
+        'subscription' => \App\Http\Middleware\CheckSubscription::class,
+        'check.subscription' => \App\Http\Middleware\CheckSubscription::class,
+
+
     ];
 
 }

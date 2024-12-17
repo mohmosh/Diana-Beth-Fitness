@@ -1,9 +1,3 @@
-@extends('layouts.app')
-
-@section('title', 'Login')
-
-@section('content')
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +21,6 @@
             border-radius: 15px;
             background: #ffffff;
             color: #000000;
-
         }
 
         .card-header {
@@ -37,7 +30,6 @@
 
         .card-header h3 {
             font-weight: bold;
-
         }
 
         .form-control {
@@ -82,40 +74,98 @@
             <div class="col-md-8">
                 <div class="card shadow-lg">
                     <div class="card-body p-5">
-                        <form action="{{ url('register') }}" method="POST">
+
+                        {{-- Display Validation Errors --}}
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        {{-- Display Success Message --}}
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        {{-- Display Error Message --}}
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                        
+{{--
+                      registration form --}}
+                        <form action="{{ route('register') }}" method="POST">
                             @csrf
 
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="Your Full Name" required>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" placeholder="Your Full Name" value="{{ old('name') }}" required>
+                                    @error('name')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div class="col-md-6">
                                     <label for="phone_number" class="form-label">Phone Number</label>
-                                    <input type="text" class="form-control" name="phone_number" id="phone_number" placeholder="Your Phone Number" required>
+                                    <input type="text" class="form-control @error('phone_number') is-invalid @enderror" name="phone_number" id="phone_number" placeholder="Your Phone Number" value="{{ old('phone_number') }}" required>
+                                    @error('phone_number')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="mb-4">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email Address" required>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="Your Email Address" value="{{ old('email') }}" required>
+                                @error('email')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
 
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <label for="fitness_goal" class="form-label">Fitness Goal</label>
-                                    <input type="text" class="form-control" name="fitness_goal" id="fitness_goal" placeholder="Your Fitness Goals">
+                                    <input type="text" class="form-control @error('fitness_goal') is-invalid @enderror" name="fitness_goal" id="fitness_goal" placeholder="Your Fitness Goals" value="{{ old('fitness_goal') }}">
+                                    @error('fitness_goal')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div class="col-md-6">
                                     <label for="preferences" class="form-label">Preferences</label>
-                                    <input type="text" class="form-control" name="preferences" id="preferences" placeholder="Your Preferences">
+                                    <input type="text" class="form-control @error('preferences') is-invalid @enderror" name="preferences" id="preferences" placeholder="Your Preferences" value="{{ old('preferences') }}">
+                                    @error('preferences')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" name="password" id="password" placeholder="Create Password" required>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="Create Password" required>
+                                    @error('password')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div class="col-md-6">
                                     <label for="password_confirmation" class="form-label">Confirm Password</label>
@@ -142,7 +192,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
-
-@endsection

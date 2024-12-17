@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -10,7 +11,11 @@
 
     <!-- Link to external CSS file (adjust path as needed) -->
     <link rel="stylesheet" href="{{ asset('assets/css/header.css') }}">
+
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
+
 </head>
+
 <body>
 
     <header>
@@ -19,12 +24,19 @@
             <div class="main-header header-sticky">
                 <div class="container-fluid">
                     <div class="row align-items-center">
-                        <!-- Logo -->
+
+
+                        {{-- logo --}}
                         <div class="col-xl-2 col-lg-2 col-md-1">
-                            <div class="logo">
-                                <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                            <div class="logo" style="text-align: left;">
+                                <a href="index.html">
+                                    <img src="assets/img/logo/logo.png" alt="" style="width: 120px; height: auto; margin-left: 2px;">
+                                </a>
                             </div>
                         </div>
+
+
+
                         <div class="col-xl-10 col-lg-10 col-md-10">
                             <div class="menu-main d-flex align-items-center justify-content-end">
                                 <!-- Main-menu -->
@@ -32,18 +44,15 @@
                                     <nav>
                                         <ul id="navigation">
                                             <li><a href="index.html">Home</a></li>
-                                            <li><a href="about.html">About</a></li>
-                                            <li><a href="services.html">Services</a></li>
-                                            <li><a href="schedule.html">schedule</a></li>
-                                            <li><a href="gallery.html">gallery</a></li>
-                                            <li><a href="blog.html">Blog</a>
-                                                <ul class="submenu">
-                                                    <li><a href="blog.html">Blog</a></li>
-                                                    <li><a href="blog_details.html">Blog Details</a></li>
-                                                    <li><a href="elements.html">Element</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="contact.html">Contact</a></li>
+                                            <li><a href="{{ route('user.videos.index') }}">Workouts</a></li>
+                                            <li><a href="services.html">Program</a></li>
+                                            <li><a href="schedule.html">Healthy Living</a></li>
+
+                                            <li><a href="#gallery" onclick="scrollToGallery()">Gallery</a></li>
+                                            <li><a href="#contact">Contact</a></li>
+
+                                            <li><a href="contact.html">FitFam</a></li>
+
                                         </ul>
                                     </nav>
                                 </div>
@@ -62,7 +71,7 @@
                         </div>
 
                         {{-- // Logout  --}}
-                         {{-- <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                 @csrf
                                 <button type="submit" class="btn btn-link nav-link">Logout</button>
@@ -80,4 +89,5 @@
     </header>
 
 </body>
+
 </html>

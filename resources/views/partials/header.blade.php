@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -14,13 +15,17 @@
     <!-- Custom Styles -->
     <style>
         body {
-            background-color: #f5f5f5; /* Light background for improved readability */
-            color: #333; /* Dark text for better contrast */
-            font-family: 'Arial', sans-serif; /* Improved readability */
+            background-color: #f5f5f5;
+            /* Light background for improved readability */
+            color: #333;
+            /* Dark text for better contrast */
+            font-family: 'Arial', sans-serif;
+            /* Improved readability */
         }
 
         .header-area {
-            background: linear-gradient(135deg, #8e44ad, #2c3e50); /* Subtle gradient for background */
+            background: linear-gradient(135deg, #8e44ad, #2c3e50);
+            /* Subtle gradient for background */
             color: #ffffff;
         }
 
@@ -28,8 +33,10 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            gap: 1.5rem; /* More spacing between menu items */
-            padding: 0.5rem 0; /* Adds some padding for better spacing */
+            gap: 1.5rem;
+            /* More spacing between menu items */
+            padding: 0.5rem 0;
+            /* Adds some padding for better spacing */
         }
 
         .main-menu ul {
@@ -41,7 +48,8 @@
 
         .main-menu li {
             margin: 0 0.5rem;
-            position: relative; /* For dropdown positioning */
+            position: relative;
+            /* For dropdown positioning */
         }
 
         .main-menu a {
@@ -51,20 +59,24 @@
         }
 
         .main-menu a:hover {
-            color: #9b59b6; /* Subtle hover effect */
+            color: #9b59b6;
+            /* Subtle hover effect */
         }
 
         .logo img {
-            width: 120px; /* Slightly larger logo for better visibility */
+            width: 120px;
+            /* Slightly larger logo for better visibility */
         }
 
         .btn-danger {
             background: #e74c3c;
             border: none;
-            padding: 0.5rem 1.2rem; /* Larger padding for better clickability */
+            padding: 0.5rem 1.2rem;
+            /* Larger padding for better clickability */
             color: white;
             border-radius: 5px;
-            transition: background 0.3s ease; /* Smooth transition for hover effect */
+            transition: background 0.3s ease;
+            /* Smooth transition for hover effect */
         }
 
         .btn-danger:hover {
@@ -72,17 +84,22 @@
         }
 
         .dropdown-menu {
-            display: none; /* Hidden by default */
-            background: #34495e; /* Dark background for dropdown */
+            display: none;
+            /* Hidden by default */
+            background: #34495e;
+            /* Dark background for dropdown */
             border: none;
-            position: absolute; /* Correct positioning for dropdown */
+            position: absolute;
+            /* Correct positioning for dropdown */
             top: 100%;
             left: 0;
-            width: 200px; /* Fixed width for consistency */
+            width: 200px;
+            /* Fixed width for consistency */
         }
 
         .dropdown-menu.show {
-            display: block; /* Show when activated */
+            display: block;
+            /* Show when activated */
         }
 
         .dropdown-item {
@@ -92,10 +109,12 @@
         }
 
         .dropdown-item:hover {
-            background: #9b59b6; /* Hover effect for dropdown items */
+            background: #9b59b6;
+            /* Hover effect for dropdown items */
         }
     </style>
 </head>
+
 <body>
     <header>
         <!-- Header Start -->
@@ -103,12 +122,17 @@
             <div class="main-header header-sticky">
                 <div class="container-fluid">
                     <div class="row align-items-center">
+
                         <!-- Logo -->
                         <div class="col-xl-2 col-lg-2 col-md-1">
-                            <div class="logo">
-                                <a href="index.html"><img src="{{ asset('assets/img/logo/logo.png') }}" alt="Logo"></a>
+                            <div class="logo" style="text-align: left;">
+                                <a href="index.html">
+                                    <img src="assets/img/logo/logo.png" alt="" style="width: 120px; height: auto; margin-left: 2px;">
+                                </a>
                             </div>
                         </div>
+
+
                         <!-- Navigation Menu -->
                         <div class="col-xl-10 col-lg-10 col-md-10">
                             <div class="menu-main d-flex align-items-center justify-content-end">
@@ -117,29 +141,63 @@
                                     <nav>
                                         <ul id="navigation">
                                             <li><a href="index.html">Home</a></li>
-                                            <li><a href="about.html">About</a></li>
-                                            <li><a href="services.html">Services</a></li>
-                                            <li><a href="schedule.html">Schedule</a></li>
-                                            <li><a href="gallery.html">Gallery</a></li>
-                                            <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="contact.html">Contact</a></li>
+                                            <li><a href="{{ route('user.videos.index') }}">Workouts</a></li>
+
+                                            <li><a href="services.html">Program</a></li>
+                                            <li><a href="schedule.html">Healthy LIving</a></li>
+                                            <li><a href="#gallery" onclick="scrollToGallery()">Gallery</a></li>
+
+                                            <li><a href="#contact">Contact</a></li>
+
+
                                             <!-- Community Dropdown -->
                                             <li class="nav-item dropdown">
-                                                <a href="#" class="nav-link dropdown-toggle" id="communityDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="toggleDropdown()">Fit Fam</a>
+                                                <a href="#" class="nav-link dropdown-toggle" id="communityDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Fit Fam
+                                                </a>
                                                 <ul class="dropdown-menu" aria-labelledby="communityDropdown">
-                                                    <li><a class="dropdown-item" href="{{ route('testimonials.index') }}">Testimonials</a></li>
-                                                    <li><a class="dropdown-item" href="{{ route('forum.index') }}">Forum</a></li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="{{ route('testimonials.access') }}">Testimonials</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="{{ route('forums.access') }}">Forums</a>
+                                                    </li>
                                                 </ul>
                                             </li>
 
+
+
+
+                                            {{-- <!-- Community Dropdown -->
+                                            <li class="nav-item dropdown">
+                                                <a href="#" class="nav-link dropdown-toggle"
+                                                    id="communityDropdown" role="button" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    Fit Fam
+                                                </a>
+                                                <ul class="dropdown-menu" aria-labelledby="communityDropdown">
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('testimonials.access') }}">Testimonials</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('forums.access') }}">Forums</a>
+                                                    </li>
+                                                </ul>
+                                            </li> --}}
+
+
+
                                             @auth
-                                            <!-- Logout Button -->
-                                            <li class="nav-item">
-                                                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-danger">Logout</button>
-                                                </form>
-                                            </li>
+                                                <!-- Logout Button -->
+                                                <li class="nav-item">
+                                                    <form action="{{ route('logout') }}" method="POST"
+                                                        style="display: inline;">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger">Logout</button>
+                                                    </form>
+                                                </li>
                                             @endauth
                                         </ul>
                                     </nav>
@@ -164,5 +222,5 @@
         }
     </script>
 </body>
-</html>
 
+</html>

@@ -2,24 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Prompts\Progress;
 
 class UserController extends Controller
 {
-
-
     public function index()
     {
-        $user = auth()->user(); // Get authenticated user
-        $progress = 50; // Example progress percentage, replace with actual logic
-        $subscription = true; // Example subscription check, replace with actual logic
-        return view('dashboard.user', compact('user', 'progress', 'subscription'));
+        // Ensure the user is authenticated
+
+        $user = Auth::user();
+        dd($user);
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        // Fetch user subscription and progress
+        $subscription = $user->subscription; // Ensure relationship is defined in User model
+
+
+        $subscription = Subscription::all();
+
+
+
+        // Pass data to the view
+        dd('niko hapa');
+        return view('dashboard.user', compact('user', 'subscription', ));
     }
-
-
-
 }
-
-

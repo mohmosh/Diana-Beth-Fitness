@@ -19,6 +19,24 @@ class VideoController extends Controller
 
 
      }
+     
+
+     public function usersVideos()
+     {
+         // Fetch all videos posted by admin
+         $videos = Video::all();
+
+         // Pass the videos to the user's view
+         return view('user.videos.index', compact('videos'));
+     }
+
+
+
+
+
+
+
+
     // Display the upload form
     public function create()
     {
@@ -44,6 +62,8 @@ class VideoController extends Controller
         ]);
 
         $videos = Video::all();
+
+        // $video->addMedia($request->file('thumbnail'))->toMediaCollection('thumbnails');
 
         //  dd($videos);
 

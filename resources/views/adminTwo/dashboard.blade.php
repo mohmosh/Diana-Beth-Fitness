@@ -128,10 +128,10 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
+                <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Log Out</span>
+                  </a>
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
@@ -168,7 +168,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('adminTwo.dashboard') }}" class="d-flex align-items-center text-decoration-none">
+                <a href="{{ route('admin.viewVideos') }}" class="d-flex align-items-center text-decoration-none">
                     <i class="bi bi-circle me-2"></i>
                     <span>View All Videos</span>
                 </a>
@@ -212,6 +212,10 @@
 
 
     <a href="{{ route('adminTwo.dashboard') }}">Admin Admin Dashboard</a>
+
+    @yield('content')
+
+
 
     <!-- End Page Title -->
 
