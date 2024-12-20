@@ -20,7 +20,16 @@ return new class extends Migration
             $table->string('preferences')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('role_id')->constrained('roles');
+            $table->string('subscription_type')->nullable(); // 'personal_training' or 'build_his_temple'
+            $table->unsignedInteger('current_level')->default(1); // Default level for 'Build His Temple'
+            $table->boolean('level_approval')->default(false); // Admin approval for level jumps
+            $table->string('role_id');
+
+
+            // $table->unsignedBigInteger('role_id')->default(2); // Set default to 2 for regular users
+            // $table->foreign('role_id')->references('id')->on('roles')->nulla
+
+            // $table->foreignId('role_id')->constrained('roles');
 
             $table->rememberToken();
             $table->timestamps();

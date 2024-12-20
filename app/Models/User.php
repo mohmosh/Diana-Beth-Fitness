@@ -60,10 +60,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Devotional::class, 'uploaded_by');
     }
 
-    public function subscriptions()
+    public function plan()
+    {
+        return $this->belongsToMany(Plan::class);
+    }
+
+    public function subscription()
     {
         return $this->hasOne(Subscription::class);
     }
+
 
     public function accessibleVideos()
     {
@@ -75,28 +81,21 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function accessibleWorkouts()
-{
-    return $this->hasMany(Workout::class)->where('subscription_plan_id', $this->subscription->plan->id);
-}
+    {
+        return $this->hasMany(Workout::class)->where('subscription_plan_id', $this->subscription->plan->id);
+    }
 
+    public function hasSubscription($type)
+    {
+        return $this->subscription_type === $type;
+    }
 
-    // public function accessibleWorkouts()
-    // {
-    //     $plan = $this->subscription->plan;
-
-    //     if ($plan->isPremium()) {
-    //         return Workout::all(); // All workouts for premium users
-    //     }
-
-    //     if ($plan->isSilver()) {
-    //         return Workout::where('is_silver', true)->get(); // Silver plan users can see silver workouts
-    //     }
-
-    //     if ($plan->isBasic()) {
-    //         return Workout::where('is_bronze', true)->get(); // Bronze plan users can see bronze workouts
-    //     }
-
-    //     return collect(); // No workouts if the user has no plan or unrecognized plan
-    // }
-
+    public function canAccessLevel($level)
+    {
+        return $this->current_level >= $level || $this->level_approval;
+    }
+    public function payment()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

@@ -9,7 +9,14 @@ class Subscription extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'plan_id'];
+    protected $fillable = [
+        'user_id',
+        'plan_id',
+        'start_date',
+        'end_date',
+        'status',
+        'payment_id'
+    ];
 
 
     //  Relationship with User
@@ -21,13 +28,17 @@ class Subscription extends Model
 
     // Relationship with SubscriptionPlan
 
-    public function plan()
-    {
-        return $this->belongsTo(SubscriptionPlan::class);
-    }
 
-    public function plans()
+
+    public function plan()
     {
         return $this->belongsTo(Plan::class);
     }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
+
+
 }

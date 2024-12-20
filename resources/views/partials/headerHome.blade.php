@@ -30,7 +30,7 @@
                         <div class="col-xl-2 col-lg-2 col-md-1">
                             <div class="logo" style="text-align: left;">
                                 <a href="index.html">
-                                    <img src="assets/img/logo/logo.png" alt="" style="width: 120px; height: auto; margin-left: 2px;">
+                                    <img src="assets/img/logo/logo.png" alt="" style="width: 150px; height: 150px; margin-left: 2px;">
                                 </a>
                             </div>
                         </div>
@@ -38,24 +38,29 @@
 
 
                         <div class="col-xl-10 col-lg-10 col-md-10">
-                            <div class="menu-main d-flex align-items-center justify-content-end">
+                            <div class=" d-flex align-items-center justify-content-end">
                                 <!-- Main-menu -->
                                 <div class="main-menu f-right d-none d-lg-block">
                                     <nav>
                                         <ul id="navigation">
                                             <li><a href="index.html">Home</a></li>
+                                            <li><a href="index.html">About Us</a></li>
                                             <li><a href="{{ route('user.videos.index') }}">Workouts</a></li>
-                                            <li><a href="services.html">Program</a></li>
-                                            <li><a href="schedule.html">Healthy Living</a></li>
 
-                                            <li><a href="#gallery" onclick="scrollToGallery()">Gallery</a></li>
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Community
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="{{ route('testimonials.access') }}">Testimonials</a></li>
+                                                    <li><a class="dropdown-item" href="{{ route('forums.access') }}">Forums</a></li>
+                                                </ul>
+                                            </li>
+
                                             <li><a href="#contact">Contact</a></li>
 
-                                            <li><a href="contact.html">FitFam</a></li>
 
-                                        </ul>
-                                    </nav>
-                                </div>
+
 
                                 {{-- Register Button --}}
                                 <div class="header-right-btn f-right d-none d-lg-block ml-30">
@@ -70,14 +75,7 @@
                             </div>
                         </div>
 
-                        {{-- // Logout  --}}
-                        {{-- <li class="nav-item">
-                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                                @csrf
-                                <button type="submit" class="btn btn-link nav-link">Logout</button>
-                            </form>
-                        </li> --}}
-                        <!-- Mobile Menu -->
+
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>

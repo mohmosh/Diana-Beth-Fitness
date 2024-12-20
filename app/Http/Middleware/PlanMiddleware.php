@@ -5,24 +5,25 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class SubscriptionCheck
+class PlanMiddleware
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  int  $subscriptionPlanId
+     * @param  int  $requiredPlanId
      * @return mixed
      */
-    public function handle($request, Closure $next, $subscriptionPlanId)
+    public function handle($request, Closure $next, $requiredPlanId)
     {
         $user = Auth::user();
 
-        if ($user->subscription_plan_id !== (int) $subscriptionPlanId) {
-            return redirect()->route('subscriptions.index')->with('warning', 'Access denied. Subscription required.');
+        if (!$user || $user->plan_id < $requiredPlanId) {
+            return redirect()->route('subscription.check')->with('warning', 'You need a higher subscription plan to access this feature.');
         }
 
         return $next($request);
     }
 }
+

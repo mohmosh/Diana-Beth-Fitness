@@ -2,85 +2,81 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SubscriptionPlan;
-use App\Models\Video;
-use App\Models\Testimonial;
-use App\Models\Forum;
+use App\Models\Plan;
+use App\Models\Subscription;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class SubscriptionController extends Controller
 {
-    /**
-     * Display a listing of the subscription plans.
-     *
-     * @return \Illuminate\View\View
-     */
     public function index()
     {
-        $user = auth()->user(); // Get the authenticated user
-        $plans = SubscriptionPlan::all(); // Fetch all subscription plans
+        // Fetch personal training plans
+        $personalTrainingPlans = Plan::where('subscription_type', 'personal_training')->get();
 
-        return view('subscriptions.plans', compact('plans', 'user'));
+        // dd($personalTrainingPlans);
+
+        // Fetch build his temple plans
+        $buildHisTemplePlans = Plan::where('subscription_type', 'build_his_temple')->get();
+
+        return view('subscriptions.index', compact('personalTrainingPlans', 'buildHisTemplePlans'));
+
+
     }
 
-    /**
-     * Process subscription for a specific plan.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $planId
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function processSubscription(Request $request, $planId)
+    public function store(Request $request)
     {
-        $user = Auth::user(); // Get the authenticated user
-        $plan = SubscriptionPlan::find($planId);
+        $user = Auth::user();
 
-        if (!$plan) {
-            return redirect()->route('dashboard')->with('error', 'Invalid subscription plan.');
+        $request->validate([
+            'plan_id' => 'required|exists:plans,id',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|max:15',
+            'password' => 'required|string|min:6|confirmed', // Ensure passwords match
+        ]);
+
+        $subscription = new Subscription();
+        $subscription->user_id = $user->id;
+        $subscription->plan_id = $request->plan_id;
+        $subscription->start_date = now(); // Current date as the start date
+        $subscription->end_date = now()->addMonths(1); // For example, 1 month subscription
+        $subscription->status = 'active'; // Default status
+
+        if ($subscription->save()) {
+            // Subscription saved successfully
+//  dd($subscription->plan->subscription_type);
+
+            // Redirect user based on their subscription type
+            if ($subscription->plan->subscription_type === 'personal_training') {
+
+                return view('dashboard.personalTraining')->with('success', 'You have successfully subscribed to Personal Training.');
+
+            } elseif ($subscription->plan->subscription_type === 'build_his_temple') {
+                return view('dashboard.buildHisTemple')->with('success', 'You have successfully subscribed to Build His Temple.');
+            }
+        } else {
+            // Handle error if subscription creation fails
+            return redirect()->back()->with('error', 'There was an error creating your subscription. Please try again.');
         }
-
-        // Update or assign the subscription plan
-        $user->subscription_plan = $plan->name;
-        $user->save();
-
-        return redirect()->route('dashboard')->with('success', "You've subscribed to the {$plan->name} plan!");
     }
 
-    /**
-     * Show content for the Basic subscription plan.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function showBasic()
+
+
+    public function showForm($plan)
     {
-        $user = auth()->user(); // Get the authenticated user
+        $user = Auth::user();
 
-        // $videos = Video::where('subscription_plan', 'Basic')->get(); // Fetch videos for Basic plan
-
-        // return view('subscriptions.basic', compact('user', 'videos'));
-
-        return view('subscriptions.basic', compact('user'));
+        // dd($user);
 
 
-        // return ('Basic Subscription');
-
+        $plan = Plan::findOrFail($plan);
+        return view('subscriptions.form', compact('plan', 'user'));
     }
 
-    /**
-     * Show content for the Premium subscription plan.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function showPremium()
-    {
-        $user = auth()->user(); // Get the authenticated user
-        $videos = Video::all(); // Fetch all videos
-        $testimonials = Testimonial::all(); // Fetch all testimonials for Premium users
-        $forums = Forum::all(); // Fetch all forums for Premium users
 
 
-        // return ('Premium Subscription');
-        return view('subscriptions.premium', compact('user'));
-    }
+
 }

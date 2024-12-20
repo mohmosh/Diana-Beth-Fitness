@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('path');
+            $table->string('url')->nullable(); // Video URL
+            $table->string('subscription_type'); // 'personal_training' or 'build_his_temple'
+            $table->unsignedInteger('level')->nullable();
             $table->timestamps();
         });
     }

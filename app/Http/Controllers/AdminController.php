@@ -6,6 +6,8 @@ use App\Models\Devotional;
 use Illuminate\Http\Request;
 use App\Models\Media;
 use App\Models\UserContent;
+use App\Models\User;
+
 
 class AdminController extends Controller
 {
@@ -50,5 +52,14 @@ class AdminController extends Controller
         $content->save();
 
         return redirect()->back()->with('success', 'Content rejected successfully.');
+    }
+
+    public function approveLevelJump(User $user)
+    {
+        $user->level_approval = false; // Reset approval
+        $user->current_level = $user->current_level + 1; // Or set to specific level
+        $user->save();
+
+        return redirect()->back()->with('message', 'Level jump approved.');
     }
 }

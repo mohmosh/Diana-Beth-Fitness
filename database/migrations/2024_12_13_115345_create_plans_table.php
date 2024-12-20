@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->decimal('price', 8, 2);
+           
+            $table->string('subscription_type')->nullable();
+            $table->unsignedInteger('current_level')->default(1);
+            $table->boolean('level_approval')->default(false);
             $table->timestamps();
         });
     }

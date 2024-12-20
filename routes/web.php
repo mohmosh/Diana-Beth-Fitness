@@ -12,6 +12,8 @@ use App\Http\Controllers\{
     UserController,
     ForumController,
     PlanController,
+    RoleController,
+    SubscriptionCheckController,
     SubscriptionController,
     SubscriptionPlanController,
     VideoController,
@@ -33,6 +35,18 @@ Route::get('/', function () {
 })->name('welcome');
 
 
+
+
+
+// Route to show the role creation form
+Route::get('/roles/create', [RoleController::class, 'create'])->name('roles.create');
+// Route to store the new role
+Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
+
+
+
+
+
 // Registration Routes
 Route::get('register', function () {
     return view('auth.register'); // Registration form view
@@ -46,6 +60,10 @@ Route::post('register', [RegisterController::class, 'register'])->name('register
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+Route::get('/dashboard/user', function () {
+    return view('dashboard.user');
+})->name('dashboard.user');
 
 
 Route::post('/logout', function () {
@@ -95,16 +113,44 @@ Route::get('/gallery', function () {
 })->name('gallery');
 
 
+Route::get('/workouts', [WorkoutController::class, 'index'])->middleware('check.subscription');
+
+
+// Plans
+Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
+
+Route::get('/plans/{id}', [PlanController::class, 'show'])->name('plans.show');
+
+
+Route::get('/plans/dbf/create', [PlanController::class, 'create'])->name('plans.create');
+
+Route::post('/plans/store', [PlanController::class, 'store'])->name('plans.store');
+
+
 
 
 // Subscription plans
 
-Route::get('/subscriptions/plans', [SubscriptionPlanController::class, 'index'])->name('subscriptions.plans');
-Route::post('/subscriptions/subscribe/{planId}', [SubscriptionPlanController::class, 'processSubscription'])->name('subscribe.process');
+Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
 
-Route::get('/subscriptions/basic', [SubscriptionController::class, 'showBasic'])->name('subscriptions.basic');
-Route::get('/subscriptions/premium', [SubscriptionController::class, 'showPremium'])->name('subscriptions.premium');
-Route::get('/subscriptions/prompt', [SubscriptionController::class, 'index'])->name('subscriptions.prompt');
+Route::post('/subscriptions/store', [SubscriptionController::class, 'store'])->name('subscriptions.store');
+
+// Subscribing
+Route::get('/subscriptions/{plan}/form', [SubscriptionController::class, 'showForm'])->name('subscriptions.form');
+
+// Route::post('/subscriptions/submit', [SubscriptionController::class, 'submitForm'])->name('subscriptions.submit');
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Testimonials
 Route::middleware(['auth', 'check.subscription:Normal|Premium'])->group(function () {

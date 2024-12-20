@@ -15,11 +15,22 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('plan_id');
+            $table->unsignedBigInteger('payment_id')->nullable();
+
+            $table->date('start_date')->nullable(); // When the subscription starts
+            $table->date('end_date')->nullable();   // When the subscription ends
+            $table->string('status')->default('active'); // e.g., active, cancelled, expired
+
             $table->timestamps();
 
-              // Foreign keys
-              $table->foreign('user_id')->references('id')->on('users');
-              $table->foreign('plan_id')->references('id')->on('subscription_plans');
+            // Foreign keys
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade');
+            $table->foreign('payment_id')->references('id')->on('payments')->onDelete('cascade');
+
+
+
         });
     }
 

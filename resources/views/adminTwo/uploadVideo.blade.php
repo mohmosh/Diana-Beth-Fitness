@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Upload Media')</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-
+    <main>
     <style>
         body {
             background-color: white;
@@ -55,6 +55,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container mt-4">
         <h1 class="text-center mb-4">Upload Video</h1>
@@ -69,20 +70,54 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.storeVideo') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="mb-3">
-                <label for="title" class="form-label">Video Title:</label>
-                <input type="text" id="title" name="title" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="video" class="form-label">Upload Video:</label>
-                <input type="file" id="video" name="video" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Upload</button>
-        </form>
-    </div>
+
+            <form action="{{ route('admin.storeVideo') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" name="title" id="title" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="description" id="description" class="form-control"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="url" class="form-label">Video URL</label>
+                    <input type="url" name="url" id="url" class="form-control" {{ old('url') ? 'value='.old('url') : '' }}>
+                </div>
+
+                <div class="mb-3">
+                    <label for="subscription_type" class="form-label">Subscription Type</label>
+                    <select name="subscription_type" id="subscription_type" class="form-select" required>
+                        <option value="personal_training">Personal Training</option>
+                        <option value="build_his_temple">Build His Temple</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="level" class="form-label">Level (For Build His Temple)</label>
+                    <input type="number" name="level" id="level" class="form-control" min="1">
+                </div>
+                <div class="mb-3">
+                    <label for="video" class="form-label">Upload Video:</label>
+                    <input type="file" id="video" name="video" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        </div>
+            </form>
+        </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+</main>
+
+
 </html>
+
+
+
+

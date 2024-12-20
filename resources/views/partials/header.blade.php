@@ -16,209 +16,167 @@
     <style>
         body {
             background-color: #f5f5f5;
-            /* Light background for improved readability */
             color: #333;
-            /* Dark text for better contrast */
             font-family: 'Arial', sans-serif;
-            /* Improved readability */
+            font-size: 1.125rem; /* Increased font size */
         }
 
+        /* Header Styles */
         .header-area {
-            background: linear-gradient(135deg, #8e44ad, #2c3e50);
-            /* Subtle gradient for background */
-            color: #ffffff;
+            background: linear-gradient(135deg, #770082, #bf0fc5);
+            padding: 1.5rem 2.5rem; /* Increased padding */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Logo Styles */
+        .logo img {
+            width: 70px;
+            height: auto;
+        }
+
+        /* Navigation Styles */
         .main-menu {
             display: flex;
-            justify-content: flex-end;
             align-items: center;
-            gap: 1.5rem;
-            /* More spacing between menu items */
-            padding: 0.5rem 0;
-            /* Adds some padding for better spacing */
-        }
-
-        .main-menu ul {
-            display: flex;
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .main-menu li {
-            margin: 0 0.5rem;
-            position: relative;
-            /* For dropdown positioning */
+            gap: 20px; /* Increased spacing between menu items */
         }
 
         .main-menu a {
+            font-size: 1.7rem; /* Increased font size */
+            padding: 0.5rem 1.25rem; /* Increased padding */
             color: #ffffff;
-            text-decoration: none;
+            /* text-transform: uppercase; */
+            font-weight: bold;
             transition: color 0.3s ease;
         }
 
         .main-menu a:hover {
-            color: #9b59b6;
-            /* Subtle hover effect */
-        }
-
-        .logo img {
-            width: 120px;
-            /* Slightly larger logo for better visibility */
-        }
-
-        .btn-danger {
-            background: #e74c3c;
-            border: none;
-            padding: 0.5rem 1.2rem;
-            /* Larger padding for better clickability */
-            color: white;
-            border-radius: 5px;
-            transition: background 0.3s ease;
-            /* Smooth transition for hover effect */
-        }
-
-        .btn-danger:hover {
-            background: #c0392b;
+            color: #dda0dd;
         }
 
         .dropdown-menu {
-            display: none;
-            /* Hidden by default */
-            background: #34495e;
-            /* Dark background for dropdown */
-            border: none;
-            position: absolute;
-            /* Correct positioning for dropdown */
-            top: 100%;
-            left: 0;
-            width: 200px;
-            /* Fixed width for consistency */
-        }
-
-        .dropdown-menu.show {
-            display: block;
-            /* Show when activated */
+            background: #000000;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .dropdown-item {
             color: #ffffff;
-            padding: 0.5rem 1rem;
+            padding: 12px 24px; /* Increased padding */
+            font-size: 5.125rem; /* Increased font size */
+            font-weight: bold;
             transition: background 0.3s ease;
         }
 
         .dropdown-item:hover {
-            background: #9b59b6;
-            /* Hover effect for dropdown items */
+            background: #770082;
+            color: #ffffff;
+        }
+
+        /* Authentication Buttons */
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Increased spacing between buttons */
+        }
+
+        .btn {
+            padding: 3.75rem 3.5rem; /* Increased padding */
+            font-size: 2.0rem; /* Increased font size */
+            border-radius: 25px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #008CBA;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #005f73;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: #ffffff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #565e64;
+        }
+
+        .btn-danger {
+            background-color: #800080;
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background-color: #4b0082;
         }
     </style>
 </head>
 
 <body>
+
     <header>
-        <!-- Header Start -->
-        <div class="header-area header-transparent">
-            <div class="main-header header-sticky">
-                <div class="container-fluid">
-                    <div class="row align-items-center">
+        <div class="header-area">
+            <div class="container-fluid">
+                <div class="header-container">
+                    <!-- Logo -->
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="assets/img/logo/logo.png" alt="Logo">
+                        </a>
+                    </div>
 
-                        <!-- Logo -->
-                        <div class="col-xl-2 col-lg-2 col-md-1">
-                            <div class="logo" style="text-align: left;">
-                                <a href="index.html">
-                                    <img src="assets/img/logo/logo.png" alt="" style="width: 120px; height: auto; margin-left: 2px;">
-                                </a>
-                            </div>
+                    <!-- Navigation Menu -->
+                    <nav class="main-menu">
+                        <a href="index.html">Home</a>
+                        <a href="{{ route('user.videos.index') }}">Workouts</a>
+                        <a href="services.html">Program</a>
+                        <a href="schedule.html">Healthy Living</a>
+                        <a href="#gallery" onclick="scrollToGallery()">Gallery</a>
+                        <a href="#contact">Contact</a>
+
+                        <!-- Dropdown Menu -->
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="communityDropdown" role="button" data-bs-toggle="dropdown">
+                                Fit Fam
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('testimonials.access') }}">Testimonials</a></li>
+                                <li><a class="dropdown-item" href="{{ route('forums.access') }}">Forums</a></li>
+                            </ul>
                         </div>
+                    </nav>
 
-
-                        <!-- Navigation Menu -->
-                        <div class="col-xl-10 col-lg-10 col-md-10">
-                            <div class="menu-main d-flex align-items-center justify-content-end">
-                                <!-- Main Menu -->
-                                <div class="main-menu f-right d-none d-lg-block">
-                                    <nav>
-                                        <ul id="navigation">
-                                            <li><a href="index.html">Home</a></li>
-                                            <li><a href="{{ route('user.videos.index') }}">Workouts</a></li>
-
-                                            <li><a href="services.html">Program</a></li>
-                                            <li><a href="schedule.html">Healthy LIving</a></li>
-                                            <li><a href="#gallery" onclick="scrollToGallery()">Gallery</a></li>
-
-                                            <li><a href="#contact">Contact</a></li>
-
-
-                                            <!-- Community Dropdown -->
-                                            <li class="nav-item dropdown">
-                                                <a href="#" class="nav-link dropdown-toggle" id="communityDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Fit Fam
-                                                </a>
-                                                <ul class="dropdown-menu" aria-labelledby="communityDropdown">
-                                                    <li>
-                                                        <a class="dropdown-item" href="{{ route('testimonials.access') }}">Testimonials</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item" href="{{ route('forums.access') }}">Forums</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-
-
-
-
-                                            {{-- <!-- Community Dropdown -->
-                                            <li class="nav-item dropdown">
-                                                <a href="#" class="nav-link dropdown-toggle"
-                                                    id="communityDropdown" role="button" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                    Fit Fam
-                                                </a>
-                                                <ul class="dropdown-menu" aria-labelledby="communityDropdown">
-                                                    <li>
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('testimonials.access') }}">Testimonials</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('forums.access') }}">Forums</a>
-                                                    </li>
-                                                </ul>
-                                            </li> --}}
-
-
-
-                                            @auth
-                                                <!-- Logout Button -->
-                                                <li class="nav-item">
-                                                    <form action="{{ route('logout') }}" method="POST"
-                                                        style="display: inline;">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger">Logout</button>
-                                                    </form>
-                                                </li>
-                                            @endauth
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Authentication Buttons -->
+                    <div class="auth-buttons">
+                        @auth
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button class="btn btn-danger">Logout</button>
+                            </form>
+                        @else
+                            <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
+                            <a href="{{ route('register') }}" class="btn btn-secondary">Register</a>
+                        @endauth
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Header End -->
     </header>
 
-    <!-- Custom Script -->
     <script>
-        function toggleDropdown() {
-            var dropdownMenu = document.querySelector('.dropdown-menu');
-            var dropdownButton = document.getElementById('communityDropdown');
-            if (dropdownButton.textContent.trim() === 'Fit Fam') {
-                dropdownMenu.classList.toggle('show');
-            }
+        function scrollToGallery() {
+            document.querySelector("#gallery").scrollIntoView({ behavior: "smooth" });
         }
     </script>
 </body>

@@ -12,9 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- External CSS -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -31,17 +29,12 @@
     <link rel="stylesheet" href="assets/css/nice-select.css">
     <link rel="stylesheet" href="assets/css/style.css">
 
-
-
-    <!-- Inline style for custom background -->
+    <!-- Custom styles -->
     <style>
         body {
             background-color: #8e44ad; /* Purple background */
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             margin: 0;
+            padding: 0;
         }
 
         .card {
@@ -49,12 +42,10 @@
             border-radius: 25px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 70px;
-            width: 800px;
-            height: 600px;
         }
 
         .card h1 {
-            font-size: 4rem;
+            font-size: 2rem;
             color: #333333;
             text-align: center;
         }
@@ -72,14 +63,11 @@
 <body>
     @include('partials.header') <!-- Include header -->
 
-    <main>
+    <main class="container py-4">
         @yield('content')
     </main>
 
-    {{-- @include('partials.footerTwo') <!-- Include footer --> --}}
-
     <!-- Bootstrap JS Bundle -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

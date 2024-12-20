@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Devotional;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class DevotionalController extends Controller
@@ -37,8 +38,13 @@ class DevotionalController extends Controller
             'content' => $request->content,
             'uploaded_by' => auth()->id(),
         ]);
+        $devotionals = Devotional::all();
 
-        return redirect()->route('admin.dashboard')->with('success', 'Devotional uploaded successfully.');
+        return view('adminTwo.viewDevotionals', compact('devotionals'));
+
+
+
+        // return redirect()->route('admin.dashboard')->with('success', 'Devotional uploaded successfully.');
     }
 
 
