@@ -5,103 +5,88 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Video;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
-
-    // Display all uploaded videos
+    // Display all uploaded videos (Admin side)
     public function index()
     {
         $videos = Video::all();
-
-        //  dd($videos);
-
         return view('adminTwo.viewVideos', compact('videos'));
     }
 
-
-
-
+    // Display videos for users based on subscription type and level
     public function usersVideos()
     {
-        $user = auth()->user(); // Get the authenticated user
-        $videos = collect(); // Initialize an empty collection for videos
+        $user = auth()->user();
 
-        // Check the user's subscription plan and limit content accordingly
-        if ($user->plan_id === 1) { // Bronze plan
-            $videos = Video::take(2)->get(); // Limit to 2 videos
+        // Check the user's subscription plan
+        if ($user->plan_id === 1) { // Personal Training
+            // Get videos for Personal Training
+            $videos = Video::where('subscription_type', 'personal_training')->get();
+            return view('dashboard.personalTraining', compact('videos'));
 
-        } elseif ($user->plan_id === 2) { // Silver plan
-            $videos = Video::take(4)->get(); // Limit to 4 videos
-
-        } elseif ($user->plan_id === 3) { // Gold plan
-            $videos = Video::all(); // Full access to videos
+        } elseif ($user->plan_id === 2) { // Build His Temple
+            // Get videos based on the user's current level in the "Build His Temple" plan
+            $videos = Video::where('subscription_type', 'build_his_temple')
+                            ->where('level', $user->current_level)
+                            ->get();
+            return view('dashboard.buildHisTemple', compact('videos', 'user'));
 
         } else {
             // If no valid subscription, redirect with a warning
             return redirect()->route('plans.index')->with('warning', 'Please subscribe to a plan to access videos.');
         }
-
-        // Pass the filtered videos to the user's view
-        return view('user.videos.index', compact('videos'));
     }
 
-
-    // Admin side
-    // Display the upload form
+    // Admin side - Display the upload form
     public function create()
     {
         return view('adminTwo.uploadVideo');
     }
 
-    // Handle the video upload
+    // Admin side - Handle video upload
     public function store(Request $request)
     {
-        // dd('here');
+        // Validate the form input
         $request->validate([
             'title' => 'required|string|max:255',
             'video' => 'required|file|mimes:mp4,mkv,avi,flv',
             'description' => 'nullable|string',
             'url' => 'nullable|url|max:255',
             'subscription_type' => 'required|in:personal_training,build_his_temple',
-            'level' => 'nullable|integer|min:1',
+            'level' => 'nullable|integer|min:1',  // This is only needed for Build His Temple
         ]);
 
-        // Store the uploaded video file
+        // Handle the video upload (store in the public disk)
         $path = $request->file('video')->store('videos', 'public');
 
         // Save video details to the database
-        $video = Video::create([
+        Video::create([
             'title' => $request->title,
             'path' => $path,
             'description' => $request->description,
             'url' => $request->url,
             'subscription_type' => $request->subscription_type,
-            'level' => $request->level
+            'level' => $request->level // Level is set only if the video belongs to "Build His Temple"
         ]);
 
+        // Fetch all videos after upload and display them
         $videos = Video::all();
-
-
-
-
-        // return redirect()->route('adminTwo.dashboard')->with('success', 'Video uploaded successfully.');
-
         return view('adminTwo.viewVideos', compact('videos'));
-
-
-        // return view('adminTwo.viewVideos');
-
     }
 
-
+    // View for Personal Training Videos
     public function personalTraining()
     {
         $user = Auth::user();
         $videos = Video::where('subscription_type', 'personal_training')->get();
-        return view('videos.personal_training', compact('videos'));
+        return view('dashboard.personalTraining', compact('videos'));
     }
 
+    // View for Build His Temple Videos
     public function buildHisTemple()
     {
         $user = Auth::user();
@@ -109,9 +94,77 @@ class VideoController extends Controller
             ->where('level', $user->current_level)
             ->get();
 
-        return view('videos.build_his_temple', compact('videos'));
+        return view('dashboard.buildHisTemple', compact('videos'));
     }
 
+
+
+// Edit video form
+public function edit($id)
+{
+    $video = Video::findOrFail($id);
+    return view('adminTwo.editVideo', compact('video'));
+}
+
+// Update video details
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'url' => 'nullable|url|max:255',
+        'subscription_type' => 'required|in:personal_training,build_his_temple',
+        'level' => 'nullable|integer|min:1',
+        
+    ]);
+
+    $video = Video::findOrFail($id);
+
+    // Update the video
+    $video->update([
+        'title' => $request->title,
+        'description' => $request->description,
+        'url' => $request->url,
+        'subscription_type' => $request->subscription_type,
+        'level' => $request->level
+    ]);
+
+    return redirect()->route('admin.viewVideos')->with('success', 'Video updated successfully!');
+}
+
+// Delete video
+public function destroy($id)
+{
+    $video = Video::findOrFail($id);
+
+    // Get the relative path from the database (e.g., 'videos/video1.mp4')
+    $filePath = 'public/' . $video->path;
+
+    // Debugging: Log the full file path to ensure it is correct
+    Log::info("Deleting file: " . $filePath);
+
+    // Check if the file exists before attempting to delete it
+    if (Storage::exists($filePath)) {
+        // Delete the video file
+        Storage::delete($filePath);
+    } else {
+        // If file doesn't exist, log an error
+        Log::error("File not found: " . $filePath);
+    }
+
+    // Delete the video record from the database
+    $video->delete();
+
+    // Redirect back with success message
+    return redirect()->route('admin.viewVideos')->with('success', 'Video deleted successfully!');
+}
+
+
+
+
+
+
+    // Request for level jump (only for "Build His Temple" users)
     public function requestLevelJump(Request $request)
     {
         $user = Auth::user();
@@ -119,10 +172,11 @@ class VideoController extends Controller
             return redirect()->route('videos.buildHisTemple')->with('error', 'Only users subscribed to "Build His Temple" can request a level jump.');
         }
 
-        // Admin approval logic (placeholder)
+        // Admin approval logic (this is just a placeholder for now)
         $user->level_approval = true;
         $user->save();
 
         return redirect()->route('videos.buildHisTemple')->with('success', 'Level jump requested. Awaiting admin approval.');
     }
+
 }

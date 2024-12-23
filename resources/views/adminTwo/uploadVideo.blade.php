@@ -101,14 +101,17 @@
                     <label for="level" class="form-label">Level (For Build His Temple)</label>
                     <input type="number" name="level" id="level" class="form-control" min="1">
                 </div>
+
                 <div class="mb-3">
                     <label for="video" class="form-label">Upload Video:</label>
                     <input type="file" id="video" name="video" class="form-control" required>
                 </div>
+                
                 <button type="submit" class="btn btn-primary">Upload</button>
             </form>
         </div>
             </form>
+
         </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

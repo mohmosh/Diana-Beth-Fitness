@@ -384,7 +384,7 @@ hr {
 }
 .header-btn {
     padding: 30px 43px;
-    margin-top: 25px;
+    margin-top: 10px;
 }
 .hero-btn {
     padding: 32px 41px;
@@ -2058,7 +2058,7 @@ hr {
     z-index: 1;
 }
 .header-area .main-header .main-menu ul li a {
-    color: #fff;
+    color: #ffffff;
     font-weight: 400;
     padding: 39px 25px;
     display: block;

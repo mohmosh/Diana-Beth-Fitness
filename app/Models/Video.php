@@ -31,6 +31,19 @@ class Video extends Model implements HasMedia
         return $query->where('subscription_type', $type);
     }
 
+
+    public function scopeForPersonalTraining($query)
+    {
+        return $query->where('subscription_type', 'personal_training');
+    }
+
+    public function scopeForBuildHisTemple($query, $level)
+    {
+        return $query->where('subscription_type', 'build_his_temple')
+            ->where('level', $level);
+    }
+
+
     public function scopeForLevel($query, $level)
     {
         return $query->where('level', $level);

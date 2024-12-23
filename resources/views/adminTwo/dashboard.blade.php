@@ -188,7 +188,7 @@
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="tables-general.html">
-                <a href="{{ route('admin.viewDevotional') }}" class="d-flex align-items-center text-decoration-none">
+                <a href="{{ route('admin.viewDevotionals') }}" class="d-flex align-items-center text-decoration-none">
               <i class="bi bi-circle"></i><span>View All Devotionals</span>
             </a>
           </li>

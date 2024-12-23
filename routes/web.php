@@ -132,13 +132,16 @@ Route::post('/plans/store', [PlanController::class, 'store'])->name('plans.store
 // Subscription plans
 
 Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
-
 Route::post('/subscriptions/store', [SubscriptionController::class, 'store'])->name('subscriptions.store');
-
 // Subscribing
 Route::get('/subscriptions/{plan}/form', [SubscriptionController::class, 'showForm'])->name('subscriptions.form');
 
-// Route::post('/subscriptions/submit', [SubscriptionController::class, 'submitForm'])->name('subscriptions.submit');
+
+// Videos according to the subscription type
+Route::get('/videos/personal-training', [VideoController::class, 'personalTraining'])->name('videos.personalTraining');
+Route::get('/videos/build-his-temple', [VideoController::class, 'buildHisTemple'])->name('videos.buildHisTemple');
+Route::get('/videos', [VideoController::class, 'usersVideos'])->name('videos.index');
+
 
 
 
@@ -186,29 +189,37 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/admin/videos/upload', [VideoController::class, 'create'])->name('admin.uploadVideo');
     Route::post('/admin/videos/upload', [VideoController::class, 'store'])->name('admin.storeVideo');
 
+    // Edit video form
+    Route::get('admin/videos/{id}/edit', [VideoController::class, 'edit'])->name('admin.editVideo');
 
+    // Update video details
+    Route::put('admin/videos/{id}', [VideoController::class, 'update'])->name('admin.updateVideo');
 
-
-
-
-
+    // Delete video
+    Route::delete('admin/videos/{id}', [VideoController::class, 'destroy'])->name('admin.deleteVideo');
 
 
     // Devotional Management
-    Route::get('/admin/devotionals', [DevotionalController::class, 'index'])->name('admin.viewDevotional');
-    Route::get('/admin/upload-devotional', [DevotionalController::class, 'uploadDevotional'])->name('admin.uploadDevotional');
-    Route::post('/admin/upload-devotional', [DevotionalController::class, 'storeDevotional'])->name('admin.storeDevotional');
+    Route::get('/admin/devotionals', [DevotionalController::class, 'index'])->name('admin.viewDevotionals');
+
+    Route::get('/admin/devotionals/upload', [DevotionalController::class, 'create'])->name('admin.uploadDevotional');
+    Route::post('/admin/devotionals/store', [DevotionalController::class, 'store'])->name('admin.storeDevotional');
+
+    // Edit and Update Devotional
+    Route::get('/admin/devotionals/{id}/edit', [DevotionalController::class, 'edit'])->name('admin.editDevotional');
+    Route::put('/admin/devotionals/{id}', [DevotionalController::class, 'update'])->name('admin.updateDevotional');
+
+    // Delete Devotional
+    Route::delete('/admin/devotionals/{id}', [DevotionalController::class, 'destroy'])->name('admin.deleteDevotional');
 
 
-    // Content Moderation (Pending Content)
-    Route::get('/admin/pending-content', [AdminController::class, 'getPendingContent'])->name('admin.pendingContent');
-    Route::post('/admin/approve-content/{id}', [AdminController::class, 'approveContent'])->name('admin.approveContent');
-    Route::post('/admin/reject-content/{id}', [AdminController::class, 'rejectContent'])->name('admin.rejectContent');
+
+
+    Route::middleware(['auth'])->group(function () {
+        // User routes
+        Route::get('/user/devotionals', [DevotionalController::class, 'usersDevotionals'])->name('user.devotionals.index');
+    });
 
     Route::post('/admin/logout', [AuthController::class, 'adminLogout'])
-    ->name('admin.logout');
-
-
+        ->name('admin.logout');
 });
-
-

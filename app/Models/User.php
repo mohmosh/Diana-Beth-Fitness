@@ -62,7 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function plan()
     {
-        return $this->belongsToMany(Plan::class);
+        return $this->belongsTo(Plan::class, 'subscription_plan_id');
     }
 
     public function subscription()
@@ -98,4 +98,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Payment::class);
     }
+
+
 }
+

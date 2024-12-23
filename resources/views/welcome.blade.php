@@ -31,7 +31,7 @@
     {{-- @yield('headerTwo') --}}
 
     {{-- @include('partials.preloader') --}}
-    @include('partials.headerHome')
+    @include('partials.header')
     @include('partials.slider')
     @include('partials.about')
     @include('partials.service')

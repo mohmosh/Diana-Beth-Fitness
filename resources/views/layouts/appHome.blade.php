@@ -61,7 +61,7 @@
 </head>
 
 <body>
-    @include('partials.headerHome') <!-- Include header -->
+    @include('partials.header') <!-- Include header -->
 
     <main>
         @yield('content')

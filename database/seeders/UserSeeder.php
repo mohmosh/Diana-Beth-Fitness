@@ -2,51 +2,77 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
     public function run()
     {
-        // Create a user without a subscription
+        // Seed a user with "Personal Training" plan
         User::create([
-            'name' => 'No Subscription User',
-            'email' => 'nosub@gmail.com',
+            'name' => 'Personal Training User',
+            'email' => 'personal@example.com',
+            'password' => Hash::make('password'),
+            'plan_id' => 1, // Personal Training
+            'phone_number' => '1234567890', // Add phone number
+            'role_id' => 2,
+
+        ]);
+
+        // Seed a user with "Build His Temple" plan (Level 1)
+        User::create([
+            'name' => 'Build His Temple User',
+            'email' => 'temple@example.com',
+            'password' => Hash::make('password'),
+            'plan_id' => 2, // Build His Temple
+            'current_level' => 1, // Starting Level
+            'phone_number' => '1234567890', // Add phone number
+            'role_id' => 2,
+
+        ]);
+
+        // Seed a user without a plan
+        User::create([
+            'name' => 'No Plan User',
+            'email' => 'noplan@example.com',
+            'password' => Hash::make('password'),
+            'plan_id' => null, // No plan
+            'phone_number' => '1234567890', // Add phone number
+            'role_id' => 2,
+
+        ]);
+
+          // Create users with different levels for Build His Temple plan
+          User::create([
+            'name' => 'User Level 1',
+            'email' => 'level1@example.com',
+            'password' => bcrypt('password'),
+            'plan_id' => 2, // Build His Temple
+            'current_level' => 1, // Level 1
             'phone_number' => '1234567890',
-            'password' => bcrypt('password'),
-            'role_id' => 2,
-            'plan_id' => null,
+            'role_id' => 2, // Assuming 2 is user role
         ]);
 
-        // Create a user with Bronze subscription
         User::create([
-            'name' => 'Bronze User',
-            'email' => 'bronze@gmail.com',
-            'phone_number' => '1234567891',
+            'name' => 'User Level 2',
+            'email' => 'level2@example.com',
             'password' => bcrypt('password'),
+            'plan_id' => 2, // Build His Temple
+            'current_level' => 2, // Level 2
+            'phone_number' => '0987654321',
             'role_id' => 2,
-            'plan_id' => 1,
         ]);
 
-        // Create a user with Silver subscription
         User::create([
-            'name' => 'Silver User',
-            'email' => 'silver@gmail.com',
-            'phone_number' => '1234567892',
+            'name' => 'User Level 3',
+            'email' => 'level3@example.com',
             'password' => bcrypt('password'),
+            'plan_id' => 2, // Build His Temple
+            'current_level' => 3, // Level 3
+            'phone_number' => '1122334455',
             'role_id' => 2,
-            'plan_id' => 2,
-        ]);
-
-        // Create a user with Gold subscription
-        User::create([
-            'name' => 'Gold User',
-            'email' => 'gold@gmail.com',
-            'phone_number' => '1234567893',
-            'password' => bcrypt('password'),
-            'role_id' => 2,
-            'plan_id' => 3,
         ]);
     }
 }

@@ -12,8 +12,13 @@ class Devotional extends Model
     protected $fillable = [
         'title',
         'content',
-        'uploaded_by'
+        'uploaded_by',
+        'plan_id',
+        'level_required'
     ];
 
-   
+    public function plan()
+    {
+    return $this->belongsTo(Plan::class);
+    }
 }

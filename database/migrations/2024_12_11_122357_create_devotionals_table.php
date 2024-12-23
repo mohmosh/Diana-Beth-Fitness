@@ -15,9 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
+
+            $table->foreignId('plan_id')->constrained()->onDelete('cascade');
+
             $table->unsignedBigInteger('uploaded_by');
             $table->timestamps();
         });
+
+
+
+
     }
 
     /**

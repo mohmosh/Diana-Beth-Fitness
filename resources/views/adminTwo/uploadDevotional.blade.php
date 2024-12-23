@@ -1,4 +1,3 @@
-<!-- resources/views/admin/upload-devotional.blade.php -->
 @extends('adminTwo.dashboard')
 
 @section('content')
@@ -11,53 +10,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
     <style>
-        body {
-            background-color: white;
-            color: #333;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            color: #6c757d;
-        }
-
-        .alert-danger {
-            background-color: #f2dede;
-            border-color: #ebccd1;
-            color: #a94442;
-        }
-
-        .form-control {
-            border-color: #6c757d;
-        }
-
-        .form-control:focus {
-            border-color: #6c757d;
-            box-shadow: 0 0 8px rgba(108, 117, 125, 0.25);
-        }
-
-        .btn-primary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
-
-        .btn-primary:hover {
-            background-color: #5a6268;
-            border-color: #545b62;
-        }
-
-        .btn-primary:focus {
-            box-shadow: 0 0 8px rgba(108, 117, 125, 0.5);
-        }
+        /* Styling as before */
     </style>
 </head>
-{{-- <body> --}}
-    <main id="main" class="main">
+<main id="main" class="main">
     <div class="container">
         <h1 class="text-center mb-4">Upload a Devotional</h1>
 
@@ -75,18 +31,43 @@
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
-                <input type="text" id="title" name="title" class="form-control" required>
+                <input type="text" id="title" name="title" class="form-control">
             </div>
             <div class="mb-3">
                 <label for="content" class="form-label">Content:</label>
-                <textarea id="content" name="content" class="form-control" rows="5" required></textarea>
+                <textarea id="content" name="content" class="form-control" rows="5"></textarea>
             </div>
+
+            <div class="mb-3">
+                <label for="subscription_type" class="form-label">Subscription Type</label>
+                <select name="subscription_type" id="subscription_type" class="form-select" required>
+                    <option value="personal_training">Personal Training</option>
+                    <option value="build_his_temple">Build His Temple</option>
+                </select>
+            </div>
+
+            <div id="level-container" class="mb-3" style="display: none;">
+                <label for="level" class="form-label">Level (For Build His Temple)</label>
+                <input type="number" name="level" id="level" class="form-control" min="1">
+            </div>
+
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>
+
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    </main>
-{{-- </body> --}}
-</html>
+    <script>
+        document.getElementById('subscription_type').addEventListener('change', function () {
+            var levelContainer = document.getElementById('level-container');
+            if (this.value === 'build_his_temple') {
+                levelContainer.style.display = 'block';
+            } else {
+                levelContainer.style.display = 'none';
+            }
+        });
+    </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</main>
+</html>
+@endsection
