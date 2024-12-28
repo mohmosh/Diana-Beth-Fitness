@@ -23,6 +23,9 @@ use App\Http\Controllers\{
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+Auth::routes(['verify' => true]);
+
+
 
 // Dummy Route for Testing
 Route::get('test', function () {
@@ -54,6 +57,24 @@ Route::get('register', function () {
 
 Route::post('register', [RegisterController::class, 'register'])->name('register');
 
+Route::get('users', [RegisterController::class, 'viewAllUsers'])->name('users');
+
+
+
+
+
+
+Route::get('/email/confirmation', function () {
+    return view('auth.emailConfirmation');
+})->name('email.confirmation');
+
+
+
+// Route for the user's dashboard - protected by email verification
+Route::middleware('verified')->get('/dashboard', function () {
+    return view('dashboard.user');
+})->name('dashboard');
+
 
 
 // Login and Logout Routes
@@ -74,16 +95,16 @@ Route::post('/logout', function () {
 
 
 
-// Email Confirmation and Verification Routes
-Route::get('/email-confirmation', function () {
-    return view('auth.emailConfirmation');
-})->middleware('auth')->name('email.confirmation');
+// // Email Confirmation and Verification Routes
+// Route::get('/email/confirmation', function () {
+//     return view('auth.email_confirmation');
+// })->name('email.confirmation');
 
-Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
+// Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
 
-Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
-    ->middleware(['signed', 'throttle:6,1'])
-    ->name('verification.verify');
+// Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
+//     ->middleware(['signed', 'throttle:6,1'])
+//     ->name('verification.verify');
 
 
 
@@ -119,6 +140,9 @@ Route::get('/workouts', [WorkoutController::class, 'index'])->middleware('check.
 // Plans
 Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
 
+Route::get('/subscriptions/choose', [SubscriptionController::class, 'index'])->name('subscriptions.choose');
+
+
 Route::get('/plans/{id}', [PlanController::class, 'show'])->name('plans.show');
 
 
@@ -129,17 +153,33 @@ Route::post('/plans/store', [PlanController::class, 'store'])->name('plans.store
 
 
 
+
 // Subscription plans
 
-Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
-Route::post('/subscriptions/store', [SubscriptionController::class, 'store'])->name('subscriptions.store');
+Route::get('/all/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
+
+Route::post('/subscriptions', [SubscriptionController::class, 'store'])->name('subscriptions.store');
+
+
+
 // Subscribing
-Route::get('/subscriptions/{plan}/form', [SubscriptionController::class, 'showForm'])->name('subscriptions.form');
+Route::get('/subscriptions/form/{plan}', [SubscriptionController::class, 'showForm'])->name('subscriptions.form');
+
+
+
+
 
 
 // Videos according to the subscription type
 Route::get('/videos/personal-training', [VideoController::class, 'personalTraining'])->name('videos.personalTraining');
+
+
 Route::get('/videos/build-his-temple', [VideoController::class, 'buildHisTemple'])->name('videos.buildHisTemple');
+
+
+Route::get('/upgrade-level', [SubscriptionController::class, 'upgradeLevel'])->name('upgrade.level');
+
+
 Route::get('/videos', [VideoController::class, 'usersVideos'])->name('videos.index');
 
 
@@ -197,6 +237,12 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
     // Delete video
     Route::delete('admin/videos/{id}', [VideoController::class, 'destroy'])->name('admin.deleteVideo');
+
+    // Level JUmping
+    Route::get('/admin/level-jump-requests', [AdminController::class, 'viewLevelJumpRequests'])->name('admin.levelJumpRequests');
+    Route::post('/admin/level-jump-approve/{id}', [AdminController::class, 'approveLevelJump'])->name('admin.approveLevelJump');
+    Route::post('/admin/level-jump-reject/{id}', [AdminController::class, 'rejectLevelJump'])->name('admin.rejectLevelJump');
+
 
 
     // Devotional Management

@@ -54,12 +54,40 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Content rejected successfully.');
     }
 
-    public function approveLevelJump(User $user)
+    public function viewLevelJumpRequests()
     {
-        $user->level_approval = false; // Reset approval
-        $user->current_level = $user->current_level + 1; // Or set to specific level
+        // Get all users who requested a level jump
+        $users = User::where('level_jump_requested', true)->get();
+        return view('admin.levelJumpRequests', compact('users'));
+    }
+
+    public function approveLevelJump(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        // Approve the level jump
+        $user->level_jump_approved = true;
+        $user->current_level = $user->next_level; // Move user to the requested level
+        $user->level_jump_requested = false;
+        $user->next_level = null;
         $user->save();
 
-        return redirect()->back()->with('message', 'Level jump approved.');
+        return redirect()->route('admin.levelJumpRequests')->with('success', 'Level jump approved successfully!');
     }
+
+    public function rejectLevelJump(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        // Reject the level jump
+        $user->level_jump_approved = false;
+        $user->level_jump_requested = false;
+        $user->next_level = null;
+        $user->save();
+
+        return redirect()->route('admin.levelJumpRequests')->with('success', 'Level jump rejected successfully.');
+    }
+
+    
+
 }

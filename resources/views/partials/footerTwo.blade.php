@@ -12,7 +12,7 @@
 
 <footer>
     <!-- Footer Start -->
-    <div class="footer-area section-bg" data-background="assets/img/gallery/section_bg03.png">
+    <div class="footer-area section-bg" data-background="assets/img/gallery/3.jpg">
         <div class="container">
             <div class="footer-top footer-padding">
                 <!-- Footer Menu -->

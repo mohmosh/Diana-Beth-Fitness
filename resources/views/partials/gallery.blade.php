@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="box snake mb-30">
-                        <div class="gallery-img big-img" style="background-image: url(assets/img/gallery/gallery1.png);"></div>
+                        <div class="gallery-img big-img" style="background-image: url(assets/img/gallery/13.jpg);"></div>
                         <div class="overlay">
                             <div class="overlay-content">
                                 <a href="gallery.html"><i class="ti-arrow-top-right"></i></a>
@@ -30,7 +30,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="box snake mb-30">
-                                <div class="gallery-img small-img" style="background-image: url(assets/img/gallery/gallery2.png);"></div>
+                                <div class="gallery-img small-img" style="background-image: url(assets/img/gallery/2.jpg);"></div>
                                 <div class="overlay">
                                     <div class="overlay-content">
                                         <a href="gallery.html"><i class="ti-arrow-top-right"></i></a>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="box snake mb-30">
-                                <div class="gallery-img small-img" style="background-image: url(assets/img/gallery/gallery3.png);"></div>
+                                <div class="gallery-img small-img" style="background-image: url(assets/img/gallery/3.jpg);"></div>
                                 <div class="overlay">
                                     <div class="overlay-content">
                                         <a href="gallery.html"><i class="ti-arrow-top-right"></i></a>
@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="box snake mb-30">
-                                <div class="gallery-img small-img" style="background-image: url(assets/img/gallery/gallery4.png);"></div>
+                                <div class="gallery-img small-img" style="background-image: url(assets/img/gallery/4.jpg);"></div>
                                 <div class="overlay">
                                     <div class="overlay-content">
                                         <a href="gallery.html"><i class="ti-arrow-top-right"></i></a>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="box snake mb-30">
-                                <div class="gallery-img small-img" style="background-image: url(assets/img/gallery/gallery5.png);"></div>
+                                <div class="gallery-img small-img" style="background-image: url(assets/img/gallery/5.jpg);"></div>
                                 <div class="overlay">
                                     <div class="overlay-content">
                                         <a href="gallery.html"><i class="ti-arrow-top-right"></i></a>

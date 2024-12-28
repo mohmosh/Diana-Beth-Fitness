@@ -11,7 +11,7 @@
 </head>
 <body>
   <!--? Services Area Start -->
-  <section class="services-area pt-100 pb-150 section-bg" data-background="assets/img/gallery/section_bg01.png">
+  <section class="services-area pt-100 pb-150 section-bg" data-background="assets/img/gallery/2.jpg">
     <!--? Want To work -->
     <section class="wantToWork-area w-padding">
         <div class="container">
@@ -26,6 +26,7 @@
                     <a href="services.html" class="btn wantToWork-btn f-right">More Services</a>
                 </div>
             </div>
+
         </div>
     </section>
     <!-- Want To work End -->

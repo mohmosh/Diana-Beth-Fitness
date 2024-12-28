@@ -13,7 +13,9 @@
 
 <footer>
     <!--? Footer Start-->
-    <div class="footer-area section-bg" data-background="assets/img/gallery/section_bg03.png">
+
+
+    <div class="footer-area section-bg" data-background="assets/img/gallery/14.jpg">
         <div class="container">
             <div class="footer-top footer-padding">
                 <!-- Footer Menu -->
@@ -61,9 +63,9 @@
                     <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6">
                         <div class="single-footer-caption mb-50">
                             <!-- logo -->
-                            <div class="footer-logo">
+                            {{-- <div class="footer-logo">
                                 <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt=""></a>
-                            </div>
+                            </div> --}}
                             <div class="footer-tittle">
                                 <div class="footer-pera">
                                     <p class="info1">GThe trade war currently ensuing between te US anfd several natxions around thdhe globe, most fiercely with.</p>

@@ -10,6 +10,7 @@
     <!-- Include any CSS files here -->
 </head>
 <body>
+
     !--? About-2 Area Start -->
     <section class="about-area2 testimonial-area section-padding30 fix">
         <div class="container">
@@ -17,7 +18,7 @@
                 <div class="col-lg-5 col-md-11 col-sm-11">
                     <!-- about-img -->
                     <div class="about-img2">
-                        <img src="assets/img/gallery/about2.png" alt="">
+                        <img src="assets/img/gallery/12.jpg" alt="">
                         <!-- Shape -->
                         <div class="shape-qutaion d-none d-sm-block">
                             <img src="assets/img//gallery/qutaion.png" alt="">

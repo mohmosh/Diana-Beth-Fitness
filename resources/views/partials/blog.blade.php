@@ -27,7 +27,7 @@
                 <div class="home-blog-single mb-30">
                     <div class="blog-img-cap">
                         <div class="blog-img">
-                            <img src="assets/img/gallery/blog1.png" alt="">
+                            <img src="assets/img/gallery/8.jpg" alt="">
                             <!-- Blog date -->
                             <div class="blog-date text-center">
                                 <span>24</span>
@@ -45,7 +45,7 @@
                 <div class="home-blog-single mb-30">
                     <div class="blog-img-cap">
                         <div class="blog-img">
-                            <img src="assets/img/gallery/blog2.png" alt="">
+                            <img src="assets/img/gallery/9.jpg" alt="">
                             <!-- Blog date -->
                             <div class="blog-date text-center">
                                 <span>24</span>

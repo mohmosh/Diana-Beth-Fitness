@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Devotional;
 use App\Models\Plan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DevotionalController extends Controller
 {
@@ -18,7 +19,10 @@ class DevotionalController extends Controller
 
     public function usersDevotionals()
     {
-        $user = auth()->user();
+        $user = Auth::user();
+
+        $devotionals = Devotional::all();
+
         $devotionals = Devotional::where('plan_id', $user->subscription_plan_id)
             ->where('level_required', '<=', $user->level)
             ->get();
@@ -49,10 +53,11 @@ class DevotionalController extends Controller
             'content' => $request->content,
             'subscription_type' => $request->subscription_type,
             'level' => $request->level,
-            'uploaded_by' => auth()->id(),
+            'uploaded_by' => Auth::user()->id,
         ]);
-        // Fetch all videos after upload and display them
-        $videos = Devotional::all();
+
+        $devotionals = Devotional::all();
+
         return view('adminTwo.viewDevotionals', compact('devotionals'));
     }
 

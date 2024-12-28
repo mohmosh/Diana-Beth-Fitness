@@ -11,7 +11,7 @@
 </head>
 <body>
   <!--? Want To work -->
-  <section class="wantToWork-area w-padding section-bg" data-background="assets/img/gallery/section_bg02.png">
+  <section class="wantToWork-area w-padding section-bg" data-background="assets/img/gallery/1.jpg">
     <div class="container">
         <div class="row align-items-center justify-content-between">
             <div class="col-xl-6 col-lg-7 col-md-8 col-sm-10">

@@ -61,11 +61,10 @@
         @yield('content') <!-- Dynamic content -->
     </div>
 
-    <!-- Footer -->
-    <footer>
+    {{-- <Footer>
+    {{-- <footer>
         {{-- @include('partials.footerTwo') --}}
-        <p>&copy; {{ date('Y') }} Diana Beth Fitness. All rights reserved.</p>
-    </footer>
+    {{-- </footer> --}} 
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>

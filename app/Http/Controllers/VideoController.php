@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Plan;
 use Illuminate\Http\Request;
 use App\Models\Video;
 use Illuminate\Support\Facades\Auth;
@@ -18,28 +19,38 @@ class VideoController extends Controller
     }
 
     // Display videos for users based on subscription type and level
+
+
+
+
     public function usersVideos()
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
-        // Check the user's subscription plan
+        if (!$user) {
+            // Fetch available plans if the user is not authenticated
+            $plans = Plan::all(); // Or any other logic to show available plans
+            return view('subscriptions.index', compact('plans'));
+        }
+
+        // Check if the user has a valid subscription
         if ($user->plan_id === 1) { // Personal Training
-            // Get videos for Personal Training
             $videos = Video::where('subscription_type', 'personal_training')->get();
             return view('dashboard.personalTraining', compact('videos'));
-
         } elseif ($user->plan_id === 2) { // Build His Temple
-            // Get videos based on the user's current level in the "Build His Temple" plan
+            // Get videos based on user's current level
             $videos = Video::where('subscription_type', 'build_his_temple')
-                            ->where('level', $user->current_level)
-                            ->get();
-            return view('dashboard.buildHisTemple', compact('videos', 'user'));
+                           ->where('level', '<=', $user->current_level) // Ensure level filter is applied
+                           ->get();
 
+            Log::info('Fetched Videos for Build His Temple: ', $videos->toArray());
+
+            return view('dashboard.buildHisTemple', compact('videos', 'user'));
         } else {
-            // If no valid subscription, redirect with a warning
             return redirect()->route('plans.index')->with('warning', 'Please subscribe to a plan to access videos.');
         }
     }
+
 
     // Admin side - Display the upload form
     public function create()
@@ -75,6 +86,7 @@ class VideoController extends Controller
 
         // Fetch all videos after upload and display them
         $videos = Video::all();
+
         return view('adminTwo.viewVideos', compact('videos'));
     }
 
@@ -82,19 +94,28 @@ class VideoController extends Controller
     public function personalTraining()
     {
         $user = Auth::user();
+
         $videos = Video::where('subscription_type', 'personal_training')->get();
-        return view('dashboard.personalTraining', compact('videos'));
+
+        return view('dashboard.personalTraining', compact('videos', 'user'));
     }
 
     // View for Build His Temple Videos
     public function buildHisTemple()
     {
         $user = Auth::user();
+
+        // Ensure user has valid subscription
+        if ($user->plan_id !== 2) {
+            return redirect()->route('subscriptions.index')->with('error', 'You need to subscribe to "Build His Temple" to view these videos.');
+        }
+
+        // Fetch videos for "Build His Temple" up to the user's current level
         $videos = Video::where('subscription_type', 'build_his_temple')
-            ->where('level', $user->current_level)
+            ->where('level', '<=', $user->current_level)
             ->get();
 
-        return view('dashboard.buildHisTemple', compact('videos'));
+        return view('dashboard.buildHisTemple', compact('videos', 'user'));
     }
 
 
@@ -115,7 +136,7 @@ public function update(Request $request, $id)
         'url' => 'nullable|url|max:255',
         'subscription_type' => 'required|in:personal_training,build_his_temple',
         'level' => 'nullable|integer|min:1',
-        
+
     ]);
 
     $video = Video::findOrFail($id);
@@ -166,17 +187,18 @@ public function destroy($id)
 
     // Request for level jump (only for "Build His Temple" users)
     public function requestLevelJump(Request $request)
-    {
-        $user = Auth::user();
-        if ($user->subscription_type !== 'build_his_temple') {
-            return redirect()->route('videos.buildHisTemple')->with('error', 'Only users subscribed to "Build His Temple" can request a level jump.');
-        }
+{
+    $user = Auth::user();
 
-        // Admin approval logic (this is just a placeholder for now)
-        $user->level_approval = true;
-        $user->save();
-
-        return redirect()->route('videos.buildHisTemple')->with('success', 'Level jump requested. Awaiting admin approval.');
+    if ($user->plan_id !== 2) {
+        return redirect()->route('videos.buildHisTemple')->with('error', 'Only "Build His Temple" users can request a level jump.');
     }
+
+    $user->level_jump_requested = true;
+    $user->next_level = $user->current_level + 1; // Requesting the next level
+    $user->save();
+
+    return redirect()->route('videos.buildHisTemple')->with('success', 'Level jump requested. Awaiting admin approval.');
+}
 
 }

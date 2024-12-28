@@ -7,7 +7,7 @@
     <title>@yield('title', 'Diana Beth Fitness')</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}">
+    {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}"> --}}
     <!-- Include any CSS files here -->
 </head>
 
@@ -15,6 +15,7 @@
     <main>
         <!--? slider Area Start-->
         <div class="slider-area position-relative">
+
             <div class="slider-active">
                 <!-- Single Slider -->
                 <div class="single-slider slider-height d-flex align-items-center">
@@ -50,6 +51,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- Video icon -->
             <div class="video-icon">
                 <a class="popup-video btn-icon" href="https://www.youtube.com/watch?v=w3MyigEwok8"><i

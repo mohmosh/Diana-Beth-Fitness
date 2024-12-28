@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,6 +58,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container my-5">
         <div class="row justify-content-center">
@@ -104,9 +106,10 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="phone_number" class="form-label">Phone Number</label>
-                                    <input type="text" class="form-control @error('phone_number') is-invalid @enderror"
-                                        name="phone_number" id="phone_number"
-                                        placeholder="Your Phone Number" value="{{ old('phone_number') }}" required>
+                                    <input type="text"
+                                        class="form-control @error('phone_number') is-invalid @enderror"
+                                        name="phone_number" id="phone_number" placeholder="Your Phone Number"
+                                        value="{{ old('phone_number') }}" required>
                                     @error('phone_number')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -132,9 +135,10 @@
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <label for="fitness_goal" class="form-label">Fitness Goal</label>
-                                    <input type="text" class="form-control @error('fitness_goal') is-invalid @enderror"
-                                        name="fitness_goal" id="fitness_goal"
-                                        placeholder="Your Fitness Goals" value="{{ old('fitness_goal') }}">
+                                    <input type="text"
+                                        class="form-control @error('fitness_goal') is-invalid @enderror"
+                                        name="fitness_goal" id="fitness_goal" placeholder="Your Fitness Goals"
+                                        value="{{ old('fitness_goal') }}">
                                     @error('fitness_goal')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -143,7 +147,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="preferences" class="form-label">Preferences</label>
-                                    <input type="text" class="form-control @error('preferences') is-invalid @enderror"
+                                    <input type="text"
+                                        class="form-control @error('preferences') is-invalid @enderror"
                                         name="preferences" id="preferences" placeholder="Your Preferences"
                                         value="{{ old('preferences') }}">
                                     @error('preferences')
@@ -154,21 +159,9 @@
                                 </div>
                             </div>
 
-                            <!-- Role ID -->
-                            <div class="mb-4">
-                                <label for="role_id" class="form-label">Role</label>
-                                <select name="role_id" id="role_id"
-                                    class="form-control @error('role_id') is-invalid @enderror" required>
-                                    <option value="" disabled selected>Select Role</option>
-                                    <option value="1" {{ old('role_id') == 1 ? 'selected' : '' }}>Admin</option>
-                                    <option value="2" {{ old('role_id') == 2 ? 'selected' : '' }}>User</option>
-                                </select>
-                                @error('role_id')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+                            
+                            <!-- Hidden Role ID (always set to 2 for User) -->
+                            <input type="hidden" name="role_id" value="2">
 
                             <!-- Password and Confirmation -->
                             <div class="row mb-4">
@@ -184,9 +177,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="password_confirmation" class="form-label">Confirm Password</label>
-                                    <input type="password" class="form-control"
-                                        name="password_confirmation" id="password_confirmation"
-                                        placeholder="Confirm Password" required>
+                                    <input type="password" class="form-control" name="password_confirmation"
+                                        id="password_confirmation" placeholder="Confirm Password" required>
                                 </div>
                             </div>
 
@@ -207,4 +199,5 @@
     <!-- Include Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

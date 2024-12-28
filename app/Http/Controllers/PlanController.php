@@ -10,10 +10,18 @@ class PlanController extends Controller
 {
     public function index()
     {
-        $plans = Plan::all(); // Fetch all plans
-        $user = Auth::user(); // Get the authenticated user
+        $plans = Plan::all();
+        $user = Auth::user();
+
+
+
+        logger()->info('User Data: ', ['user' => $user]);
+        logger()->info('Plans Data: ', ['plans' => $plans]);
+
         return view('plans.index', compact('plans', 'user'));
     }
+
+
     public function show($id)
     {
         // Fetch the plan by  ID
@@ -37,7 +45,7 @@ class PlanController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|integer',
-          
+
         ]);
 
         Plan::create($request->all());

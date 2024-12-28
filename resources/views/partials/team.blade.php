@@ -17,7 +17,7 @@
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="single-team mb-30">
                     <div class="team-img">
-                        <img src="assets/img/gallery/team1.png" alt="">
+                        <img src="assets/img/gallery/11.jpg" alt="">
                         <div class="team-caption">
                             <span>Creative derector</span>
                             <h3><a href="#">Jhon Sunsaev</a></h3>
@@ -37,7 +37,7 @@
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="single-team mb-30">
                     <div class="team-img">
-                        <img src="assets/img/gallery/team2.png" alt="">
+                        <img src="assets/img/gallery/9.jpg" alt="">
                         <div class="team-caption">
                             <span>Creative derector</span>
                             <h3><a href="#">Jhon Sunsaev</a></h3>
@@ -57,7 +57,7 @@
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="single-team mb-30">
                     <div class="team-img">
-                        <img src="assets/img/gallery/team3.png" alt="">
+                        <img src="assets/img/gallery/10.jpg" alt="">
                         <div class="team-caption">
                             <span>Creative derector</span>
                             <h3><a href="#">Jhon Sunsaev</a></h3>
