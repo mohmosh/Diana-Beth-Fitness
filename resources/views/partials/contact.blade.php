@@ -101,7 +101,7 @@
                 <div class="form-wrapper">
                     <!-- Section Title -->
                     <div class="section-title text-center mb-4">
-                        <span>Contact Form</span>
+                        <span>Contact US</span>
                         <h2>We'd Love To Hear From You!</h2>
                     </div>
                     <!-- Form Start -->

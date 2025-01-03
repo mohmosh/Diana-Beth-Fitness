@@ -25,3 +25,11 @@
 <header>
 </header>
 </body>
+
+
+<li><div class="header-right-btn f-right d-none d-lg-block ml-15">
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button type="submit" class="btn header-btn ms-2">Logout</button>
+    </form>
+</div></li>

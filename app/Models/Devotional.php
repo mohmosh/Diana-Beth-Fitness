@@ -13,12 +13,19 @@ class Devotional extends Model
         'title',
         'content',
         'uploaded_by',
-        'plan_id',
+        'subscription_type',
         'level_required'
+
     ];
 
     public function plan()
     {
     return $this->belongsTo(Plan::class);
+    }
+
+    public function subscription()
+    {
+        return $this->belongsTo(Subscription::class);
+
     }
 }

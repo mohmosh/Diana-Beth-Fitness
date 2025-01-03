@@ -10,8 +10,6 @@
             <input type="hidden" name="plan_id" value="{{ $plan->id }}">
             <button type="submit" class="btn btn-success">Subscribe</button>
         </form>
-
-
     @elseif(!auth()->check())
         <h2>Register and Subscribe to {{ $plan->name }}</h2>
         <form action="{{ route('register') }}" method="POST">
@@ -31,9 +29,11 @@
 
             <div class="form-group">
                 <label for="phone">Phone Number</label>
-                <input type="text" id="phone" name="phone" class="form-control" value="{{ old('phone') }}" required>
+                <input type="text" id="phone" name="phone_number" class="form-control" value="{{ old('phone_number') }}" required>
                 @error('phone') <div class="text-danger">{{ $message }}</div> @enderror
             </div>
+
+            <input type="hidden" name="role_id" value="2">
 
             <div class="form-group">
                 <label for="password">Password</label>
@@ -47,8 +47,59 @@
                 @error('password_confirmation') <div class="text-danger">{{ $message }}</div> @enderror
             </div>
 
+            <input type="hidden" name="plan_id" value="{{ $plan->id }}">
+
             <button type="submit" class="btn btn-success">Register and Subscribe</button>
         </form>
+
+        @else
+        <!-- If user is already subscribed, show the appropriate workouts based on subscription type -->
+        <p>You are already subscribed to the {{ auth()->user()->subscription->plan->name }} plan.</p>
+
+        @if(auth()->user()->subscription->plan->subscription_type == 'personal_training')
+            <h3>Personal Training Workouts</h3>
+            <!-- Fetch and display Personal Training videos -->
+            @php
+                $videos = \App\Models\Video::where('subscription_type', 'personal_training')->get();
+            @endphp
+
+            @foreach($videos as $video)
+                <div class="video">
+                    <h4>{{ $video->title }}</h4>
+                    <p>{{ $video->description }}</p>
+                    <!-- Add more video details if needed -->
+                    <video width="320" height="240" controls>
+                        <source src="{{ asset('videos/' . $video->file_name) }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            @endforeach
+
+        @elseif(auth()->user()->subscription->plan->subscription_type == 'build_his_temple')
+            <h3>Build His Temple Workouts</h3>
+            <!-- Fetch and display Build His Temple videos -->
+            @php
+                $videos = \App\Models\Video::where('subscription_type', 'build_his_temple')->get();
+            @endphp
+
+            @foreach($videos as $video)
+                <div class="video">
+                    <h4>{{ $video->title }}</h4>
+                    <p>{{ $video->description }}</p>
+                    <!-- Add more video details if needed -->
+                    <video width="320" height="240" controls>
+                        <source src="{{ asset('videos/' . $video->file_name) }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            @endforeach
+
+        @else
+            <p>You do not have access to workouts for this plan.</p>
+        @endif
+
+
     @endif
+
 </div>
 @endsection

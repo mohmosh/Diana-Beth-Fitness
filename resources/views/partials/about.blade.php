@@ -24,14 +24,14 @@
                     <div class="workouts-caption">
                         <!-- Section Title -->
                         <div class="section-title section-title3 mb-35">
-                            <span>ABOUT OUR WORKOUTS</span>
-                            <h2>Safe Bodybuilding Solutions That Save Our Valuable Time!</h2>
+                            <span>CHRISTIAN FITNESS COACH</span>
+                            <h2>Get Fit At Home! ONLINE workout programs + devotionals</h2>
                         </div>
-                        <p class="pera-top">Brook presents your services with flexible, convenient and diverse layouts.
-                            You can select your favorite layouts & elements for various tasks with unlimited customization
-                            possibilities. Pixel-perfect replication of the designs is intended.</p>
-                        <p class="mb-65 pera-bottom">Brook presents your services with flexible, convenient, and efficient
-                            multipurpose layouts. You can select your favorite layouts.</p>
+                        <p class="pera-top">We don't live in consciousness of how valuable our bodies are until they don't function as usual.
+                            God created your body, Jesus died for it and The Holy Spirit lives in it
+                        </p>
+                        <p class="mb-65 pera-bottom">Your body is worth the imperishable blood of Christ. It is the most valuable asset you have the privileged of stewarding
+                        </p>
                         <a class="btn header-btn ms-2" href="{{ url('/register') }}">Become A Member</a>
                     </div>
                 </div>

@@ -16,11 +16,11 @@
         <div class="row align-items-center justify-content-between">
             <div class="col-xl-6 col-lg-7 col-md-8 col-sm-10">
                 <div class="wantToWork-caption">
-                    <h2>April membership offer available Now</h2>
+                    <h2>BUILD HIS TEMPLE 7th EDITION</h2>
                 </div>
             </div>
             <div class="col-xl-2 col-lg-2 col-md-3">
-                <a href="services.html" class="btn wantToWork-btn f-right">More Services</a>
+                <a href="/subscriptions/choose" class="btn wantToWork-btn f-right">JOIN NOW</a>
             </div>
         </div>
     </div>

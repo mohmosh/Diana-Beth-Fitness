@@ -14,24 +14,21 @@ use Illuminate\Support\Facades\Hash;
 class SubscriptionController extends Controller
 {
     public function index()
-
     {
         $personalTrainingPlans = Plan::where('subscription_type', 'personal_training')->get();
 
         $buildHisTemplePlans = Plan::where('subscription_type', 'build_his_temple')->get();
 
-        // dd($personalTrainingPlans, $buildHisTemplePlans);
+        // merge both plans into one array
+        $plans = $personalTrainingPlans->merge($buildHisTemplePlans);
 
-        // Pass the data to the view
-
-        return view('subscriptions.index', compact('personalTrainingPlans', 'buildHisTemplePlans'));
+        // Pass the merged plans to the view
+        return view('subscriptions.index', compact('plans'));
     }
 
 
     public function store(Request $request)
     {
-        dd($request->all()); 
-
         // Validate the request
         $request->validate([
             'plan_id' => 'required|exists:plans,id',
@@ -40,23 +37,21 @@ class SubscriptionController extends Controller
         // Check if the user is already logged in
         $user = Auth::user();
 
-                // dd($user);
-
-
         // If the user is not logged in, handle new user registration
         if (!$user) {
+            // If the user is not logged in, create a new user
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
-                'phone' => 'required|string|max:15',
+                'phone_number' => 'required|string|max:15',
                 'password' => 'required|string|min:6|confirmed',
             ]);
 
-            // Create a new user
+            // Create the user
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'phone_number' => $request->phone,
+                'phone_number' => $request->phone_number,
                 'password' => Hash::make($request->password),
             ]);
 
@@ -66,8 +61,6 @@ class SubscriptionController extends Controller
 
         // Retrieve the plan
         $plan = Plan::find($request->plan_id);
-
-        // dd($plan);
 
         if (!$plan) {
             return redirect()->back()->with('error', 'The selected plan does not exist.');
@@ -83,23 +76,14 @@ class SubscriptionController extends Controller
             'status' => 'active',
         ]);
 
-        // Redirect based on plan type
-        // Redirect to the appropriate dashboard
+        // Redirect based on plan type - appropriate dashboard
         if ($plan->subscription_type === 'personal_training') {
-
-            dd('Redirecting to Personal Training Dashboard');
-
-            return redirect()->route('videos.personalTraining')
-
-                ->with('success', 'You have successfully subscribed to the Personal Training plan.');
+            // Redirect to Personal Training Dashboard
+            return redirect()->route('videos.personalTraining')->with('success', 'You have successfully subscribed to the Personal Training plan.');
         } elseif ($plan->subscription_type === 'build_his_temple') {
-
-            dd('Redirecting to Build His Temple Dashboard');
-
-            return redirect()->route('videos.buildHisTemple')
-                ->with('success', 'You have successfully subscribed to the Build His Temple plan.');
+            // Redirect to Build His Temple Dashboard
+            return redirect()->route('videos.buildHisTemple')->with('success', 'You have successfully subscribed to the Build His Temple plan.');
         }
-
 
         // Fallback
         return redirect()->back()->with('error', 'There was an error processing your subscription. Please try again.');
@@ -107,12 +91,13 @@ class SubscriptionController extends Controller
 
 
 
+
     // Handle video display based on the user's current level
+
     public function showBuildHisTempleVideos()
     {
         $user = Auth::user();
 
-        // Retrieve videos for the user's current level or below
         $videos = Video::where('subscription_type', 'build_his_temple')
             ->where('level', '<=', $user->level)
             ->get();
@@ -121,6 +106,18 @@ class SubscriptionController extends Controller
 
         return view('videos.buildHisTemple', compact('videos', 'user', 'progress'));
     }
+
+
+    public function showPersonalTrainingWorkouts()
+    {
+        $user = Auth::user();
+
+            $videos = Video::where('subscription_type', 'personal_training')->get();
+
+            return view('videos.personalTraining', compact('videos'));
+
+    }
+
 
 
 
@@ -177,6 +174,10 @@ class SubscriptionController extends Controller
 
     public function showForm($planId)
     {
+        // $user = Auth::user();
+
+        // dd($user->subscription);
+
         $plan = Plan::findOrFail($planId);
 
         // dd($plan);

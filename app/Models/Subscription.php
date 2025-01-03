@@ -12,7 +12,7 @@ class Subscription extends Model
     protected $fillable = [
         'user_id',
         'plan_id',
-        'subscription_type', 
+        'subscription_type',
 
         'start_date',
         'end_date',
@@ -40,6 +40,11 @@ class Subscription extends Model
     public function payment()
     {
         return $this->hasOne(Payment::class);
+    }
+
+    public function  devotional()
+    {
+        return $this->hasMany(Devotional::class);
     }
 
 

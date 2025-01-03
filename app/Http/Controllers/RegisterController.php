@@ -21,11 +21,18 @@ class RegisterController extends Controller
     // User registration and creating users
    public function register(RegisterUserRequest $request)
 {
+
+
+    // dd('niko hapa');
+
     try {
         Log::info('Received registration request', $request->all());
 
         // Validate the request, including password confirmation
         $validatedData = $request->validated();
+
+        // dd($validatedData);
+
 
         Log::info('Validated data', $validatedData);
 
@@ -60,7 +67,11 @@ class RegisterController extends Controller
 
         } catch (\Exception $e) {
 
+            dd($e->getMessage());
+
+
             Log::error('Error sending verification email: ' . $e->getMessage());
+
             return Redirect::back()->with('error', 'Failed to send verification email.');
         }
 
@@ -68,10 +79,15 @@ class RegisterController extends Controller
         // Redirect to a confirmation page with a success message
         return redirect()->route('email.confirmation')
 
-            ->with('success', 'A confirmation email has been sent to your email address. Please verify your email to access your dashboard.');
+            ->with('success', 'Subscription Successful!! A confirmation email has been sent to your email address. Please verify your email to access your dashboard.');
+
     } catch (\Exception $e) {
 
+
+
         Log::error('Registration error', ['message' => $e->getMessage()]);
+
+dd($e->getMessage());
 
         return Redirect::back()->with('error', 'Something went wrong: ' . $e->getMessage());
     }

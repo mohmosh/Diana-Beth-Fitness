@@ -22,34 +22,46 @@ class VideoController extends Controller
 
 
 
-
     public function usersVideos()
     {
         $user = Auth::user();
 
         if (!$user) {
-            // Fetch available plans if the user is not authenticated
+            // If user is not logged in, show available plans
             $plans = Plan::all(); // Or any other logic to show available plans
             return view('subscriptions.index', compact('plans'));
         }
 
-        // Check if the user has a valid subscription
-        if ($user->plan_id === 1) { // Personal Training
-            $videos = Video::where('subscription_type', 'personal_training')->get();
-            return view('dashboard.personalTraining', compact('videos'));
-        } elseif ($user->plan_id === 2) { // Build His Temple
-            // Get videos based on user's current level
-            $videos = Video::where('subscription_type', 'build_his_temple')
-                           ->where('level', '<=', $user->current_level) // Ensure level filter is applied
-                           ->get();
+        // Ensure the user has a valid subscription
+        if ($user->subscription) {
+            
+            $plan = $user->subscription->plan; // Fetch the user's current plan
 
-            Log::info('Fetched Videos for Build His Temple: ', $videos->toArray());
+            if ($plan->subscription_type === 'personal_training') {
+                // Fetch Personal Training videos
+                $videos = Video::where('subscription_type', 'personal_training')->get();
 
-            return view('dashboard.buildHisTemple', compact('videos', 'user'));
+                return view('dashboard.personalTraining', compact('videos', 'user'));
+            }
+            elseif ($plan->subscription_type === 'build_his_temple') {
+                // Get Build His Temple videos based on user's current level
+                $videos = Video::where('subscription_type', 'build_his_temple')
+                               ->where('level', '<=', $user->current_level) // Ensure level filter is applied
+                               ->get();
+
+                Log::info('Fetched Videos for Build His Temple: ', $videos->toArray());
+
+                return view('dashboard.buildHisTemple', compact('videos', 'user'));
+            }
+            else {
+                return redirect()->route('plans.index')->with('warning', 'Please subscribe to a valid plan to access videos.');
+            }
         } else {
+            // No active subscription found, prompt to subscribe
             return redirect()->route('plans.index')->with('warning', 'Please subscribe to a plan to access videos.');
         }
     }
+
 
 
     // Admin side - Display the upload form
@@ -91,19 +103,34 @@ class VideoController extends Controller
     }
 
     // View for Personal Training Videos
+
     public function personalTraining()
     {
         $user = Auth::user();
 
+        // Check if the user has a subscription to the personal training plan
+        if (!$user || !$user->plan || $user->plan->subscription_type !== 'personal_training') {
+            return redirect()->route('subscriptions.index')->with('error', 'Please subscribe to the Personal Training plan.');
+        }
+
+        // Fetch the videos associated with personal training
         $videos = Video::where('subscription_type', 'personal_training')->get();
 
-        return view('dashboard.personalTraining', compact('videos', 'user'));
+        // Pass videos to the view
+        return view('dashboard.personalTraining', compact('videos'));
     }
+
+
 
     // View for Build His Temple Videos
     public function buildHisTemple()
     {
         $user = Auth::user();
+
+        // Ensure user is authenticated
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Please log in to access this content.');
+        }
 
         // Ensure user has valid subscription
         if ($user->plan_id !== 2) {
@@ -115,8 +142,17 @@ class VideoController extends Controller
             ->where('level', '<=', $user->current_level)
             ->get();
 
+        // Debugging: Check if videos are retrieved
+        if ($videos->isEmpty()) {
+            Log::info('No videos found for Build His Temple.', ['user_level' => $user->current_level]);
+        } else {
+            Log::info('Fetched videos for Build His Temple.', ['videos' => $videos]);
+        }
+
+        // Pass the data to the view
         return view('dashboard.buildHisTemple', compact('videos', 'user'));
     }
+
 
 
 

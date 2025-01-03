@@ -17,8 +17,8 @@
         <div class="row justify-content-center">
             <div class="col-lg-7 col-md-9 col-sm-10">
                 <div class="section-tittle text-center mb-100">
-                    <span>rECENT NEWS FORM BLOG</span>
-                    <h2>gYM TIPS news fOR YOU THAT selected by us</h2>
+                    <span>DEVOTIONALS</span>
+                    <h2>Get edified as you get fit for purpose</h2>
                 </div>
             </div>
         </div>
@@ -35,8 +35,8 @@
                             </div>
                         </div>
                         <div class="blog-cap">
-                            <span>Creative derector</span>
-                            <h3><a href="blog_details.html">Footprints in Time is perfect House in Kurashiki</a></h3>
+                            <span>The selfless nature of exercising</span>
+                            <h3><a href="blog_details.html">Did you know that your health and fitness lifestyle does not only benefit you but those you care about?</a></h3>
                         </div>
                     </div>
                 </div>
@@ -53,8 +53,8 @@
                             </div>
                         </div>
                         <div class="blog-cap">
-                            <span>Creative derector</span>
-                            <h3><a href="blog_details.html">Footprints in Time is perfect House in Kurashiki</a></h3>
+                            <span>Love for your body = RESULTS</span>
+                            <h3><a href="blog_details.html">Embarking on a fitness journey should never be fuelled by hating how you look</a></h3>
                         </div>
                     </div>
                 </div>

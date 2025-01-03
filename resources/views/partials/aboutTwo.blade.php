@@ -11,7 +11,7 @@
 </head>
 <body>
 
-    !--? About-2 Area Start -->
+    {{-- !--? About-2 Area Start --> --}}
     <section class="about-area2 testimonial-area section-padding30 fix">
         <div class="container">
             <div class="row align-items-center">
@@ -30,25 +30,27 @@
                         <!-- Section Tittle -->
                         <div class="section-tittle mb-55">
                             <span>Client Feedback</span>
-                            <h2>What Our Client thik about our gym</h2>
+                            <h2>What Our Client say About Us</h2>
                         </div>
                         <!-- Testimonial Start -->
                         <div class="h1-testimonial-active">
                             <!-- Single Testimonial -->
                             <div class="single-testimonial">
                                 <div class="testimonial-caption">
-                                    <p>Brook presents your services with flexible, convenient and cdpose layouts. You can select your favorite layouts & elements for cular ts with unlimited ustomization possibilities. Pixel-perfect replica;ition of thei designers ijtls intended csents your se.</p>
+                                    <p>I don't like jumping jacks, but this particular day they helped me expel a flu and helped a painful ankle heal.
+                                        I was going with "healed!" "healed! with every jump until it was enjoyable and pain free" </p>
                                     <div class="rattiong-caption">
-                                        <span>Jhon Smith<span>Gym Trainer</span> </span>
+                                        <span>Buyanzi<span>Client</span> </span>
                                     </div>
                                 </div>
                             </div>
                             <!-- Single Testimonial -->
                             <div class="single-testimonial">
                                 <div class="testimonial-caption">
-                                    <p>Brook presents your services with flexible, convenient and cdpose layouts. You can select your favorite layouts & elements for cular ts with unlimited ustomization possibilities. Pixel-perfect replica;ition of thei designers ijtls intended csents your se.</p>
+                                    <p>I don't like jumping jacks, but this particular day they helped me expel a flu and helped a painful ankle heal.
+                                        I was going with "healed!" "healed! with every jump until it was enjoyable and pain free" </p>
                                     <div class="rattiong-caption">
-                                        <span>Jhon Smith<span>Gym Trainer</span> </span>
+                                        <span>Buyanzi<span>Client</span> </span>
                                     </div>
                                 </div>
                             </div>

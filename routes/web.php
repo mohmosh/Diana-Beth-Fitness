@@ -19,7 +19,7 @@ use App\Http\Controllers\{
     VideoController,
     WorkoutController
 };
-
+use App\Models\Devotional;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -123,15 +123,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Route for users to see videos
 Route::get('/user/videos', [VideoController::class, 'usersVideos'])->name('user.videos.index');
 
+Route::get('/user/devotionals', [DevotionalController::class, 'usersDevotionals'])->name('user.devotionals.index');
+
+
+
 // Contact
 Route::get('/contact', [ContactController::class, 'showForm'])->name('contact.form');
 
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
+
+
 // Gallery
 Route::get('/gallery', function () {
     return view('partials.gallery');
 })->name('gallery');
+
 
 
 Route::get('/workouts', [WorkoutController::class, 'index'])->middleware('check.subscription');
@@ -159,6 +166,8 @@ Route::post('/plans/store', [PlanController::class, 'store'])->name('plans.store
 Route::get('/all/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
 
 Route::post('/subscriptions', [SubscriptionController::class, 'store'])->name('subscriptions.store');
+
+
 
 
 
@@ -261,11 +270,8 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
 
 
-    Route::middleware(['auth'])->group(function () {
-        // User routes
-        Route::get('/user/devotionals', [DevotionalController::class, 'usersDevotionals'])->name('user.devotionals.index');
-    });
-
     Route::post('/admin/logout', [AuthController::class, 'adminLogout'])
         ->name('admin.logout');
+
+
 });

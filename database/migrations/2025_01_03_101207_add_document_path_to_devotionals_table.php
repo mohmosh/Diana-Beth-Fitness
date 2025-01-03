@@ -9,24 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::table('devotionals', function (Blueprint $table) {
-
-            // Add level_required to specify the required level to access the devotional
-            $table->unsignedInteger('level_required')->default(1)->after('plan_id');
+            $table->string('document_path')->nullable(); // Add document_path column
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::table('devotionals', function (Blueprint $table) {
-            // Drop the columns if rolling back the migration
-            $table->dropColumn('level_required');
+            $table->dropColumn('document_path'); // Remove document_path column if rollback is needed
         });
     }
 };
-

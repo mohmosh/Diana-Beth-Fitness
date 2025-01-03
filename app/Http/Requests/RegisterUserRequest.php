@@ -13,10 +13,12 @@ class RegisterUserRequest extends FormRequest
 
     public function rules()
     {
+
+
         return [
             'name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email',  
+            'email' => 'required|email|max:255|unique:users,email',
             'fitness_goal' => 'nullable|string|max:255',
             'preferences' => 'nullable|string|max:255',
             'password' => 'required|string|min:6|confirmed',

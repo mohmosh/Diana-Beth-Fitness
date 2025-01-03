@@ -21,11 +21,25 @@ class DevotionalController extends Controller
     {
         $user = Auth::user();
 
-        $devotionals = Devotional::all();
+        $plans = Plan::all();
 
-        $devotionals = Devotional::where('plan_id', $user->subscription_plan_id)
-            ->where('level_required', '<=', $user->level)
-            ->get();
+        $plan = $user->subscription->plan; // Fetch the user's current plan
+
+
+        // Get the user's subscription type
+        $userSubscriptionType = $plan->subscription_type;
+
+        $devotionals = Devotional::when($userSubscriptionType, function($query) use ($userSubscriptionType) {
+
+            return $query->where('subscription_type', $userSubscriptionType);
+        })
+
+        ->where(function($query) use ($user) {
+            // Allow access to devotionals where the level required is less than or equal to the user's level
+            $query->where('level_required', '<=', $user->level)
+                  ->orWhereNull('level_required'); // Include devotionals with no level required
+        })
+        ->get();
 
         return view('user.devotionals.index', compact('devotionals'));
     }
@@ -38,14 +52,22 @@ class DevotionalController extends Controller
     }
 
     //  Store a new devotional.
-    public function storeDevotional(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'subscription_type' => 'required|in:personal_training,build_his_temple',
+            'subscription_type' => 'nullable|in:personal_training,build_his_temple',
             'level' => 'nullable|integer|min:1',
+            'document' => 'nullable|file|mimes:pdf,doc,docx,txt|max:10240',
+
         ]);
+
+        // handles where to store the documents
+        $documentPath = null;
+        if ($request->hasFile('document')) {
+            $documentPath = $request->file('document')->store('documents', 'public'); // Store in 'public/documents' directory
+        }
 
         // Create the devotional
         Devotional::create([
@@ -53,6 +75,7 @@ class DevotionalController extends Controller
             'content' => $request->content,
             'subscription_type' => $request->subscription_type,
             'level' => $request->level,
+            'document_path' => $documentPath, 
             'uploaded_by' => Auth::user()->id,
         ]);
 

@@ -23,10 +23,10 @@
                     <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6">
                         <div class="single-footer-caption mb-50">
                             <div class="footer-tittle">
-                                <h4>COMPANY</h4>
+                                <h4>DBF</h4>
                                 <ul>
                                     <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Company</a></li>
+                                    <li><a href="/contact">Contact Us</a></li>
                                     <li><a href="#"> Press & Blog</a></li>
                                     <li><a href="#"> Privacy Policy</a></li>
                                 </ul>
@@ -38,28 +38,15 @@
                             <div class="footer-tittle">
                                 <h4>Open hour</h4>
                                 <ul>
-                                    <li><a href="#">Monday 11am-7pm</a></li>
+                                    <li><a href="#">Monday 11am-5pm</a></li>
                                     <li><a href="#"> Tuesday-Friday 11am-8pm</a></li>
-                                    <li><a href="#"> Saturday 10am-6pm</a></li>
-                                    <li><a href="#"> Sunday 11am-6pm</a></li>
+                                    <li><a href="#"> Saturday 8am-2pm</a></li>
+                                    <li><a href="#"> Sunday 10pm-12am</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="single-footer-caption mb-50">
-                            <div class="footer-tittle">
-                                <h4>RESOURCES</h4>
-                                <ul>
-                                    <li><a href="#">Home Insurance</a></li>
-                                    <li><a href="#">Travel Insurance</a></li>
-                                    <li><a href="#"> Car Insurance</a></li>
-                                    <li><a href="#"> Business Insurance</a></li>
-                                    <li><a href="#"> Heal Insurance</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6">
                         <div class="single-footer-caption mb-50">
                             <!-- logo -->
@@ -68,16 +55,19 @@
                             </div> --}}
                             <div class="footer-tittle">
                                 <div class="footer-pera">
-                                    <p class="info1">GThe trade war currently ensuing between te US anfd several natxions around thdhe globe, most fiercely with.</p>
+                                    <p class="info1">Learn to love yourself from where you're at. The love your Body enough to want it to function better</p>
                                 </div>
                             </div>
                             <!-- Footer Social -->
                             <div class="footer-social ">
-                                <a href="https://www.facebook.com/sai4ull"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://www.instagram.com/diana_beth_fitness/?hl=en"><i class="fab fa-instagram"></i></a>
+
+                                <a href="https://web.facebook.com/search/top?q=diana%20beth%20fitness"><i class="fab fa-facebook-f"></i></a>
+
                                 <a href=""><i class="fab fa-twitter"></i></a>
                                 <a href="#"><i class="fas fa-globe"></i></a>
-                                <a href="#"><i class="fab fa-instagram"></i></a>
-                            </div>
+                                {{-- <a href="https://www.instagram.com/diana_beth_fitness/?hl=en"><i class="fab fa-instagram"></i></a> --}}
+                                                              </div>
                         </div>
                     </div>
                 </div>

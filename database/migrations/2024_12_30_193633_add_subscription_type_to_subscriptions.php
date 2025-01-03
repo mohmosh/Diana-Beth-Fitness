@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('subscriptions', function (Blueprint $table) {
-            // Drop the duplicate subscription_type column
-            $table->dropColumn('subscription_type');
+            $table->string('subscription_type')->nullable();
+
         });
     }
 
@@ -23,9 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('subscriptions', function (Blueprint $table) {
-            // You can optionally add the column back in reverse migration if needed
-            $table->unsignedBigInteger('subscription_type')->nullable();
+            $table->dropColumn('subscription_type');
+
         });
     }
 };
-

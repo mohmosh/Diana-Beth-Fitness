@@ -9,6 +9,9 @@
     <title>@yield('title', 'Upload Devotional')</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+
+
     <style>
         /* Styling as before */
     </style>
@@ -34,8 +37,8 @@
                 <input type="text" id="title" name="title" class="form-control">
             </div>
             <div class="mb-3">
-                <label for="content" class="form-label">Content:</label>
-                <textarea id="content" name="content" class="form-control" rows="5"></textarea>
+                <label for="content"  class="form-label">Content:</label>
+                <textarea id="editor" name="content" class="form-control" rows="5"></textarea>
             </div>
 
             <div class="mb-3">
@@ -51,10 +54,23 @@
                 <input type="number" name="level" id="level" class="form-control" min="1">
             </div>
 
+            <div class="mb-3">
+                <label for="document" class="form-label">Attach Document (Optional)</label>
+                <input type="file" id="document" name="document" class="form-control">
+            </div>
+
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>
 
     </div>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
 
     <script>
         document.getElementById('subscription_type').addEventListener('change', function () {

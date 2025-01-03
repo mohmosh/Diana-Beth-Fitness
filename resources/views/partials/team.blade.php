@@ -19,15 +19,19 @@
                     <div class="team-img">
                         <img src="assets/img/gallery/11.jpg" alt="">
                         <div class="team-caption">
-                            <span>Creative derector</span>
-                            <h3><a href="#">Jhon Sunsaev</a></h3>
+                            <span>CEO</span>
+                            <h3><a href="#">Diana Beth</a></h3>
                             <!-- Blog Social -->
                             <div class="team-social">
                                 <ul>
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+
+                                    <li><a href="https://www.instagram.com/diana_beth_fitness/?hl=en"><i class="fab fa-instagram"></i></a></li>
+
+                                    <li><a href="https://web.facebook.com/search/top?q=diana%20beth%20fitness"><i class="fab fa-facebook-f"></i></a></li>
+
                                     <li><a href="#"><i class="fas fa-globe"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+
                                 </ul>
                             </div>
                         </div>
@@ -39,15 +43,17 @@
                     <div class="team-img">
                         <img src="assets/img/gallery/9.jpg" alt="">
                         <div class="team-caption">
-                            <span>Creative derector</span>
-                            <h3><a href="#">Jhon Sunsaev</a></h3>
+                            <span>Fitness Coach</span>
+                            <h3><a href="#">Diana Beth</a></h3>
                             <!-- Blog Social -->
                             <div class="team-social">
                                 <ul>
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="https://www.instagram.com/diana_beth_fitness/?hl=en"><i class="fab fa-instagram"></i></a></li>
+
+                                    <li><a href="https://web.facebook.com/search/top?q=diana%20beth%20fitness"><i class="fab fa-facebook-f"></i></a></li>
+
                                     <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                                     <li><a href="#"><i class="fas fa-globe"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -59,15 +65,17 @@
                     <div class="team-img">
                         <img src="assets/img/gallery/10.jpg" alt="">
                         <div class="team-caption">
-                            <span>Creative derector</span>
-                            <h3><a href="#">Jhon Sunsaev</a></h3>
+                            <span>CEO</span>
+                            <h3><a href="#">Diana Beth</a></h3>
                             <!-- Blog Social -->
                             <div class="team-social">
                                 <ul>
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="https://www.instagram.com/diana_beth_fitness/?hl=en"><i class="fab fa-instagram"></i></a></li>
+
+                                    <li><a href="https://web.facebook.com/search/top?q=diana%20beth%20fitness"><i class="fab fa-facebook-f"></i></a></li>
+
                                     <li><a href="#"><i class="fas fa-globe"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>lh
                                 </ul>
                             </div>
                         </div>

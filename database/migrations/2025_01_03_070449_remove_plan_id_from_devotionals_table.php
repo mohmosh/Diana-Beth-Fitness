@@ -12,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('devotionals', function (Blueprint $table) {
-
-            // Add level_required to specify the required level to access the devotional
-            $table->unsignedInteger('level_required')->default(1)->after('plan_id');
+            $table->dropForeign(['plan_id']); // Drop the foreign key constraint
+            $table->dropColumn('plan_id'); // Remove the column
         });
     }
 
@@ -24,9 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('devotionals', function (Blueprint $table) {
-            // Drop the columns if rolling back the migration
-            $table->dropColumn('level_required');
+            $table->foreignId('plan_id')->constrained()->onDelete('cascade'); // Re-add the column
         });
     }
 };
-

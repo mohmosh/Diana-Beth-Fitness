@@ -12,9 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('devotionals', function (Blueprint $table) {
-
-            // Add level_required to specify the required level to access the devotional
-            $table->unsignedInteger('level_required')->default(1)->after('plan_id');
+            $table->string('subscription_type')->nullable(); // Add the column
         });
     }
 
@@ -24,9 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('devotionals', function (Blueprint $table) {
-            // Drop the columns if rolling back the migration
-            $table->dropColumn('level_required');
+            $table->dropColumn('subscription_type'); // Drop the column
         });
     }
 };
-

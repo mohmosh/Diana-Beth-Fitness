@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('uploaded_by');
             $table->timestamps();
         });
+        
 
 
 

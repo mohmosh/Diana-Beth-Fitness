@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
     <meta charset="utf-8">
@@ -469,4 +469,4 @@
     </section>
     <!-- Date Tabs End -->
 </body>
-</html>
+</html> --}}

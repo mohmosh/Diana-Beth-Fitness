@@ -16,8 +16,8 @@
         <div class="row align-items-end justify-content-between">
             <div class="col-lg-6 col-md-9 col-sm-9">
                 <div class="section-tittle">
-                    <span>oUR TEAM MAMBERS</span>
-                    <h2>Our Most Exprienced Trainers</h2>
+                    <span>THE TEAM</span>
+                    <h2>Fitness Coaches</h2>
                 </div>
             </div>
             <div class="col-xl-2 col-lg-2 col-md-3">

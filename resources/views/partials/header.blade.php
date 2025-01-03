@@ -22,6 +22,8 @@
                                         <li><a href="{{ url('/') }}">Home</a></li>
                                         <li><a href="{{ url('/about') }}">About Us</a></li>
                                         <li><a href="{{ route('user.videos.index') }}">Workouts</a></li>
+                                        <li><a href="{{ route('user.devotionals.index') }}">Devotionals</a></li>
+
                                         <li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Community
@@ -31,10 +33,11 @@
                                                 <li><a class="dropdown-item" href="{{ route('forums.access') }}">Forums</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="#contact">Contact</a></li>
+
                                     </ul>
                                 </nav>
                             </div>
+
 
                             <!-- Auth Buttons -->
                             @guest
@@ -64,3 +67,5 @@
     </div>
     <!-- Header End -->
 </header>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
