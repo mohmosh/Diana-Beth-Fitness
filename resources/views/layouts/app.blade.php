@@ -16,7 +16,8 @@
 
     <style>
         body {
-            background-color: #8e44ad; /* Purple background */
+            /* background-color: #8e44ad;  */
+            /* background-color: #ccc; */
             height: 100vh;
             display: flex;
             justify-content: center;

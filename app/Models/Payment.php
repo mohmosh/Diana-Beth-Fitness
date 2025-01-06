@@ -27,11 +27,11 @@ class Payment extends Model
 
     }
 
-    public function payment
-    {
-        return $this->belongsTo(User::class);
+    // public function payment
+    // {
+    //     return $this->belongsTo(User::class);
 
-    }
+    // }
 
 
 }

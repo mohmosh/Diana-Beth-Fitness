@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 
 .white-bg {
     background: #ffffff;
@@ -39,7 +40,7 @@
     color: purple !important;
     display: inline-block;
     padding: 18px 44px;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
     font-size: 14px;
     font-weight: 400;
     border: 0;
@@ -103,7 +104,7 @@
     opacity: 0.9;
 }
 body {
-    font-family: "Montserrat", serif;
+    font-family: "Raleway", serif;
     font-weight: normal;
     font-style: normal;
 }
@@ -113,7 +114,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
     color: #2c234d;
     margin-top: 0px;
     font-style: normal;
@@ -121,7 +122,7 @@ h6 {
     text-transform: normal;
 }
 p {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
     color: #10285d;
     font-size: 16px;
     line-height: 30px;
@@ -324,9 +325,37 @@ hr {
     color: #fff;
     background: purple;
 }
+
+.comment_btn {
+    background: purple;
+    font-family: "Raleway", sans-serif;
+    text-transform: uppercase;
+    padding: 27px 44px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 300;
+    border-radius: 0px;
+    line-height: 1;
+    -moz-user-select: none;
+    letter-spacing: 1px;
+    line-height: 0;
+    margin-bottom: 0;
+    margin: 10px;
+    cursor: pointer;
+    transition: color 0.4s linear;
+    position: relative;
+    z-index: 1;
+    border: 0;
+    overflow: hidden;
+    margin: 0;
+}
+
+
 .btn {
     background: purple;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
     text-transform: uppercase;
     padding: 27px 44px;
     color: #fff;
@@ -1911,7 +1940,7 @@ hr {
     }
 }
 .section-tittle span {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
     font-size: 44px;
     font-weight: 300;
     margin-left: 72px;
@@ -2026,6 +2055,8 @@ hr {
 }
 .header-area .main-header {
     padding: 0px 130px;
+    background: rgba(0, 0, 0, 0.6); 
+
 }
 @media only screen and (min-width: 1200px) and (max-width: 1600px) {
     .header-area .main-header {
@@ -2069,7 +2100,7 @@ hr {
     transition: 0.3s;
     text-transform: capitalize;
     position: relative;
-    font-family: "Montserrat", serif;
+    font-family: "Raleway", serif;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .header-area .main-header .main-menu ul li a {
@@ -2246,7 +2277,8 @@ hr {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Overlay shadow */
+    /* Overlay shadow */
+    /* background: rgba(0, 0, 0, 0.6);  */
     z-index: 1; /* Places shadow behind the content */
     pointer-events: none; /* Prevents shadow from blocking interactions */
 }
@@ -2255,6 +2287,10 @@ hr {
     position: relative; /* Ensures caption appears above the shadow */
     z-index: 2; /* Keeps the caption above the shadow */
     color: white; /* Makes sure the text is readable */
+    background: rgba(0, 0, 0, 0.6); 
+    padding: 10%;
+
+
 }
 
 .hero__caption span,
@@ -2290,9 +2326,9 @@ hr {
     }
 }
 .slider-area .hero__caption span {
-    font-size: 24px;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 300;
+    font-size: 28px;
+    font-family: "Raleway", sans-serif;
+    font-weight: 900;
     margin-bottom: 35px;
     text-transform: uppercase;
     color: purple;
@@ -2353,7 +2389,7 @@ hr {
 .slider-area .hero__caption p {
     font-size: 18px;
     color: #fff;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
     margin-bottom: 50px;
     padding-right: 35px;
 }
@@ -2636,7 +2672,7 @@ hr {
     display: block;
 }
 .services-area .single-cat .cat-cap h5 > a {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
     font-size: 24px;
     font-weight: 400;
     margin-bottom: 21px;
@@ -2703,7 +2739,7 @@ hr {
     transition: 0.4s;
 }
 .services-area .single-cat .img-cap a {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
     font-size: 16px;
     color: #fff;
     background: purple;
@@ -3010,7 +3046,7 @@ hr {
     color: #fff;
     display: inline-block;
     font-size: 16px;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
 }
 .date-tabs .tab-wrapper .single-box .single-caption .caption h3 {
     color: #2c234d;
@@ -3073,7 +3109,7 @@ hr {
 }
 .date-tabs .properties__button .nav-tabs .nav-link {
     color: #2c234d;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
     font-size: 25px;
     border: 0;
     margin-bottom: 31px;
@@ -3233,7 +3269,7 @@ hr {
     font-size: 24px;
     font-weight: 500;
     text-transform: uppercase;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
 }
 .testimonial-area .rattiong-caption span span {
     color: #767676;
@@ -3308,7 +3344,7 @@ hr {
 .team-area .single-team .team-caption h3 {
     margin-bottom: 22px;
     line-height: 13px;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
 }
 .team-area .single-team .team-caption h3 a {
     color: #fff;
@@ -3426,7 +3462,7 @@ hr {
 }
 .footer-area .footer-top .single-footer-caption .footer-tittle h4 {
     color: white;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
     font-size: 18px;
     margin-bottom: 38px;
     font-weight: 700;
@@ -3611,7 +3647,7 @@ hr {
     font-weight: 700;
     line-height: 1.4;
     margin-bottom: 20px;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
     display: block;
 }
 .home-blog-area .home-blog-single .blog-img-cap .blog-cap h3 a:hover {
@@ -3642,7 +3678,7 @@ hr {
     margin-bottom: 70px;
 }
 .blog_area a {
-    color: "Montserrat", sans-serif !important;
+    color: "Raleway", sans-serif !important;
     text-decoration: none;
     transition: 0.4s;
 }
@@ -4777,7 +4813,7 @@ hr {
     color: #fff;
     font-weight: 900;
     margin-bottom: 0;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
     text-transform: capitalize;
 }
 @media (max-width: 767px) {
@@ -4828,7 +4864,7 @@ hr {
     cursor: pointer;
     display: block;
     float: left;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Raleway", sans-serif;
     font-weight: normal;
     width: 100% !important;
     line-height: 50px;
