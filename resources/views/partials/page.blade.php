@@ -32,7 +32,7 @@
                         </p>
                         <p class="mb-65 pera-bottom">Your body is worth the imperishable blood of Christ. It is the most valuable asset you have the privileged of stewarding
                         </p>
-                        <a class="btn header-btn ms-2" href="{{ url('/register') }}">JOIN NOW</a>
+                        <a class="btn header-btn ms-2" href="{{ url('/register') }}">Become A Member</a>
                     </div>
                 </div>
             </div>

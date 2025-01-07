@@ -9,6 +9,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}">
     <!-- Include any CSS files here -->
 </head>
+
 <body>
     <div class="gallery-area" id="gallery">
 

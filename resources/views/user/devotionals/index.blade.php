@@ -1,203 +1,133 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devotionals</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        /* Ensure the layout fills the entire page */
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-        }
-
-        /* Header Style */
-        .header {
-            background-color: whitesmoke;
-            padding: 30px 15px;
-            color: white;
-            border-radius: 5px;
-            position: sticky;
-            top: 0;
-            width: 100%;
-            z-index: 10;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Header Buttons */
-        .header .btn {
-            font-size: 1rem;
-            padding: 15px 18px;
-            border-radius: 5px;
-            width: 150px;
-        }
-
-        .btn-primary {
-            background-color: purple;
-            border-color: whitesmoke;
-        }
-
-        .btn-danger {
-            background-color: purple;
-            border-color: white;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-        }
-
-        /* Main Content Style */
-        .container {
-            max-width: 800px;
-            margin-top: 90px;
-            background-color: rgba(249, 249, 249, 0.9); /* Slight transparency for overlay effect */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            height: calc(100vh - 90px);
-            overflow-y: auto;
-        }
-
-        /* Header Text Styling */
-        .text-uppercase {
-            text-transform: uppercase;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bolder;
-        }
-
-        .underline {
-            text-decoration: underline;
-            font-weight: bolder;
-        }
-
-        .devotional-item {
-            background-color: #b867b5;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s;
-            margin-bottom: 20px;
-        }
-
-        .devotional-item:hover {
-            background-color: #b867b5;
-        }
-
-        .devotional-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .devotional-content {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #555;
-        }
-
-        .no-devotionals {
-            font-size: 1.25rem;
-            color: #888;
-        }
-
-        .signature {
-            font-size: 1rem;
-            font-style: italic;
-            color: #333;
-            margin-top: 20px;
-            text-align: right;
-            /* Right-align the signature */
-        }
-
-        /* Footer styles */
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: purple;
-            color: white;
-            text-align: center;
-            padding: 10px;
-        }
-
-        /* Footer spacing */
-        .footer p {
-            margin: 0;
-        }
-
-        /* Logo Style */
-        .logo {
-            width: 100px;
-            /* Adjust size of the logo */
-            height: auto;
-        }
-
-        /* Image Style for background */
-        .body-image {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            object-fit: cover;
-            z-index: -1; /* Ensure the image is in the background */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Shadow effect */
-        }
-    </style>
-</head>
-
-<body>
-    <!-- Body Image (background with shadow) -->
-    {{-- <img src="{{ asset('assets/img/gallery/2.jpg') }}"> --}}
-
-    <!-- Header Section with Logo, Back and Logout buttons -->
-    <div class="header d-flex justify-content-between align-items-center">
-        <!-- Logo at the left -->
-        <img src="{{ asset('assets/img/logo/logo.png') }}" alt="Logo" style="width: 80px; height: 80px; margin-left: 2px;">
-
-        <!-- Right-aligned Back and Logout buttons -->
-        <div class="d-flex align-items-center">
-            <a href="javascript:history.back()" class="btn btn-primary mr-2">Back</a>
-            <form action="{{ route('logout') }}" method="POST" class="d-inline-block">
-                @csrf
-                <button type="submit" class="btn btn-danger">Logout</button>
-            </form>
+@section('content')
+<main>
+    <div class="slider-area2">
+        <div class="slider-height2 d-flex align-items-center">
+            <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="hero-cap hero-cap2 text-center pt-70">
+                        <h2>Devotionals</h2>
+                    </div>
+                </div>
+            </div>
+            </div>
         </div>
     </div>
 
     <!-- Main Content Section -->
-    <div class="container">
-
-        @forelse ($devotionals as $devotional)
-            <div class="devotional-item mb-4">
-                <h2 class="devotional-title">{{ $devotional->title }}</h2>
-                <p class="devotional-content">{{ $devotional->content }}</p>
-            </div>
-
-            <!-- Signature -->
-            <div class="signature">
-                <p>by Diana Beth</p>
-            </div>
-
-        @empty
-            <p class="no-devotionals text-center">No devotionals available for your plan.</p>
-        @endforelse
+    <div class="container my-5">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @forelse ($devotionals as $devotional)
+                <div class="col-12">
+                    <div class="devotional-column">
+                        <h3 class="devotional-title">{{ $devotional->title }}</h3>
+                        <p class="devotional-content">{{ $devotional->content }}</p>
+                        <!-- Signature at the bottom right -->
+                        <div class="signature">
+                            <p>by Diana Beth</p>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <p class="no-devotionals text-center">No devotionals available for your plan.</p>
+            @endforelse
+        </div>
     </div>
 
-    <!-- Footer (optional) -->
-    <div class="footer">
-        <p>© 2025 Diana Beth Fitness</p>
-    </div>
+</main>
+@endsection
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+@section('styles')
+<style>
+    /* General Styling */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px;
+    }
 
-</html>
+    .hero-cap2 h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #333;
+        padding: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Column Styling */
+    .devotional-column {
+        background: linear-gradient(135deg, #6a1b9a, #ff4081);
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        color: #fff;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .devotional-column:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .devotional-title {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 15px;
+        line-height: 1.4;
+    }
+
+    .devotional-content {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: #fff;
+        margin-bottom: 20px;
+        font-style: italic;
+    }
+
+    /* Signature Styling */
+    .signature {
+        font-size: 1.1rem;
+        font-style: normal;
+        color: #fff;
+        text-align: right;
+        margin-top: auto;
+        padding-right: 20px;
+        padding-bottom: 10px;
+    }
+
+    /* Empty Devotionals Message */
+    .no-devotionals {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #e74c3c;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #f8d7da;
+        text-align: center;
+    }
+
+    /* Ensuring space between columns */
+    .row {
+        margin-bottom: 30px;
+    }
+
+    .col {
+        margin-bottom: 30px; /* Space between columns */
+    }
+
+    /* Responsive margin adjustments */
+    @media (min-width: 992px) {
+        .col {
+            margin-bottom: 40px; /* Larger spacing for larger screens */
+        }
+    }
+</style>
+@endsection

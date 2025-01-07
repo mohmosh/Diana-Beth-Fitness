@@ -130,6 +130,7 @@
         </div>
         <!-- slider Area End--> --}}
 
+        
 
         {{-- <!--? About Area Start -->
         <section class="about-area section-padding30">

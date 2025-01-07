@@ -20,7 +20,7 @@
                                 <nav>
                                     <ul id="navigation">
                                         <li><a href="{{ url('/') }}">Home</a></li>
-                                        <li><a href="{{ url('/about') }}">About Us</a></li>
+                                        <li><a href="{{ route('aboutUs.index') }}">About Us</a></li>
                                         <li><a href="{{ route('user.videos.index') }}">Workouts</a></li>
                                         <li><a href="{{ route('user.devotionals.index') }}">Devotionals</a></li>
 

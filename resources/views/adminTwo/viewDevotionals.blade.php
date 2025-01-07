@@ -28,7 +28,7 @@
                             <th>#</th>
                             <th>Title</th>
                             <th>Content</th>
-                            <th>Plan</th>
+                            <th>Subscription TYpe</th>
                             <th>Level (For Build His Temple)</th>
                             <th>Created At</th>
                             <th>Actions</th> <!-- New Column for actions -->
@@ -41,9 +41,9 @@
                                 <td>{{ $devotional->title }}</td>
                                 <td>{{ Str::limit($devotional->content, 50) }}</td> <!-- Display a short snippet of content -->
                                 <td>
-                                    @if($devotional->plan == 'personal_training')
+                                    @if($devotional->subscription_type == 'personal_training')
                                         Personal Training
-                                    @elseif($devotional->plan == 'build_his_temple')
+                                    @elseif($devotional->subscription_type == 'build_his_temple')
                                         Build His Temple
                                     @else
                                         N/A
@@ -51,7 +51,7 @@
                                 </td>
                                 <td>
                                     @if($devotional->plan == 'build_his_temple')
-                                        Level {{ $devotional->level_required }}
+                                        Level {{ $devotional->level }}
                                     @else
                                         N/A
                                     @endif

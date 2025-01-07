@@ -12,6 +12,7 @@ class DevotionalController extends Controller
     public function index()
     {
         $devotionals = Devotional::all();
+
         return view('adminTwo.viewDevotionals', compact('devotionals'));
     }
 
@@ -19,27 +20,30 @@ class DevotionalController extends Controller
 
     public function usersDevotionals()
     {
+        // Get the authenticated user (if any)
         $user = Auth::user();
 
-        $plans = Plan::all();
+        if ($user) {
 
-        $plan = $user->subscription->plan; // Fetch the user's current plan
+            $plan = $user->subscription ? $user->subscription->plan : null;
 
+            $userSubscriptionType = $plan ? $plan->subscription_type : null;
 
-        // Get the user's subscription type
-        $userSubscriptionType = $plan->subscription_type;
+            $devotionals = Devotional::when($userSubscriptionType, function ($query) use ($userSubscriptionType) {
+                return $query->where('subscription_type', $userSubscriptionType);
+            })
+            ->where(function ($query) use ($user) {
 
-        $devotionals = Devotional::when($userSubscriptionType, function($query) use ($userSubscriptionType) {
-
-            return $query->where('subscription_type', $userSubscriptionType);
-        })
-
-        ->where(function($query) use ($user) {
-            // Allow access to devotionals where the level required is less than or equal to the user's level
-            $query->where('level_required', '<=', $user->level)
-                  ->orWhereNull('level_required'); // Include devotionals with no level required
-        })
-        ->get();
+                // Filter on user's level
+                $query->where('level_required', '<=', $user->level)
+                      ->orWhereNull('level_required');
+            })
+            ->get();
+            
+        } else {
+            // If the user is not logged in, return all devotionals
+            $devotionals = Devotional::all();
+        }
 
         return view('user.devotionals.index', compact('devotionals'));
     }
@@ -66,8 +70,10 @@ class DevotionalController extends Controller
         // handles where to store the documents
         $documentPath = null;
         if ($request->hasFile('document')) {
-            $documentPath = $request->file('document')->store('documents', 'public'); // Store in 'public/documents' directory
+            $documentPath = $request->file('document')->store('documents', 'public');
         }
+
+        // dd($request->subscription_type);
 
         // Create the devotional
         Devotional::create([
@@ -75,7 +81,7 @@ class DevotionalController extends Controller
             'content' => $request->content,
             'subscription_type' => $request->subscription_type,
             'level' => $request->level,
-            'document_path' => $documentPath, 
+            'document_path' => $documentPath,
             'uploaded_by' => Auth::user()->id,
         ]);
 
@@ -125,7 +131,4 @@ class DevotionalController extends Controller
 
 
 
-    /**
-     * Display devotionals for the authenticated user based on their plan and level.
-     */
 }

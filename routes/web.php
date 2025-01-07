@@ -11,6 +11,7 @@ use App\Http\Controllers\{
     TestimonialController,
     UserController,
     ForumController,
+    PageController,
     PlanController,
     RoleController,
     SubscriptionCheckController,
@@ -131,6 +132,16 @@ Route::get('/user/devotionals', [DevotionalController::class, 'usersDevotionals'
 Route::get('/contact', [ContactController::class, 'showForm'])->name('contact.form');
 
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+
+// About Us
+Route::get('/about', [PageController::class, 'aboutUs'])->name('aboutUs.index');
+
+
+
+
+
+
+
 
 
 

@@ -29,7 +29,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="plan_id" class="form-label">Plan:</label>
+            <label for="plan_id" class="form-label">Subscription Type:</label>
             <select id="plan_id" name="plan_id" class="form-control" required>
                 @foreach ($plans as $plan)
                     <option value="{{ $plan->id }}" {{ $plan->id == $devotional->plan_id ? 'selected' : '' }}>{{ $plan->name }}</option>
