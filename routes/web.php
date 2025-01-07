@@ -18,7 +18,9 @@ use App\Http\Controllers\{
     SubscriptionController,
     SubscriptionPlanController,
     VideoController,
-    WorkoutController
+    WorkoutController,
+    PostController,
+    CommentController
 };
 use App\Models\Devotional;
 use Illuminate\Support\Facades\Auth;
@@ -286,3 +288,8 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
 
 });
+
+
+Route::resource('posts', PostController::class);
+
+Route::post('comments', [CommentController::class, 'store'])->name('comments.store');
