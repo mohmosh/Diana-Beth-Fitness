@@ -14,7 +14,8 @@ class Devotional extends Model
         'content',
         'uploaded_by',
         'subscription_type',
-        'level_required'
+        'level_required',
+        'document_content'
 
     ];
 

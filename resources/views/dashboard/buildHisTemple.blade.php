@@ -47,13 +47,14 @@
         @endforeach
     </div>
 
+
     <!-- Button to upgrade level -->
-    @if(auth()->user()->level < 3)
-        <div class="text-center mt-4">
-            <form action="{{ route('upgrade.level') }}" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-primary">Advance to Next Level</button>
-            </form>
-        </div>
-    @endif
+    @if(auth()->user()->level < 3) <!-- Ensure users can't advance past the maximum level -->
+    <div class="text-center mt-4">
+        <form action="{{ route('upgrade.level') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-primary">Advance to Next Level</button>
+        </form>
+    </div>
+@endif
 </div>

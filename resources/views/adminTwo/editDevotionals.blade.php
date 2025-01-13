@@ -1,5 +1,6 @@
 @extends('adminTwo.dashboard')
 
+
 @section('content')
 <div class="container mt-4">
     <h1 class="text-center mb-4">Edit Devotional</h1>
@@ -13,6 +14,7 @@
             </ul>
         </div>
     @endif
+
 
     <form action="{{ route('admin.updateDevotional', $devotional->id) }}" method="POST">
         @csrf
@@ -29,11 +31,9 @@
         </div>
 
         <div class="mb-3">
-            <label for="plan_id" class="form-label">Subscription Type:</label>
-            <select id="plan_id" name="plan_id" class="form-control" required>
-                @foreach ($plans as $plan)
-                    <option value="{{ $plan->id }}" {{ $plan->id == $devotional->plan_id ? 'selected' : '' }}>{{ $plan->name }}</option>
-                @endforeach
+            <select name="subscription_type" class="form-select" required>
+                <option value="personal_training" {{ $devotional->subscription_type == 'personal_training' ? 'selected' : '' }}>Personal Training</option>
+                <option value="build_his_temple" {{ $devotional->subscription_type == 'build_his_temple' ? 'selected' : '' }}>Build His Temple</option>
             </select>
         </div>
 

@@ -36,7 +36,15 @@ class PlanController extends Controller
 
     public function create()
     {
-        return view('plans.create');
+        return view('adminTwo.plans.create');
+    }
+
+    public function plans()
+    {
+        $plans = Plan::all();
+
+
+        return view('adminTwo.plans.index', compact('plans'));
     }
 
     public function store(Request $request)
@@ -50,6 +58,39 @@ class PlanController extends Controller
 
         Plan::create($request->all());
 
-        return redirect()->route('plans.index')->with('success', 'Subscription plan created successfully.');
+        return redirect()->route('admin.plans')->with('success', 'Subscription plan created successfully.');
+    }
+
+    public function editPlan($id)
+    {
+        $plan = Plan::findOrFail($id);
+        $plans = Plan::all();
+        return view('adminTwo.plans.editPlans', compact('plan', 'plans'));
+    }
+
+    public function updatePlan(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'string|max:255',
+            'description' => 'string',
+            'price' => 'string',
+        ]);
+
+        $plan = Plan::findOrFail($id);
+        $plan->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+        ]);
+
+        return redirect()->route('admin.plans')->with('success', 'Plan updated successfully.');
+    }
+
+    public function destroyPlan($id)
+    {
+        $plan = Plan::findOrFail($id);
+        $plan->delete();
+
+        return redirect()->route('admin.plans')->with('success', 'Plan deleted successfully.');
     }
 }

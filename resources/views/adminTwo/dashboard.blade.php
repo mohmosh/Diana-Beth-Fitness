@@ -127,8 +127,10 @@
               <hr class="dropdown-divider">
             </li>
 
+
             <li>
-                <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}">
+                <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.logout') }}">
+                    @csrf
                     <i class="bi bi-box-arrow-right"></i>
                     <span>Log Out</span>
                   </a>
@@ -203,6 +205,27 @@
         </ul>
       </li>
       <!-- End devotional Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-journal-text"></i><span>Plans</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+            <li>
+                <a href="{{ route('plans.create') }}" class="d-flex align-items-center text-decoration-none">
+                    <i class="bi bi-circle me-2"></i>
+                    <span>Create a plan</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.plans') }}" class="d-flex align-items-center text-decoration-none">
+                    <i class="bi bi-circle me-2"></i>
+                    <span>View All Plans</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+
 
     </ul>
 

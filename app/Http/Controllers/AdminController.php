@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Devotional;
 use Illuminate\Http\Request;
 use App\Models\Media;
+use App\Models\Plan;
 use App\Models\UserContent;
 use App\Models\User;
 
@@ -23,8 +24,7 @@ class AdminController extends Controller
     }
 
 
-
-
+ 
 
 
     // Display pending user content
@@ -88,6 +88,6 @@ class AdminController extends Controller
         return redirect()->route('admin.levelJumpRequests')->with('success', 'Level jump rejected successfully.');
     }
 
-    
+
 
 }

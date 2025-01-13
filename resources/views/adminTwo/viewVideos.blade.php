@@ -42,7 +42,7 @@
                                 <td>{{ $video->title }}</td>
                                 <td>
                                     @if(Storage::exists('public/' . $video->path))
-                                        <video width="320" height="240" class="rounded" controls>
+                                            <video width="320" height="240" class="rounded" controls controlsList="nodownload" oncontextmenu="return false;">
                                             <source src="{{ asset('storage/' . $video->path) }}" type="video/mp4">
                                             <source src="{{ asset('storage/' . $video->path) }}" type="video/ogg">
                                             <source src="{{ asset('storage/' . $video->path) }}" type="video/webm">

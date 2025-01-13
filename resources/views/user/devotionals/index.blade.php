@@ -5,13 +5,13 @@
     <div class="slider-area2">
         <div class="slider-height2 d-flex align-items-center">
             <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="hero-cap hero-cap2 text-center pt-70">
-                        <h2>Devotionals</h2>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap hero-cap2 text-center pt-70">
+                            <h2>Devotionals</h2>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
@@ -24,6 +24,31 @@
                     <div class="devotional-column">
                         <h3 class="devotional-title">{{ $devotional->title }}</h3>
                         <p class="devotional-content">{{ $devotional->content }}</p>
+
+                        <!-- Check if there is a document uploaded by admin -->
+                        @if($devotional->document_path)
+                            <div class="document-content">
+                                @php
+                                    // Construct the full document path for the asset
+                                    $documentPath = asset('storage/' . $devotional->document_path);
+                                @endphp
+
+                                <p>Document Path: {{ $documentPath }}</p> <!-- Debugging line to display the document URL -->
+
+                                @if(Str::endsWith($devotional->document_path, '.pdf'))
+                                    <!-- For PDF files, embed the PDF -->
+                                    <embed src="{{ $documentPath }}" type="application/pdf" width="100%" height="500px">
+                                @elseif(Str::endsWith($devotional->document_path, '.txt'))
+                                    <!-- For text files, display the content -->
+                                    <pre>{{ \Illuminate\Support\Facades\Storage::get('public/' . $devotional->document_path) }}</pre>
+                                @else
+                                    <p>Unsupported document type.</p>
+                                @endif
+                            </div>
+                        @else
+                            <p>No document uploaded for this devotional.</p> <!-- Debugging line -->
+                        @endif
+
                         <!-- Signature at the bottom right -->
                         <div class="signature">
                             <p>by Diana Beth</p>
@@ -38,6 +63,7 @@
 
 </main>
 @endsection
+
 
 @section('styles')
 <style>
@@ -90,6 +116,20 @@
         color: #fff;
         margin-bottom: 20px;
         font-style: italic;
+    }
+
+    /* Document Content Styling */
+    .document-content {
+        margin-top: 10px;
+        background-color: #f0f0f0;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .document-content pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
     }
 
     /* Signature Styling */

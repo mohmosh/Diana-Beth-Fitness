@@ -166,9 +166,6 @@ Route::get('/subscriptions/choose', [SubscriptionController::class, 'index'])->n
 Route::get('/plans/{id}', [PlanController::class, 'show'])->name('plans.show');
 
 
-Route::get('/plans/dbf/create', [PlanController::class, 'create'])->name('plans.create');
-
-Route::post('/plans/store', [PlanController::class, 'store'])->name('plans.store');
 
 
 
@@ -200,6 +197,8 @@ Route::get('/videos/build-his-temple', [VideoController::class, 'buildHisTemple'
 
 
 Route::get('/upgrade-level', [SubscriptionController::class, 'upgradeLevel'])->name('upgrade.level');
+
+
 
 
 Route::get('/videos', [VideoController::class, 'usersVideos'])->name('videos.index');
@@ -269,16 +268,26 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
     // Devotional Management
     Route::get('/admin/devotionals', [DevotionalController::class, 'index'])->name('admin.viewDevotionals');
-
     Route::get('/admin/devotionals/upload', [DevotionalController::class, 'create'])->name('admin.uploadDevotional');
     Route::post('/admin/devotionals/store', [DevotionalController::class, 'store'])->name('admin.storeDevotional');
 
     // Edit and Update Devotional
     Route::get('/admin/devotionals/{id}/edit', [DevotionalController::class, 'edit'])->name('admin.editDevotional');
     Route::put('/admin/devotionals/{id}', [DevotionalController::class, 'update'])->name('admin.updateDevotional');
-
-    // Delete Devotional
     Route::delete('/admin/devotionals/{id}', [DevotionalController::class, 'destroy'])->name('admin.deleteDevotional');
+
+
+    // Plans
+   Route::get('/plans/dbf/create', [PlanController::class, 'create'])->name('plans.create');
+   Route::post('/plans/store', [PlanController::class, 'store'])->name('plans.store');
+   Route::get('/admin/plans', [PlanController::class, 'plans'])->name('admin.plans');
+
+   Route::get('/admin/plans/{id}/edit', [PlanController::class, 'editPlan'])->name('admin.editPlan');
+   Route::put('/admin/plans/{id}', [PlanController::class, 'updatePlan'])->name('admin.updatePlan');
+   Route::delete('/admin/plans/{id}', [PlanController::class, 'destroyPlan'])->name('admin.deletePlan');
+
+
+
 
 
 

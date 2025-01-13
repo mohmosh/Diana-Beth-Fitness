@@ -105,7 +105,7 @@ class SubscriptionController extends Controller
         $progress = $this->calculateLevelProgress($user);
 
         // return view('videos.buildHisTemple', compact('videos', 'user', 'progress'));
-        return view ('user.videos.index', compact('videos'));
+        return view ('user.videos.index', compact('videos', 'progress'));
 
     }
 
@@ -121,7 +121,6 @@ class SubscriptionController extends Controller
             return view ('user.videos.index', compact('videos'));
 
     }
-
 
 
 
@@ -146,12 +145,9 @@ class SubscriptionController extends Controller
     }
 
 
-
     public function upgradeLevel()
     {
         $user = Auth::user();
-
-        dd($user);
 
         // Check if the user is already at the maximum level
         if ($user->level >= 3) {
@@ -160,7 +156,6 @@ class SubscriptionController extends Controller
 
         // Upgrade the user's level by 1
         $user->level += 1;
-
         $user->save();
 
         // Recalculate the progress after upgrading

@@ -28,12 +28,14 @@
                             <th>#</th>
                             <th>Title</th>
                             <th>Content</th>
-                            <th>Subscription TYpe</th>
+                            <th>Subscription Type</th>
                             <th>Level (For Build His Temple)</th>
                             <th>Created At</th>
+                            <th>Document</th> <!-- New Column for Document -->
                             <th>Actions</th> <!-- New Column for actions -->
                         </tr>
                     </thead>
+
                     <tbody>
                         @forelse($devotionals as $index => $devotional)
                             <tr>
@@ -50,13 +52,23 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if($devotional->plan == 'build_his_temple')
+                                    @if($devotional->subscription_type == 'build_his_temple')
                                         Level {{ $devotional->level }}
                                     @else
                                         N/A
                                     @endif
                                 </td>
                                 <td>{{ $devotional->created_at->format('d M, Y') }}</td>
+
+                                <!-- Add a link to view document content -->
+                                <td>
+                                    @if($devotional->document_content)
+                                        <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#documentModal" onclick="showDocumentContent('{{ addslashes($devotional->document_content) }}')">View Document</button>
+                                    @else
+                                        <span>No document</span>
+                                    @endif
+                                </td>
+
                                 <td>
                                     <!-- Edit Button -->
                                     <a href="{{ route('admin.editDevotional', $devotional->id) }}" class="btn btn-warning btn-sm">Edit</a>
@@ -79,9 +91,33 @@
                             </tr>
                         @endforelse
                     </tbody>
+
+
+
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="documentModal" tabindex="-1" aria-labelledby="documentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="documentModalLabel">Document Content</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="documentContent">
+                <!-- Content will be dynamically populated -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showDocumentContent(content) {
+        document.getElementById('documentContent').innerText = content;
+    }
+</script>
+
 @endsection

@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="container my-5">
         <h2 class="text-center mb-5">Choose Your Subscription Plan</h2>
 

@@ -6,6 +6,9 @@ use App\Models\Devotional;
 use App\Models\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use PhpOffice\PhpWord\IOFactory;
+use Illuminate\Support\Facades\Storage;
 
 class DevotionalController extends Controller
 {
@@ -32,6 +35,7 @@ class DevotionalController extends Controller
             $devotionals = Devotional::when($userSubscriptionType, function ($query) use ($userSubscriptionType) {
                 return $query->where('subscription_type', $userSubscriptionType);
             })
+
             ->where(function ($query) use ($user) {
 
                 // Filter on user's level
@@ -39,10 +43,12 @@ class DevotionalController extends Controller
                       ->orWhereNull('level_required');
             })
             ->get();
-            
+
         } else {
             // If the user is not logged in, return all devotionals
             $devotionals = Devotional::all();
+            // dd($devotionals);
+
         }
 
         return view('user.devotionals.index', compact('devotionals'));
@@ -55,7 +61,7 @@ class DevotionalController extends Controller
         return view('adminTwo.uploadDevotional');
     }
 
-    //  Store a new devotional.
+
     public function store(Request $request)
     {
         $request->validate([
@@ -64,16 +70,54 @@ class DevotionalController extends Controller
             'subscription_type' => 'nullable|in:personal_training,build_his_temple',
             'level' => 'nullable|integer|min:1',
             'document' => 'nullable|file|mimes:pdf,doc,docx,txt|max:10240',
-
         ]);
 
-        // handles where to store the documents
+        // Handles where to store the documents
         $documentPath = null;
+        $documentContent = null;
+
         if ($request->hasFile('document')) {
+            // Store the document and get its path
             $documentPath = $request->file('document')->store('documents', 'public');
+            //  dd($documentPath);
+
+            $extension = $request->file('document')->getClientOriginalExtension();
+
+            // If the file is a text file, read its content
+            if ($extension === 'txt') {
+                $documentContent = file_get_contents(storage_path('app/public/' . $documentPath));
+            }
+
+            // For .docx files, extract text content using PhpWord
+            if (in_array($extension, ['docx', 'doc'])) {
+                $phpWord = IOFactory::load(storage_path('app/public/' . $documentPath));
+                $text = '';
+
+                // Loop through the sections and extract text
+                foreach ($phpWord->getSections() as $section) {
+                    foreach ($section->getElements() as $element) {
+                        // Check if the element is a TextRun
+                        if ($element instanceof \PhpOffice\PhpWord\Element\TextRun) {
+                            // Loop through the elements inside the TextRun
+                            foreach ($element->getElements() as $textElement) {
+                                if ($textElement instanceof \PhpOffice\PhpWord\Element\Text) {
+                                    $text .= $textElement->getText();
+                                }
+                            }
+                        }
+                        // If it's a simple Text element, extract the text
+                        if ($element instanceof \PhpOffice\PhpWord\Element\Text) {
+                            $text .= $element->getText();
+                        }
+                    }
+                }
+
+                $documentContent = $text;
+            }
         }
 
-        // dd($request->subscription_type);
+        Log::info('Document path: ', [$documentPath]); // Log the document path
+
 
         // Create the devotional
         Devotional::create([
@@ -82,11 +126,14 @@ class DevotionalController extends Controller
             'subscription_type' => $request->subscription_type,
             'level' => $request->level,
             'document_path' => $documentPath,
+            'document_content' => $documentContent, // Store the extracted content
             'uploaded_by' => Auth::user()->id,
         ]);
 
+        // Get all devotionals to display
         $devotionals = Devotional::all();
 
+        // Return view
         return view('adminTwo.viewDevotionals', compact('devotionals'));
     }
 
@@ -96,7 +143,7 @@ class DevotionalController extends Controller
     public function edit($id)
     {
         $devotional = Devotional::findOrFail($id);
-        $plans = Plan::all(); // Fetch all plans for selection
+        $plans = Plan::all();
         return view('adminTwo.editDevotionals', compact('devotional', 'plans'));
     }
 
