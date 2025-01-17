@@ -21,7 +21,7 @@
                                     <ul id="navigation">
                                         <li><a href="{{ url('/') }}">Home</a></li>
                                         <li><a href="{{ route('aboutUs.index') }}">About Us</a></li>
-                                        <li><a href="{{ route('user.videos.index') }}">Workouts</a></li>
+                                        <li><a href="{{ route('user.videos.index') }}">Plans</a></li>
                                         <li><a href="{{ route('user.devotionals.index') }}">Devotionals</a></li>
 
                                         <li class="nav-item dropdown">
@@ -29,6 +29,8 @@
                                                 Community
                                             </a>
                                             <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="{{ route('testimonials.access') }}">Challenges</a></li>
+
                                                 <li><a class="dropdown-item" href="{{ route('testimonials.access') }}">Testimonials</a></li>
                                                 <li><a class="dropdown-item" href="{{ route('forums.access') }}">Forums</a></li>
                                             </ul>

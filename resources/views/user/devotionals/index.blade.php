@@ -26,7 +26,7 @@
                         <p class="devotional-content">{{ $devotional->content }}</p>
 
                         <!-- Check if there is a document uploaded by admin -->
-                        @if($devotional->document_path)
+                        @if($devotional->document_path && !empty($devotional->document_path))
                             <div class="document-content">
                                 @php
                                     // Construct the full document path for the asset
@@ -45,8 +45,6 @@
                                     <p>Unsupported document type.</p>
                                 @endif
                             </div>
-                        @else
-                            <p>No document uploaded for this devotional.</p> <!-- Debugging line -->
                         @endif
 
                         <!-- Signature at the bottom right -->
@@ -63,7 +61,6 @@
 
 </main>
 @endsection
-
 
 @section('styles')
 <style>

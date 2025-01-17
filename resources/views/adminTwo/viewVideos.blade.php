@@ -57,6 +57,10 @@
                                         Personal Training
                                     @elseif($video->subscription_type == 'build_his_temple')
                                         Build His Temple
+                                        @elseif($video->subscription_type == 'free_trial')
+                                        Free Trial
+                                        @elseif($video->subscription_type == 'challenge')
+                                        Challenge
                                     @else
                                         N/A
                                     @endif

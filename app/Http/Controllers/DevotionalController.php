@@ -14,41 +14,35 @@ class DevotionalController extends Controller
 {
     public function index()
     {
-        $devotionals = Devotional::all();
+        $devotionals = Devotional::paginate(10);
 
         return view('adminTwo.viewDevotionals', compact('devotionals'));
     }
 
-
-
     public function usersDevotionals()
     {
-        // Get the authenticated user (if any)
         $user = Auth::user();
 
         if ($user) {
-
+            // Fetch the user's subscription type and level
             $plan = $user->subscription ? $user->subscription->plan : null;
-
             $userSubscriptionType = $plan ? $plan->subscription_type : null;
 
+            // Retrieve devotionals based on subscription type and level
             $devotionals = Devotional::when($userSubscriptionType, function ($query) use ($userSubscriptionType) {
-                return $query->where('subscription_type', $userSubscriptionType);
+                $query->where('subscription_type', $userSubscriptionType);
             })
-
             ->where(function ($query) use ($user) {
-
-                // Filter on user's level
+                // Include devotionals that are available at the user's level or those without level requirements
                 $query->where('level_required', '<=', $user->level)
                       ->orWhereNull('level_required');
             })
             ->get();
-
         } else {
-            // If the user is not logged in, return all devotionals
-            $devotionals = Devotional::all();
-            // dd($devotionals);
-
+            // For unauthenticated users, fetch devotionals with subscription_type of 'free_trial' or 'challenges'
+            $devotionals = Devotional::whereIn('subscription_type', ['free_trial', 'challenges'])
+                                     ->orWhere('subscription_type', 'free_trial')
+                                     ->get();
         }
 
         return view('user.devotionals.index', compact('devotionals'));
@@ -61,84 +55,70 @@ class DevotionalController extends Controller
         return view('adminTwo.uploadDevotional');
     }
 
-
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'subscription_type' => 'nullable|in:personal_training,build_his_temple',
+            'subscription_type' => 'nullable|in:personal_training,build_his_temple,free_trial,challenge',
             'level' => 'nullable|integer|min:1',
             'document' => 'nullable|file|mimes:pdf,doc,docx,txt|max:10240',
+        ], [
+            'title.required' => 'The title is mandatory.',
+            'content.required' => 'Content cannot be empty.',
+            'document.mimes' => 'Only PDF, DOC, DOCX, and TXT files are allowed.',
         ]);
 
-        // Handles where to store the documents
+
         $documentPath = null;
         $documentContent = null;
 
         if ($request->hasFile('document')) {
-            // Store the document and get its path
             $documentPath = $request->file('document')->store('documents', 'public');
-            //  dd($documentPath);
-
             $extension = $request->file('document')->getClientOriginalExtension();
 
-            // If the file is a text file, read its content
-            if ($extension === 'txt') {
-                $documentContent = file_get_contents(storage_path('app/public/' . $documentPath));
-            }
-
-            // For .docx files, extract text content using PhpWord
-            if (in_array($extension, ['docx', 'doc'])) {
-                $phpWord = IOFactory::load(storage_path('app/public/' . $documentPath));
-                $text = '';
-
-                // Loop through the sections and extract text
-                foreach ($phpWord->getSections() as $section) {
-                    foreach ($section->getElements() as $element) {
-                        // Check if the element is a TextRun
-                        if ($element instanceof \PhpOffice\PhpWord\Element\TextRun) {
-                            // Loop through the elements inside the TextRun
-                            foreach ($element->getElements() as $textElement) {
-                                if ($textElement instanceof \PhpOffice\PhpWord\Element\Text) {
-                                    $text .= $textElement->getText();
-                                }
-                            }
-                        }
-                        // If it's a simple Text element, extract the text
-                        if ($element instanceof \PhpOffice\PhpWord\Element\Text) {
-                            $text .= $element->getText();
-                        }
-                    }
+            try {
+                if ($extension === 'txt') {
+                    $documentContent = file_get_contents(storage_path('app/public/' . $documentPath));
                 }
 
-                $documentContent = $text;
+                if (in_array($extension, ['docx', 'doc'])) {
+                    $phpWord = IOFactory::load(storage_path('app/public/' . $documentPath));
+                    $text = '';
+
+                    foreach ($phpWord->getSections() as $section) {
+                        foreach ($section->getElements() as $element) {
+                            if ($element instanceof \PhpOffice\PhpWord\Element\TextRun) {
+                                foreach ($element->getElements() as $textElement) {
+                                    if ($textElement instanceof \PhpOffice\PhpWord\Element\Text) {
+                                        $text .= $textElement->getText();
+                                    }
+                                }
+                            } elseif ($element instanceof \PhpOffice\PhpWord\Element\Text) {
+                                $text .= $element->getText();
+                            }
+                        }
+                    }
+
+                    $documentContent = $text;
+                }
+            } catch (\Exception $e) {
+                Log::error('Error processing document: ' . $e->getMessage());
             }
         }
 
-        Log::info('Document path: ', [$documentPath]); // Log the document path
-
-
-        // Create the devotional
         Devotional::create([
             'title' => $request->title,
             'content' => $request->content,
             'subscription_type' => $request->subscription_type,
             'level' => $request->level,
             'document_path' => $documentPath,
-            'document_content' => $documentContent, // Store the extracted content
+            'document_content' => $documentContent,
             'uploaded_by' => Auth::user()->id,
         ]);
 
-        // Get all devotionals to display
-        $devotionals = Devotional::all();
-
-        // Return view
-        return view('adminTwo.viewDevotionals', compact('devotionals'));
+        return redirect()->route('admin.viewDevotionals')->with('success', 'Devotional created successfully.');
     }
-
-
-
 
     public function edit($id)
     {
@@ -154,6 +134,9 @@ class DevotionalController extends Controller
             'content' => 'required|string',
             'subscription_type' => 'in:personal_training,build_his_temple',
             'level' => 'nullable|integer|min:1',
+        ], [
+            'title.required' => 'The title is mandatory.',
+            'content.required' => 'Content cannot be empty.',
         ]);
 
         $devotional = Devotional::findOrFail($id);
@@ -161,7 +144,7 @@ class DevotionalController extends Controller
             'title' => $request->title,
             'content' => $request->content,
             'subscription_type' => $request->subscription_type,
-            'level' => $request->level
+            'level' => $request->level,
         ]);
 
         return redirect()->route('admin.viewDevotionals')->with('success', 'Devotional updated successfully.');
@@ -174,8 +157,4 @@ class DevotionalController extends Controller
 
         return redirect()->route('admin.viewDevotionals')->with('success', 'Devotional deleted successfully.');
     }
-
-
-
-
 }

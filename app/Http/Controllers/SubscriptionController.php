@@ -105,8 +105,7 @@ class SubscriptionController extends Controller
         $progress = $this->calculateLevelProgress($user);
 
         // return view('videos.buildHisTemple', compact('videos', 'user', 'progress'));
-        return view ('user.videos.index', compact('videos', 'progress'));
-
+        return view('user.videos.index', compact('videos', 'progress'));
     }
 
 
@@ -114,12 +113,26 @@ class SubscriptionController extends Controller
     {
         $user = Auth::user();
 
-            $videos = Video::where('subscription_type', 'personal_training')->get();
+        $videos = Video::where('subscription_type', 'personal_training')->get();
 
-            // return view('videos.personalTraining', compact('videos'));
+        // return view('videos.personalTraining', compact('videos'));
 
-            return view ('user.videos.index', compact('videos'));
+        return view('user.videos.index', compact('videos'));
+    }
 
+    public function showFreeTrialVideos()
+    {
+        $videos = Video::where('subscription_type', 'free_trial')->get();
+
+        return view('user.videos.freeTrial', compact('videos'));
+    }
+
+
+    public function showChallengesVideos()
+    {
+        $videos = Video::where('subscription_type', 'challenges')->get();
+
+        return view('user.videos.challenges', compact('videos'));
     }
 
 

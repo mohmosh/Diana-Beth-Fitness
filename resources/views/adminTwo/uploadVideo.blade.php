@@ -97,6 +97,9 @@
                     <select name="subscription_type" id="subscription_type" class="form-select" required>
                         <option value="personal_training">Personal Training</option>
                         <option value="build_his_temple">Build His Temple</option>
+                        <option value="free_trial">Free Trial</option>
+                        <option value="challenge">Challenges</option>
+
                     </select>
                 </div>
 

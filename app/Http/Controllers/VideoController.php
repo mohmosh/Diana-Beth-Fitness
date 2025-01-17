@@ -61,6 +61,74 @@ class VideoController extends Controller
         }
     }
 
+    // Method to show free trial videos
+    public function showFreeTrialVideos()
+    {
+        $user = Auth::user();
+
+        // If the user is not logged in, show the free trial view
+        if (!$user) {
+            return view('dashboard.freeTrial');
+        }
+
+        // If the user has no active subscription
+        if (!$user->subscription) {
+            $freePlans = Plan::whereIn('subscription_type', ['free_trial', 'challenges'])->get();
+
+            if ($freePlans->isNotEmpty()) {
+                return view('subscriptions.free', compact('freePlans'));
+            }
+
+            return redirect()->route('plans.index')->with('warning', 'Please subscribe to a plan to access videos.');
+        }
+
+        // Fetch the user's current plan
+        $plan = $user->subscription->plan;
+
+        // Check if the plan is 'free_trial'
+        if ($plan->subscription_type === 'free_trial') {
+            $videos = Video::where('subscription_type', 'free_trial')->get();
+            return view('user.videos.freeTrial', compact('videos', 'user'));
+        }
+
+        // Handle other subscription types (e.g., challenges, etc.)
+        return redirect()->route('plans.index')->with('warning', 'Please subscribe to a plan to access videos.');
+    }
+
+    // Method to show challenges videos
+    public function showChallengesVideos()
+    {
+        $user = Auth::user();
+
+        // If the user is not logged in, show the challenges view
+        if (!$user) {
+            return view('dashboard.challenges');
+        }
+
+        // If the user has no active subscription
+        if (!$user->subscription) {
+            $freePlans = Plan::whereIn('subscription_type', ['free_trial', 'challenges'])->get();
+
+            if ($freePlans->isNotEmpty()) {
+                return view('subscriptions.free', compact('freePlans'));
+            }
+
+            return redirect()->route('plans.index')->with('warning', 'Please subscribe to a plan to access videos.');
+        }
+
+        // Fetch the user's current plan
+        $plan = $user->subscription->plan;
+
+        // Check if the plan is 'challenges'
+        if ($plan->subscription_type === 'challenges') {
+            $videos = Video::where('subscription_type', 'challenges')->get();
+            return view('user.videos.challenges', compact('videos', 'user'));
+        }
+
+        // Handle other subscription types (e.g., free_trial, etc.)
+        return redirect()->route('plans.index')->with('warning', 'Please subscribe to a plan to access videos.');
+    }
+
 
 
     // Admin side - Display the upload form
@@ -78,7 +146,7 @@ class VideoController extends Controller
             'video' => 'required|file|mimes:mp4,mkv,avi,flv',
             'description' => 'nullable|string',
             'url' => 'nullable|url|max:255',
-            'subscription_type' => 'required|in:personal_training,build_his_temple',
+            'subscription_type' => 'nullable|in:personal_training,build_his_temple,free_trial,challenge',
             'level' => 'nullable|integer|min:1',  // This is only needed for Build His Temple
         ]);
 

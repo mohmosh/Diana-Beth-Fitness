@@ -195,6 +195,11 @@ Route::get('/videos/personal-training', [VideoController::class, 'personalTraini
 
 Route::get('/videos/build-his-temple', [VideoController::class, 'buildHisTemple'])->name('videos.buildHisTemple');
 
+Route::get('/videos/free-trial', [VideoController::class, 'showFreeTrialVideos'])->name('videos.freeTrial');
+
+Route::get('/videos/challenges', [VideoController::class, 'showChallengesVideos'])->name('videos.challenges');
+
+
 
 Route::get('/upgrade-level', [SubscriptionController::class, 'upgradeLevel'])->name('upgrade.level');
 

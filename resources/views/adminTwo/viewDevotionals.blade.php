@@ -47,6 +47,10 @@
                                         Personal Training
                                     @elseif($devotional->subscription_type == 'build_his_temple')
                                         Build His Temple
+                                        @elseif($devotional->subscription_type == 'free_trial')
+                                        Free Trial
+                                        @elseif($devotional->subscription_type == 'challenge')
+                                        Challenge
                                     @else
                                         N/A
                                     @endif
