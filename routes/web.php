@@ -26,7 +26,7 @@ use App\Models\Devotional;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Auth::routes(['verify' => true]);
+// Auth::routes(['verify' => true]);
 
 
 
@@ -198,6 +198,8 @@ Route::get('/videos/build-his-temple', [VideoController::class, 'buildHisTemple'
 Route::get('/videos/free-trial', [VideoController::class, 'showFreeTrialVideos'])->name('videos.freeTrial');
 
 Route::get('/videos/challenges', [VideoController::class, 'showChallengesVideos'])->name('videos.challenges');
+
+Route::post('/videos/{video}/mark-as-done', [SubscriptionController::class, 'markVideoAsDone'])->name('videos.markAsDone');
 
 
 

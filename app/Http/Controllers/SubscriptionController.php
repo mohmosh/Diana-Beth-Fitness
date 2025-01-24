@@ -6,6 +6,7 @@ use App\Models\Plan;
 use App\Models\Subscription;
 use App\Models\User;
 use App\Models\Video;
+use App\Models\VideoProgress;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -94,19 +95,38 @@ class SubscriptionController extends Controller
 
     // Handle video display based on the user's current level
 
+    // public function showBuildHisTempleVideos()
+    // {
+    //     $user = Auth::user();
+
+    //     $videos = Video::where('subscription_type', 'build_his_temple')
+    //         ->where('level', '<=', $user->level)
+    //         ->get();
+
+    //     $progress = $this->calculateLevelProgress($user);
+
+    //     // return view('videos.buildHisTemple', compact('videos', 'user', 'progress'));
+    //     return view('user.videos.index', compact('videos', 'progress'));
+    // }
+
     public function showBuildHisTempleVideos()
     {
         $user = Auth::user();
 
+        // Fetch videos based on level and progress
         $videos = Video::where('subscription_type', 'build_his_temple')
             ->where('level', '<=', $user->level)
-            ->get();
+            ->get()
+            ->map(function ($video) use ($user) {
+                $video->progress = $video->progress()
+                    ->where('user_id', $user->id)
+                    ->first();
+                return $video;
+            });
 
-        $progress = $this->calculateLevelProgress($user);
-
-        // return view('videos.buildHisTemple', compact('videos', 'user', 'progress'));
-        return view('user.videos.index', compact('videos', 'progress'));
+        return view('user.videos.index', compact('videos'));
     }
+
 
 
     public function showPersonalTrainingWorkouts()
@@ -136,26 +156,20 @@ class SubscriptionController extends Controller
     }
 
 
-
-
-    private function calculateLevelProgress($user)
+    public function markVideoAsDone(Request $request, $videoId)
     {
-        // Calculate progress based on the number of completed videos
-        $totalVideos = Video::where('subscription_type', 'build_his_temple')->count();
+        $user = Auth::user();
 
-        $completedVideos = Video::where('level', '<=', $user->level)
-            ->where('subscription_type', 'build_his_temple')
-            ->whereHas('users', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })->count();
 
-        // Calculate percentage progress
-        if ($totalVideos > 0) {
-            return round(($completedVideos / $totalVideos) * 100);
-        }
+        $progress = VideoProgress::updateOrCreate(
+            ['user_id' => $user->id, 'video_id' => $videoId],
+            ['is_done' => true]
+        );
 
-        return 0; // Return 0 if no videos are found
+        return redirect()->back()->with('success', 'Video marked as done!');
     }
+
+
 
 
     public function upgradeLevel()

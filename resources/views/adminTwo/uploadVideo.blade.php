@@ -1,78 +1,76 @@
 @extends('adminTwo.dashboard')
 
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Upload Media')</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <!DOCTYPE html>
+    <html lang="en">
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>@yield('title', 'Upload Media')</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+        <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+        <style>
+            body {
+                background-color: white;
+                color: #333;
+                font-family: 'Arial', sans-serif;
+            }
 
-    <style>
-        body {
-            background-color: white;
-            color: #333;
-            font-family: 'Arial', sans-serif;
-        }
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+            }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
+            h1 {
+                color: #6c757d;
+            }
 
-        h1 {
-            color: #6c757d;
-        }
+            .alert-danger {
+                background-color: #f2dede;
+                border-color: #ebccd1;
+                color: #a94442;
+            }
 
-        .alert-danger {
-            background-color: #f2dede;
-            border-color: #ebccd1;
-            color: #a94442;
-        }
+            .form-control {
+                border-color: #6c757d;
+            }
 
-        .form-control {
-            border-color: #6c757d;
-        }
+            .form-control:focus {
+                border-color: #6c757d;
+                box-shadow: 0 0 8px rgba(108, 117, 125, 0.25);
+            }
 
-        .form-control:focus {
-            border-color: #6c757d;
-            box-shadow: 0 0 8px rgba(108, 117, 125, 0.25);
-        }
+            .btn-primary {
+                background-color: #6c757d;
+                border-color: #6c757d;
+            }
 
-        .btn-primary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
+            .btn-primary:hover {
+                background-color: #5a6268;
+                border-color: #545b62;
+            }
 
-        .btn-primary:hover {
-            background-color: #5a6268;
-            border-color: #545b62;
-        }
+            .btn-primary:focus {
+                box-shadow: 0 0 8px rgba(108, 117, 125, 0.5);
+            }
+        </style>
+    </head>
 
-        .btn-primary:focus {
-            box-shadow: 0 0 8px rgba(108, 117, 125, 0.5);
-        }
-    </style>
-</head>
+    <main>
 
-<main>
+        <div class="container mt-4">
+            <h1 class="text-center mb-4">Upload Video</h1>
 
-    <div class="container mt-4">
-        <h1 class="text-center mb-4">Upload Video</h1>
-
-        @if($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <form action="{{ route('admin.storeVideo') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -89,7 +87,7 @@
 
                 <div class="mb-3">
                     <label for="url" class="form-label">Video URL</label>
-                    <input type="url" name="url" id="url" class="form-control" {{ old('url') ? 'value='.old('url') : '' }}>
+                    <input type="url" name="url" id="url" class="form-control" value="{{ old('url') }}">
                 </div>
 
                 <div class="mb-3">
@@ -99,7 +97,6 @@
                         <option value="build_his_temple">Build His Temple</option>
                         <option value="free_trial">Free Trial</option>
                         <option value="challenge">Challenges</option>
-
                     </select>
                 </div>
 
@@ -113,11 +110,22 @@
                     <input type="file" id="video" name="video" class="form-control" required>
                 </div>
 
+                <!-- Devotional Upload Field -->
+                <div class="mb-3">
+                    <label for="devotional_text" class="form-label">Devotional Text (Optional):</label>
+                    <textarea name="devotional_text" id="devotional_text" class="form-control"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="devotional_file" class="form-label">Upload Devotional File (Optional):</label>
+                    <input type="file" id="devotional_file" name="devotional_file" class="form-control">
+                    <small class="text-muted">You can either upload a file or enter devotional text. If both are provided,
+                        the text will take priority.</small>
+                </div>
+
+
                 <button type="submit" class="btn btn-primary">Upload</button>
             </form>
-        </div>
-            </form>
-
         </div>
 
         <script>
@@ -126,19 +134,16 @@
                 .catch(error => {
                     console.error(error);
                 });
+
+            ClassicEditor
+                .create(document.querySelector('#devotional_text'))
+                .catch(error => {
+                    console.error(error);
+                });
         </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</main>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </main>
 
-
-</html>
-
+    </html>
 @endsection
-
-
-
-
-
-
-

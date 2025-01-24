@@ -15,18 +15,23 @@ class Devotional extends Model
         'uploaded_by',
         'subscription_type',
         'level_required',
-        'document_content'
+        'document_content',
+        'video_id'
 
     ];
 
     public function plan()
     {
-    return $this->belongsTo(Plan::class);
+        return $this->belongsTo(Plan::class);
     }
 
     public function subscription()
     {
         return $this->belongsTo(Subscription::class);
+    }
 
+    public function video()
+    {
+        return $this->belongsTo(Video::class);
     }
 }

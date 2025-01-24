@@ -32,7 +32,9 @@
                             <th>Subscription Type</th>
                             <th>Level (For Build His Temple)</th>
                             <th>Uploaded At</th>
+                            <th>Devotionals</th>
                             <th>Actions</th> <!-- New Column for actions -->
+
                         </tr>
                     </thead>
                     <tbody>
@@ -42,10 +44,8 @@
                                 <td>{{ $video->title }}</td>
                                 <td>
                                     @if(Storage::exists('public/' . $video->path))
-                                            <video width="320" height="240" class="rounded" controls controlsList="nodownload" oncontextmenu="return false;">
+                                        <video width="320" height="240" class="rounded" controls controlsList="nodownload" oncontextmenu="return false;">
                                             <source src="{{ asset('storage/' . $video->path) }}" type="video/mp4">
-                                            <source src="{{ asset('storage/' . $video->path) }}" type="video/ogg">
-                                            <source src="{{ asset('storage/' . $video->path) }}" type="video/webm">
                                             Your browser does not support the video tag.
                                         </video>
                                     @else
@@ -57,9 +57,9 @@
                                         Personal Training
                                     @elseif($video->subscription_type == 'build_his_temple')
                                         Build His Temple
-                                        @elseif($video->subscription_type == 'free_trial')
+                                    @elseif($video->subscription_type == 'free_trial')
                                         Free Trial
-                                        @elseif($video->subscription_type == 'challenge')
+                                    @elseif($video->subscription_type == 'challenge')
                                         Challenge
                                     @else
                                         N/A
@@ -74,6 +74,18 @@
                                 </td>
                                 <td>{{ $video->created_at->format('d M, Y') }}</td>
                                 <td>
+                                    @if($video->devotional)
+                                    @if(Storage::exists('public/' . $video->devotional->content))
+                                        <a href="{{ asset('storage/' . $video->devotional->content) }}" target="_blank">View Devotional File</a>
+                                    @else
+                                        <p>{!! $video->devotional->content !!}</p>
+                                    @endif
+                                @else
+                                    <span class="text-muted">No devotional available</span>
+                                @endif
+
+                                </td>
+                                <td>
                                     <!-- Edit Button -->
                                     <a href="{{ route('admin.editVideo', $video->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
@@ -87,7 +99,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center text-muted py-4">
+                                <td colspan="8" class="text-center text-muted py-4">
                                     <i class="bi bi-folder-x fs-4"></i>
                                     <p class="mt-2">No videos uploaded yet.</p>
                                     <a href="{{ route('admin.uploadVideo') }}" class="btn btn-primary mt-3">Upload Your First Video</a>
@@ -95,6 +107,8 @@
                             </tr>
                         @endforelse
                     </tbody>
+
+
                 </table>
             </div>
         </div>

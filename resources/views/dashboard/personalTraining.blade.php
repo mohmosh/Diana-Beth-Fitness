@@ -16,7 +16,7 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container d-flex align-items-center">
             <div class="container">
-                <a class="navbar-brand text-white" href="#">My Training</a>
+                <a class="navbar-brand text-white" href="#">Personal Training</a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -42,6 +42,7 @@
         <!-- Video Section -->
         <div class="container mt-4">
             <h1 class="text-center mb-5">Personal Training Videos</h1>
+
             <div class="row">
                 @forelse($videos as $video)
                     <div class="col-lg-4 col-md-6 mb-4">
@@ -55,6 +56,20 @@
                                 <h5 class="widget-title">{{ $video->title }}</h5>
                                 <p class="widget-description">{{ Str::limit($video->description, 100) }}</p>
                             </div>
+
+                            <!-- Devotionals Section -->
+                            <div class="devotionals mt-3">
+                                <h6 class="text-muted">Devotionals:</h6>
+                                @forelse($video->devotionals as $devotional)
+                                    <div class="devotional">
+                                        <h6 class="text-primary">{{ $devotional->title }}</h6>
+                                        <p>{{ Str::limit($devotional->content, 100) }}</p>
+                                        <a href="#" class="btn btn-sm btn-link">Read More</a>
+                                    </div>
+                                @empty
+                                    <p class="text-muted">No devotionals available for this video.</p>
+                                @endforelse
+                            </div>
                         </div>
                     </div>
                 @empty
@@ -63,6 +78,8 @@
                     </div>
                 @endforelse
             </div>
+
+
         </div>
     </div>
 
@@ -167,4 +184,30 @@
         p.text-danger {
             font-size: 1rem;
         }
+
+    .devotionals {
+        border-top: 1px solid #e0e0e0;
+        padding-top: 10px;
+    }
+
+    .devotional h6 {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .devotional p {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .devotional a {
+        font-size: 0.85rem;
+        color: #8a0f9b;
+    }
+
+    .devotional a:hover {
+        text-decoration: underline;
+        color: #6a1b9a;
+    }
+
     </style>

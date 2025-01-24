@@ -43,11 +43,21 @@ class Video extends Model implements HasMedia
             ->where('level', $level);
     }
 
+    public function progress()
+    {
+        return $this->hasMany(VideoProgress::class);
+    }
+
 
     public function scopeForLevel($query, $level)
     {
         return $query->where('level', $level);
     }
+
+    public function devotional()
+{
+    return $this->hasOne(Devotional::class);
+}
 
     /**
      * Register the media conversions.

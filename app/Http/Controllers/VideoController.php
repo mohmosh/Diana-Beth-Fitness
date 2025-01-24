@@ -14,98 +14,109 @@ class VideoController extends Controller
     // Display all uploaded videos (Admin side)
     public function index()
     {
-        $videos = Video::all();
+        $videos = Video::with('devotional')->get();
 
         return view('adminTwo.viewVideos', compact('videos'));
     }
+
+
+
+
 
     // Display videos for users based on subscription type and level
 
 
 
+    // public function usersVideos()
+    // {
+    //     $user = Auth::user();
+
+    //     if (!$user) {
+    //         // If user is not logged in, show available plans
+    //         $plans = Plan::all(); // Or any other logic to show available plans
+    //         return view('subscriptions.index', compact('plans'));
+    //     }
+
+    //     // Ensure the user has a valid subscription
+    //     if ($user->subscription) {
+
+    //         $plan = $user->subscription->plan; // Fetch the user's current plan
+
+    //         if ($plan->subscription_type === 'personal_training') {
+    //             // Fetch Personal Training videos
+    //             $videos = Video::where('subscription_type', 'personal_training')->get();
+
+    //             return view('dashboard.personalTraining', compact('videos', 'user'));
+    //         } elseif ($plan->subscription_type === 'build_his_temple') {
+    //             // Get Build His Temple videos based on user's current level
+    //             $videos = Video::where('subscription_type', 'build_his_temple')
+    //                 ->where('level', '<=', $user->current_level) // Ensure level filter is applied
+    //                 ->get();
+
+    //             Log::info('Fetched Videos for Build His Temple: ', $videos->toArray());
+
+    //             return view('dashboard.buildHisTemple', compact('videos', 'user'));
+    //         } else {
+    //             return redirect()->route('plans.index')->with('warning', 'Please subscribe to a valid plan to access videos.');
+    //         }
+    //     } else {
+    //         // No active subscription found, prompt to subscribe
+    //         return redirect()->route('plans.index')->with('warning', 'Please subscribe to a plan to access videos.');
+    //     }
+    // }
     public function usersVideos()
     {
         $user = Auth::user();
 
-        if (!$user) {
-            // If user is not logged in, show available plans
-            $plans = Plan::all(); // Or any other logic to show available plans
+        // Ensure the user is authenticated and has a subscription
+        if (!$user || !$user->subscription) {
+
+            $plans = Plan::all();
             return view('subscriptions.index', compact('plans'));
         }
 
-        // Ensure the user has a valid subscription
-        if ($user->subscription) {
-
-            $plan = $user->subscription->plan; // Fetch the user's current plan
-
-            if ($plan->subscription_type === 'personal_training') {
-                // Fetch Personal Training videos
-                $videos = Video::where('subscription_type', 'personal_training')->get();
-
-                return view('dashboard.personalTraining', compact('videos', 'user'));
-            } elseif ($plan->subscription_type === 'build_his_temple') {
-                // Get Build His Temple videos based on user's current level
-                $videos = Video::where('subscription_type', 'build_his_temple')
-                    ->where('level', '<=', $user->current_level) // Ensure level filter is applied
-                    ->get();
-
-                Log::info('Fetched Videos for Build His Temple: ', $videos->toArray());
-
-                return view('dashboard.buildHisTemple', compact('videos', 'user'));
-            } else {
-                return redirect()->route('plans.index')->with('warning', 'Please subscribe to a valid plan to access videos.');
-            }
-        } else {
-            // No active subscription found, prompt to subscribe
-            return redirect()->route('plans.index')->with('warning', 'Please subscribe to a plan to access videos.');
-        }
-    }
-
-    // Method to show free trial videos
-    public function showFreeTrialVideos()
-    {
-        $user = Auth::user();
-
-        // If the user is not logged in, show the free trial view
-        if (!$user) {
-            return view('dashboard.freeTrial');
-        }
-
-        // If the user has no active subscription
-        if (!$user->subscription) {
-            $freePlans = Plan::whereIn('subscription_type', ['free_trial', 'challenges'])->get();
-
-            if ($freePlans->isNotEmpty()) {
-                return view('subscriptions.free', compact('freePlans'));
-            }
-
-            return redirect()->route('plans.index')->with('warning', 'Please subscribe to a plan to access videos.');
-        }
-
-        // Fetch the user's current plan
         $plan = $user->subscription->plan;
 
-        // Check if the plan is 'free_trial'
-        if ($plan->subscription_type === 'free_trial') {
-            $videos = Video::where('subscription_type', 'free_trial')->get();
-            return view('user.videos.freeTrial', compact('videos', 'user'));
+        // Checking for the plan's subscription type
+        if ($plan->subscription_type === 'personal_training') {
+
+            $videos = Video::with('devotionals')->where('subscription_type', 'personal_training')->get();
+
+            return view('dashboard.personalTraining', compact('videos', 'user'));
+            
+        } elseif ($plan->subscription_type === 'build_his_temple') {
+
+            $videos = Video::with('devotionals')
+                ->where('subscription_type', 'build_his_temple')
+                ->where('level', '<=', $user->current_level)
+                ->get();
+            return view('dashboard.buildHisTemple', compact('videos', 'user'));
         }
 
-        // Handle other subscription types (e.g., challenges, etc.)
-        return redirect()->route('plans.index')->with('warning', 'Please subscribe to a plan to access videos.');
+        // Default case for unsupported plans
+        return redirect()->route('plans.index')->with('warning', 'Please subscribe to a valid plan to access videos.');
     }
+
+
+
+    public function showFreeTrialVideos()
+    {
+        $videos = Video::with('devotional')->where('subscription_type', 'free_trial')->get();
+
+        return view('dashboard.freeTrial', compact('videos'));
+    }
+
+
 
     // Method to show challenges videos
     public function showChallengesVideos()
     {
         $user = Auth::user();
 
-        // If the user is not logged in, show the challenges view
         if (!$user) {
             return view('dashboard.challenges');
         }
 
-        // If the user has no active subscription
         if (!$user->subscription) {
             $freePlans = Plan::whereIn('subscription_type', ['free_trial', 'challenges'])->get();
 
@@ -116,18 +127,16 @@ class VideoController extends Controller
             return redirect()->route('plans.index')->with('warning', 'Please subscribe to a plan to access videos.');
         }
 
-        // Fetch the user's current plan
         $plan = $user->subscription->plan;
 
-        // Check if the plan is 'challenges'
         if ($plan->subscription_type === 'challenges') {
-            $videos = Video::where('subscription_type', 'challenges')->get();
+            $videos = Video::with('devotional')->where('subscription_type', 'challenges')->get();
             return view('user.videos.challenges', compact('videos', 'user'));
         }
 
-        // Handle other subscription types (e.g., free_trial, etc.)
         return redirect()->route('plans.index')->with('warning', 'Please subscribe to a plan to access videos.');
     }
+
 
 
 
@@ -138,36 +147,83 @@ class VideoController extends Controller
     }
 
     // Admin side - Handle video upload
+    // public function store(Request $request)
+    // {
+    //     // Validate the form input
+    //     $request->validate([
+    //         'title' => 'required|string|max:255',
+    //         'video' => 'required|file|mimes:mp4,mkv,avi,flv',
+    //         'description' => 'nullable|string',
+    //         'url' => 'nullable|url|max:255',
+    //         'subscription_type' => 'nullable|in:personal_training,build_his_temple,free_trial,challenge',
+    //         'level' => 'nullable|integer|min:1',  // This is only needed for Build His Temple
+    //     ]);
+
+    //     // Handle the video upload (store in the public disk)
+    //     $path = $request->file('video')->store('videos', 'public');
+
+    //     // Save video details to the database
+    //     Video::create([
+    //         'title' => $request->title,
+    //         'path' => $path,
+    //         'description' => $request->description,
+    //         'url' => $request->url,
+    //         'subscription_type' => $request->subscription_type,
+    //         'level' => $request->level // Level is set only if the video belongs to "Build His Temple"
+    //     ]);
+
+    //     // Fetch all videos after upload and display them
+    //     $videos = Video::all();
+
+    //     return view('adminTwo.viewVideos', compact('videos'));
+    // }
+
+    // Admin side - Handle video upload
     public function store(Request $request)
     {
-        // Validate the form input
         $request->validate([
             'title' => 'required|string|max:255',
-            'video' => 'required|file|mimes:mp4,mkv,avi,flv',
+            'video' => 'required|file|mimes:mp4,mkv,avi,flv|max:102400', // 100MB max size
             'description' => 'nullable|string',
             'url' => 'nullable|url|max:255',
             'subscription_type' => 'nullable|in:personal_training,build_his_temple,free_trial,challenge',
-            'level' => 'nullable|integer|min:1',  // This is only needed for Build His Temple
+            'level' => 'nullable|integer|min:1', // Only for Build His Temple
+            'devotional_content' => 'nullable|string', // For text-based devotionals
+            'devotional_file' => 'nullable|file|mimes:pdf,docx,txt|max:102400' // 100MB max size for file uploads
         ]);
 
-        // Handle the video upload (store in the public disk)
+        // Store the video
         $path = $request->file('video')->store('videos', 'public');
 
-        // Save video details to the database
-        Video::create([
+        // Create the video record
+        $video = Video::create([
             'title' => $request->title,
             'path' => $path,
             'description' => $request->description,
             'url' => $request->url,
             'subscription_type' => $request->subscription_type,
-            'level' => $request->level // Level is set only if the video belongs to "Build His Temple"
+            'level' => $request->level,
         ]);
 
-        // Fetch all videos after upload and display them
-        $videos = Video::all();
+        // Handle devotional content
+        if ($request->filled('devotional_content')) {
+            // Save text-based devotional
+            $video->devotional()->create([
+                'content' => $request->devotional_content,
+            ]);
+        } elseif ($request->hasFile('devotional_file')) {
 
-        return view('adminTwo.viewVideos', compact('videos'));
+            // Save file-based devotional
+            $devotionalPath = $request->file('devotional_file')->store('devotionals', 'public');
+            $video->devotional()->create([
+                'content' => $devotionalPath, // Store file path
+            ]);
+        }
+
+        return redirect()->route('admin.viewVideos')->with('success', 'Video uploaded successfully!');
     }
+
+
 
     // View for Personal Training Videos
 
