@@ -128,6 +128,10 @@ Route::get('/user/videos', [VideoController::class, 'usersVideos'])->name('user.
 
 Route::get('/user/devotionals', [DevotionalController::class, 'usersDevotionals'])->name('user.devotionals.index');
 
+// routes/web.php
+Route::post('/mark-video-done', [VideoController::class, 'markVideoDone'])->name('mark.video.done');
+
+
 
 
 // Contact

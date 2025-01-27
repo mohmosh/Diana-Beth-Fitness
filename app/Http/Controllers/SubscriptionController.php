@@ -92,23 +92,6 @@ class SubscriptionController extends Controller
 
 
 
-
-    // Handle video display based on the user's current level
-
-    // public function showBuildHisTempleVideos()
-    // {
-    //     $user = Auth::user();
-
-    //     $videos = Video::where('subscription_type', 'build_his_temple')
-    //         ->where('level', '<=', $user->level)
-    //         ->get();
-
-    //     $progress = $this->calculateLevelProgress($user);
-
-    //     // return view('videos.buildHisTemple', compact('videos', 'user', 'progress'));
-    //     return view('user.videos.index', compact('videos', 'progress'));
-    // }
-
     public function showBuildHisTempleVideos()
     {
         $user = Auth::user();
@@ -156,18 +139,7 @@ class SubscriptionController extends Controller
     }
 
 
-    public function markVideoAsDone(Request $request, $videoId)
-    {
-        $user = Auth::user();
 
-
-        $progress = VideoProgress::updateOrCreate(
-            ['user_id' => $user->id, 'video_id' => $videoId],
-            ['is_done' => true]
-        );
-
-        return redirect()->back()->with('success', 'Video marked as done!');
-    }
 
 
 

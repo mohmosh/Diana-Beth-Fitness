@@ -32,8 +32,10 @@
                             <th>Subscription Type</th>
                             <th>Level (For Build His Temple)</th>
                             <th>Uploaded At</th>
-                            <th>Devotionals</th>
-                            <th>Actions</th> <!-- New Column for actions -->
+                            {{-- <th>Devotional_text</th> --}}
+                            <th>Devotional_file</th>
+
+                            <th>Actions</th>
 
                         </tr>
                     </thead>
@@ -72,16 +74,28 @@
                                         N/A
                                     @endif
                                 </td>
-                                <td>{{ $video->created_at->format('d M, Y') }}</td>
+                                {{-- <td>{{ $video->created_at->format('d M, Y') }}</td>
                                 <td>
-                                    @if($video->devotional)
-                                    @if(Storage::exists('public/' . $video->devotional->content))
-                                        <a href="{{ asset('storage/' . $video->devotional->content) }}" target="_blank">View Devotional File</a>
+                                    @if($video->devotional_content)
+                                    @if(Storage::exists('public/' . $video->devotional_content))
+                                        <a href="{{ asset('storage/' . $video->devotional_content) }}" target="_blank">View Devotional File</a>
                                     @else
-                                        <p>{!! $video->devotional->content !!}</p>
+                                        <p>{!! $video->devotional_content !!}</p>
                                     @endif
                                 @else
-                                    <span class="text-muted">No devotional available</span>
+                                    <span class="text-muted">No devotional text available</span>
+                                @endif
+
+                                </td> --}}
+                                <td>
+                                    @if($video->devotional_file)
+                                    @if(Storage::exists('public/' . $video->devotional_file))
+                                        <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank">View Devotional File</a>
+                                    @else
+                                        <p>{!! $video->devotional_file !!}</p>
+                                    @endif
+                                @else
+                                    <span class="text-muted">No devotional file available</span>
                                 @endif
 
                                 </td>

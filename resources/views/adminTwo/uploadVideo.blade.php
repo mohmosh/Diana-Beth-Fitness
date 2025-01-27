@@ -111,10 +111,10 @@
                 </div>
 
                 <!-- Devotional Upload Field -->
-                <div class="mb-3">
-                    <label for="devotional_text" class="form-label">Devotional Text (Optional):</label>
-                    <textarea name="devotional_text" id="devotional_text" class="form-control"></textarea>
-                </div>
+                {{-- <div class="mb-3">
+                    <label for="devotional_content" class="form-label">Devotional Text (Optional):</label>
+                    <textarea name="devotional_content" id="devotional_content" class="form-control"></textarea>
+                </div> --}}
 
                 <div class="mb-3">
                     <label for="devotional_file" class="form-label">Upload Devotional File (Optional):</label>

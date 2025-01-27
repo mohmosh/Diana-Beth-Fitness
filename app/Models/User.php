@@ -70,14 +70,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Subscription::class);
     }
 
-
-    public function accessibleVideos()
-    {
-        return $this->belongsToMany(Video::class, 'user_videos');
-    }
     public function videos()
     {
-        return $this->hasMany(Workout::class);
+    return $this->belongsToMany(Video::class)->withPivot('completed');
     }
 
     public function accessibleWorkouts()

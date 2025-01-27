@@ -56,7 +56,7 @@
             <div class="progress">
                 <div class="progress-bar bg-success" role="progressbar" id="progress-bar" style="width: 0%"
                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                    0%
+
                 </div>
             </div>
             <p class="mt-2" id="progress-text">Progress: 0%</p>
@@ -81,11 +81,36 @@
                             <p class="text-center">{{ $video->title }}</p>
                             <p class="text-muted text-center">Level {{ $video->level }} unlocked</p>
 
-                            <!-- Devotional Section -->
-                            <div class="devotional-content mt-3">
+
+                            <!-- Devotional Content -->
+                            {{-- <div class="devotional content mt-3" id="devotional-{{ $video->id }}" style="display: none;">
                                 <h6 class="widget-title text-center">Devotional</h6>
-                                <p class="text-muted">{{ $video->devotional }}</p>
-                            </div>
+                                @if (Str::endsWith($video->devotional_file, '.pdf'))
+                                    <!-- PDF file, create a link to view or download -->
+                                    <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank"
+                                        class="btn btn-info">View Devotional (PDF)</a>
+                                @elseif (Str::endsWith($video->devotional_file, '.docx'))
+                                    <!-- DOCX file, create a link to download -->
+                                    <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank"
+                                        class="btn btn-info">View Devotional (DOCX)</a>
+                                @else
+                                    <!-- If the file type is not supported or is not recognized -->
+                                    <p class="text-muted">No preview available for this devotional file.</p>
+                                @endif
+                            </div> --}}
+
+                            <!-- Check if the video is watched -->
+                          <div class="devotional content mt-3" id="devotional-{{ $video->id }}"
+    style="{{ auth()->user()->videos()->where('video_id', $video->id)->wherePivot('watched', true)->exists() ? 'display:block;' : 'display:none;' }}">
+    <h6 class="widget-title text-center">Devotional</h6>
+    @if (Str::endsWith($video->devotional_file, '.pdf'))
+        <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank" class="btn btn-info">View Devotional (PDF)</a>
+    @elseif (Str::endsWith($video->devotional_file, '.docx'))
+        <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank" class="btn btn-info">View Devotional (DOCX)</a>
+    @else
+        <p class="text-muted">No preview available for this devotional file.</p>
+    @endif
+</div>
 
                             <!-- Done Button -->
                             <div class="text-center" id="done-btn-{{ $video->id }}" style="display: none;">
@@ -97,6 +122,7 @@
                             <div class="video-thumbnail locked">
                                 <p>Locked</p>
                             </div>
+
                             <p class="text-center">{{ $video->title }}</p>
                             <p class="text-danger text-center">Unlock this video by advancing to Level
                                 {{ $video->level }}.</p>
@@ -128,44 +154,82 @@
     <script>
         // Function to update progress bar and show the 'Done' button
         function updateProgress(videoId, progress) {
-            const progressBar = document.getElementById('progress-bar');
-            const progressText = document.getElementById('progress-text');
-            const doneBtn = document.getElementById('done-btn-' + videoId);
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const doneBtn = document.getElementById('done-btn-' + videoId);
 
-            // Update the progress bar width and percentage
-            progressBar.style.width = progress + '%';
-            progressBar.setAttribute('aria-valuenow', progress);
-            progressText.textContent = 'Progress: ' + progress + '%';
+    // Round the progress to the nearest whole number
+    const roundedProgress = Math.floor(progress); // This will remove any decimals
 
-            // Show the 'Done' button once video is finished
-            if (progress >= 100) {
-                doneBtn.style.display = 'block';
-            }
-        }
+    // Update the progress bar width and percentage
+    progressBar.style.width = roundedProgress + '%';
+    progressBar.setAttribute('aria-valuenow', roundedProgress);
+    progressText.textContent = 'Progress: ' + roundedProgress + '%';
+
+    // Show the 'Done' button once video is finished
+    if (roundedProgress >= 100) {
+        doneBtn.style.display = 'block';
+    }
+}
+
 
         // Function to mark the video as done
         function markVideoDone(videoId) {
-            // Here you would typically send an AJAX request to update the user's progress on the server.
-            // For now, we'll just simulate the process by updating the progress.
-
-            alert('Video marked as done! You can now unlock more videos.');
-
-            // For example, increment user's level or unlock next videos
-            // Example: window.location.reload(); or send an AJAX request to update the progress in your database.
+            // Make an AJAX request to update progress on the server
+            fetch('/mark-video-done', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}', // Laravel CSRF token
+                    },
+                    body: JSON.stringify({
+                        videoId: videoId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Video marked as done!');
+                        // Optionally, refresh the page or update UI to show unlocked videos
+                        location.reload(); // You can reload the page to reflect changes
+                    } else {
+                        alert('Error marking video as done!');
+                    }
+                });
         }
 
-        // Attach event listener to video element
+        // Attach event listener to all video elements to track progress and video completion
         document.querySelectorAll('video').forEach(video => {
+            const videoId = video.getAttribute('data-video-id');
+            const devotionalContent = document.getElementById('devotional-' + videoId);
+            const doneBtn = document.getElementById('done-btn-' + videoId);
+
+            // Event listener to track video progress
             video.addEventListener('timeupdate', function() {
-                const videoId = video.getAttribute('data-video-id');
                 const duration = video.duration;
                 const currentTime = video.currentTime;
-
                 const progress = (currentTime / duration) * 100;
                 updateProgress(videoId, progress);
             });
+
+            // Event listener to show the devotional and done button when video ends
+            video.addEventListener('ended', function() {
+                
+                // Show the devotional content once the video ends
+                if (devotionalContent) {
+                    devotionalContent.style.display = 'block';
+                }
+                if (doneBtn) {
+                    doneBtn.style.display = 'block';
+                }
+
+                // Mark the video as done (this is just an example, real implementation needs server-side update)
+                markVideoDone(videoId);
+            });
         });
     </script>
+
+
 
 </body>
 

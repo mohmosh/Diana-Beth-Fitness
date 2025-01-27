@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('devotionals', function (Blueprint $table) {
-            
-            $table->unsignedBigInteger('uploaded_by')->nullable()->change();
+        Schema::table('user_video', function (Blueprint $table) {
+
+            $table->boolean('watched')->default(false);
         });
     }
 
     public function down()
     {
-        Schema::table('devotionals', function (Blueprint $table) {
-            $table->unsignedBigInteger('uploaded_by')->nullable(false)->change();
+        Schema::table('user_video', function (Blueprint $table) {
+            
+            $table->dropColumn('watched');
         });
     }
 };
