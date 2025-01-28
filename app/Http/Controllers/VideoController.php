@@ -19,10 +19,6 @@ class VideoController extends Controller
         return view('adminTwo.viewVideos', compact('videos'));
     }
 
-
-
-
-
     // Display videos for users based on subscription type and level
     public function usersVideos()
     {
@@ -30,7 +26,8 @@ class VideoController extends Controller
 
         if (!$user) {
             // If user is not logged in, show available plans
-            $plans = Plan::all(); // Or any other logic to show available plans
+            $plans = Plan::all();
+            
             return view('subscriptions.index', compact('plans'));
         }
 
@@ -294,7 +291,8 @@ class VideoController extends Controller
        // Method to handle marking video as done
        public function markVideoDone(Request $request)
        {
-           $video = Video::find($request->videoId);
+           $video = Video::findOrFail($request->videoId);
+
            $user = auth()->user();
 
            // Update the pivot table to mark the video as watched
@@ -302,7 +300,6 @@ class VideoController extends Controller
 
            return response()->json(['success' => true]);
        }
-
 
 
 

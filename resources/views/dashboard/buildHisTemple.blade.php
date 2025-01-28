@@ -47,10 +47,28 @@
 
     <!-- Main Content -->
     <div class="container mt-4">
+
+        <!-- Trial Expiry Notification -->
+        @php
+            $trialExpired =
+                auth()->user()->trial_started_at && now()->diffInDays(auth()->user()->trial_started_at) >= 7;
+        @endphp
+
+        @if ($trialExpired)
+            <div class="alert alert-warning text-center">
+                <strong>Your 7-day trial has expired.</strong> Please upgrade to a paid plan to continue accessing the
+                content.
+                <a href="{{ route('subscribe') }}" class="btn btn-warning">Upgrade Now</a>
+            </div>
+        @else
+            <div class="alert alert-success text-center">
+                <strong>Enjoy your 7-day free trial!</strong> You have access to all videos and devotionals.
+            </div>
+        @endif
+
         <!-- User Level and Progress -->
         <div class="text-center mb-4">
-            <h5>Your Current Level: <strong>{{ auth()->user()->level }}</strong></h5>
-            <p class="text-muted">Advance to the next level to unlock more content.</p>
+         
 
             <!-- Progress Bar -->
             <div class="progress">
@@ -100,20 +118,24 @@
                             </div> --}}
 
                             <!-- Check if the video is watched -->
-                          <div class="devotional content mt-3" id="devotional-{{ $video->id }}"
-    style="{{ auth()->user()->videos()->where('video_id', $video->id)->wherePivot('watched', true)->exists() ? 'display:block;' : 'display:none;' }}">
-    <h6 class="widget-title text-center">Devotional</h6>
-    @if (Str::endsWith($video->devotional_file, '.pdf'))
-        <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank" class="btn btn-info">View Devotional (PDF)</a>
-    @elseif (Str::endsWith($video->devotional_file, '.docx'))
-        <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank" class="btn btn-info">View Devotional (DOCX)</a>
-    @else
-        <p class="text-muted">No preview available for this devotional file.</p>
-    @endif
-</div>
+                            <!-- Devotional Content -->
+                            <div class="devotional content mt-3" id="devotional-{{ $video->id }}"
+                                style="{{ auth()->user()->videos()->where('video_id', $video->id)->wherePivot('watched', true)->exists() ? 'display:block;' : 'display:none;' }}">
+                                <h6 class="widget-title text-center">Devotional</h6>
+                                @if (Str::endsWith($video->devotional_file, '.pdf'))
+                                    <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank"
+                                        class="btn btn-info">View Devotional (PDF)</a>
+                                @elseif (Str::endsWith($video->devotional_file, '.docx'))
+                                    <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank"
+                                        class="btn btn-info">View Devotional (DOCX)</a>
+                                @else
+                                    <p class="text-muted">No preview available for this devotional file.</p>
+                                @endif
+                            </div>
 
                             <!-- Done Button -->
-                            <div class="text-center" id="done-btn-{{ $video->id }}" style="display: none;">
+                            <div class="text-center" id="done-btn-{{ $video->id }}"
+                                style="{{ auth()->user()->videos()->where('video_id', $video->id)->wherePivot('watched', true)->exists() ? 'display:block;' : 'display:none;' }}">
                                 <button class="btn btn-success"
                                     onclick="markVideoDone({{ $video->id }})">Done</button>
                             </div>
@@ -135,6 +157,9 @@
         </div>
 
 
+        <h5>Your Current Level: <strong>{{ auth()->user()->level }}</strong></h5>
+        <p class="text-muted">Advance to the next level to unlock more content.</p>
+
         <!-- Level Upgrade Button -->
         @if (auth()->user()->level < config('app.max_level', 3))
             <div class="text-center mt-4">
@@ -154,23 +179,23 @@
     <script>
         // Function to update progress bar and show the 'Done' button
         function updateProgress(videoId, progress) {
-    const progressBar = document.getElementById('progress-bar');
-    const progressText = document.getElementById('progress-text');
-    const doneBtn = document.getElementById('done-btn-' + videoId);
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const doneBtn = document.getElementById('done-btn-' + videoId);
 
-    // Round the progress to the nearest whole number
-    const roundedProgress = Math.floor(progress); // This will remove any decimals
+            // Round the progress to the nearest whole number
+            const roundedProgress = Math.floor(progress); // This will remove any decimals
 
-    // Update the progress bar width and percentage
-    progressBar.style.width = roundedProgress + '%';
-    progressBar.setAttribute('aria-valuenow', roundedProgress);
-    progressText.textContent = 'Progress: ' + roundedProgress + '%';
+            // Update the progress bar width and percentage
+            progressBar.style.width = roundedProgress + '%';
+            progressBar.setAttribute('aria-valuenow', roundedProgress);
+            progressText.textContent = 'Progress: ' + roundedProgress + '%';
 
-    // Show the 'Done' button once video is finished
-    if (roundedProgress >= 100) {
-        doneBtn.style.display = 'block';
-    }
-}
+            // Show the 'Done' button once video is finished
+            if (roundedProgress >= 100) {
+                doneBtn.style.display = 'block';
+            }
+        }
 
 
         // Function to mark the video as done
@@ -183,15 +208,24 @@
                         'X-CSRF-TOKEN': '{{ csrf_token() }}', // Laravel CSRF token
                     },
                     body: JSON.stringify({
-                        videoId: videoId
-                    })
+                        videoId: videoId,
+                    }),
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
+                        // Keep devotional and done button visible after marking done
+                        const devotionalContent = document.getElementById('devotional-' + videoId);
+                        const doneBtn = document.getElementById('done-btn-' + videoId);
+
+                        if (devotionalContent) {
+                            devotionalContent.style.display = 'block';
+                        }
+                        if (doneBtn) {
+                            doneBtn.style.display = 'block';
+                        }
+
                         alert('Video marked as done!');
-                        // Optionally, refresh the page or update UI to show unlocked videos
-                        location.reload(); // You can reload the page to reflect changes
                     } else {
                         alert('Error marking video as done!');
                     }
@@ -212,10 +246,8 @@
                 updateProgress(videoId, progress);
             });
 
-            // Event listener to show the devotional and done button when video ends
+            // Event listener to handle when the video ends
             video.addEventListener('ended', function() {
-                
-                // Show the devotional content once the video ends
                 if (devotionalContent) {
                     devotionalContent.style.display = 'block';
                 }
@@ -223,7 +255,7 @@
                     doneBtn.style.display = 'block';
                 }
 
-                // Mark the video as done (this is just an example, real implementation needs server-side update)
+                // Automatically mark the video as done on completion
                 markVideoDone(videoId);
             });
         });

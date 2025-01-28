@@ -134,6 +134,9 @@ Route::post('/mark-video-done', [VideoController::class, 'markVideoDone'])->name
 
 
 
+
+
+
 // Contact
 Route::get('/contact', [ContactController::class, 'showForm'])->name('contact.form');
 
@@ -200,6 +203,9 @@ Route::get('/videos/personal-training', [VideoController::class, 'personalTraini
 Route::get('/videos/build-his-temple', [VideoController::class, 'buildHisTemple'])->name('videos.buildHisTemple');
 
 Route::get('/videos/free-trial', [VideoController::class, 'showFreeTrialVideos'])->name('videos.freeTrial');
+
+
+
 
 Route::get('/videos/challenges', [VideoController::class, 'showChallengesVideos'])->name('videos.challenges');
 

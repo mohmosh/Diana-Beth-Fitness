@@ -67,6 +67,21 @@ class SubscriptionController extends Controller
             return redirect()->back()->with('error', 'The selected plan does not exist.');
         }
 
+        // Handle trial logic for "Build His Temple" and "Personal Training" plans
+        if (in_array($plan->subscription_type, ['build_his_temple', 'personal_training'])) {
+
+            if ($user->on_trial) {
+                return redirect()->back()->with('error', 'You are already on a free trial for this plan.');
+            }
+
+            // Start the trial for the selected plan
+            $user->update([
+                'on_trial' => true,
+                'trial_start_date' => now(),
+                'trial_end_date' => now()->addDays(7),  // Trial period of 7 days
+            ]);
+        }
+
         // Create a subscription
         $subscription = Subscription::create([
             'user_id' => $user->id,
@@ -79,9 +94,12 @@ class SubscriptionController extends Controller
 
         // Redirect based on plan type - appropriate dashboard
         if ($plan->subscription_type === 'personal_training') {
+
             // Redirect to Personal Training Dashboard
             return redirect()->route('videos.personalTraining')->with('success', 'You have successfully subscribed to the Personal Training plan.');
+            
         } elseif ($plan->subscription_type === 'build_his_temple') {
+
             // Redirect to Build His Temple Dashboard
             return redirect()->route('videos.buildHisTemple')->with('success', 'You have successfully subscribed to the Build His Temple plan.');
         }
@@ -91,10 +109,18 @@ class SubscriptionController extends Controller
     }
 
 
-
     public function showBuildHisTempleVideos()
     {
         $user = Auth::user();
+
+        // Check if the trial is still active
+        if ($user->on_trial && $user->trial_end_date->isPast()) {
+
+            // Trial has ended
+            $user->update(['on_trial' => false]); // End trial
+
+            return redirect()->route('subscribe')->with('message', 'Your trial has ended. Please subscribe to continue.');
+        }
 
         // Fetch videos based on level and progress
         $videos = Video::where('subscription_type', 'build_his_temple')
@@ -109,6 +135,8 @@ class SubscriptionController extends Controller
 
         return view('user.videos.index', compact('videos'));
     }
+
+
 
 
 

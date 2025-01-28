@@ -77,28 +77,27 @@
                                 <p class="widget-description">{{ Str::limit($video->description, 100) }}</p>
                             </div>
 
-                            <!-- Done Button (Hidden by Default) -->
-                            <div class="text-center" id="done-btn-{{ $video->id }}" style="display: none;">
-                                <button class="btn btn-success" onclick="markVideoDone({{ $video->id }})">Done</button>
-                            </div>
-
-                            <!-- Devotional Section -->
                             <div class="devotional content mt-3" id="devotional-{{ $video->id }}"
-                                style="{{ $user->videos()->where('video_id', $video->id)->wherePivot('watched', true)->exists() ? 'display:block;' : 'display:none;' }}">
+                                style="{{ auth()->user()->videos()->where('video_id', $video->id)->wherePivot('watched', true)->exists() ? 'display:block;' : 'display:none;' }}">
                                 <h6 class="widget-title text-center">Devotional</h6>
                                 @if (Str::endsWith($video->devotional_file, '.pdf'))
-                                    <!-- PDF file, create a link to view or download -->
                                     <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank"
                                         class="btn btn-info">View Devotional (PDF)</a>
                                 @elseif (Str::endsWith($video->devotional_file, '.docx'))
-                                    <!-- DOCX file, create a link to download -->
                                     <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank"
                                         class="btn btn-info">View Devotional (DOCX)</a>
                                 @else
-                                    <!-- If the file type is not supported or is not recognized -->
                                     <p class="text-muted">No preview available for this devotional file.</p>
                                 @endif
                             </div>
+
+                            <!-- Done Button -->
+                            <div class="text-center" id="done-btn-{{ $video->id }}"
+                                style="{{ auth()->user()->videos()->where('video_id', $video->id)->wherePivot('watched', true)->exists() ? 'display:block;' : 'display:none;' }}">
+                                <button class="btn btn-success"
+                                    onclick="markVideoDone({{ $video->id }})">Done</button>
+                            </div>
+
                         </div>
                     </div>
                 @empty
@@ -146,15 +145,24 @@
                         'X-CSRF-TOKEN': '{{ csrf_token() }}', // Laravel CSRF token
                     },
                     body: JSON.stringify({
-                        videoId: videoId
-                    })
+                        videoId: videoId,
+                    }),
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
+                        // Keep devotional and done button visible after marking done
+                        const devotionalContent = document.getElementById('devotional-' + videoId);
+                        const doneBtn = document.getElementById('done-btn-' + videoId);
+
+                        if (devotionalContent) {
+                            devotionalContent.style.display = 'block';
+                        }
+                        if (doneBtn) {
+                            doneBtn.style.display = 'block';
+                        }
+
                         alert('Video marked as done!');
-                        // Optionally, refresh the page or update UI to show unlocked videos
-                        location.reload(); // You can reload the page to reflect changes
                     } else {
                         alert('Error marking video as done!');
                     }
@@ -175,9 +183,8 @@
                 updateProgress(videoId, progress);
             });
 
-            // Event listener to show the devotional and done button when video ends
+            // Event listener to handle when the video ends
             video.addEventListener('ended', function() {
-                // Show the devotional content once the video ends
                 if (devotionalContent) {
                     devotionalContent.style.display = 'block';
                 }
@@ -185,7 +192,7 @@
                     doneBtn.style.display = 'block';
                 }
 
-                // Mark the video as done (this is just an example, real implementation needs server-side update)
+                // Automatically mark the video as done on completion
                 markVideoDone(videoId);
             });
         });

@@ -9,7 +9,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements MustVerifyEmail
+
+use Carbon\Carbon;
+
+
+class User extends  Authenticatable  implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -25,7 +29,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'fitness_goal',
         'preferences',
         'password',
-        'role_id'
+        'role_id',
+        'on_trial',
+        'trial_start_date',
+        'trial_end_date'
     ];
 
     /**
@@ -47,6 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    protected $dates = ['trial_started_at'];  
 
     // Relationship between a role and a user
 
@@ -98,4 +106,28 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(VideoProgress::class);
     }
+
+    // Check if the trial is active
+    public function isTrialActive()
+    {
+        if ($this->on_trial) {
+            $trialEndsAt = Carbon::parse($this->trial_start_date)->addDays(7);
+            return Carbon::now()->lessThanOrEqualTo($trialEndsAt);
+        }
+        return false;
+    }
+
+    // Get remaining days of the trial
+    public function trialDaysRemaining()
+    {
+        if ($this->on_trial) {
+            $trialEndsAt = Carbon::parse($this->trial_start_date)->addDays(7);
+            return Carbon::now()->diffInDays($trialEndsAt, false);
+        }
+        return 0;
+    }
+
+
 }
+
+

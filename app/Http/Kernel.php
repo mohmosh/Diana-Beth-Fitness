@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -80,10 +81,18 @@ class Kernel extends HttpKernel
         'isAdmin' => \App\Http\Middleware\IsAdmin::class,
         'subscription' =>\App\Http\Middleware\SubscriptionCheck::class,
         'plan' => \App\Http\Middleware\PlanMiddleware::class,
+        'trial' => \App\Http\Middleware\TrialMiddleware::class,
+
 
 
 
 
     ];
+
+    protected function schedule(Schedule $schedule)
+{
+    $schedule->command('notify:trial-expiry')->daily();
+}
+
 
 }
