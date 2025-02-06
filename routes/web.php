@@ -20,8 +20,11 @@ use App\Http\Controllers\{
     VideoController,
     WorkoutController,
     PostController,
-    CommentController
+    CommentController,
+    ProgressController
 };
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Models\Devotional;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -98,17 +101,32 @@ Route::post('/logout', function () {
 
 
 
-// // Email Confirmation and Verification Routes
-// Route::get('/email/confirmation', function () {
-//     return view('auth.email_confirmation');
-// })->name('email.confirmation');
+// Email Confirmation and Verification Routes
+Route::get('/email/confirmation', function () {
+    return view('auth.emailConfirmation');
+})->name('email.confirmation');
 
-// Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
+Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
 
-// Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
-//     ->middleware(['signed', 'throttle:6,1'])
-//     ->name('verification.verify');
+Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
 
+
+
+
+
+
+
+    Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+
+    Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+    // Reset password routes
+    Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+
+
+    Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 
 // Protected Routes for Authenticated and Verified Users
@@ -199,28 +217,38 @@ Route::get('/subscriptions/form/{plan}', [SubscriptionController::class, 'showFo
 // Videos according to the subscription type
 Route::get('/videos/personal-training', [VideoController::class, 'personalTraining'])->name('videos.personalTraining');
 
-
 Route::get('/videos/build-his-temple', [VideoController::class, 'buildHisTemple'])->name('videos.buildHisTemple');
 
-Route::get('/videos/free-trial', [VideoController::class, 'showFreeTrialVideos'])->name('videos.freeTrial');
+Route::get('/videos/free-trial', [VideoController::class, 'showFreeTrialVideos'])
+    ->middleware('track.free.trial')
+    ->name('videos.freeTrial');
 
+    Route::get('/dashboard', [VideoController::class, 'indexing'])->name('dashboard');
 
 
 
 Route::get('/videos/challenges', [VideoController::class, 'showChallengesVideos'])->name('videos.challenges');
 
-Route::post('/videos/{video}/mark-as-done', [SubscriptionController::class, 'markVideoAsDone'])->name('videos.markAsDone');
 
+Route::post('/videos/{video}/mark-as-done', [SubscriptionController::class, 'markVideoAsDone'])->name('videos.markAsDone');
 
 
 Route::get('/upgrade-level', [SubscriptionController::class, 'upgradeLevel'])->name('upgrade.level');
 
 
-
-
 Route::get('/videos', [VideoController::class, 'usersVideos'])->name('videos.index');
 
 
+
+Route::get('/progress/chart', [ProgressController::class, 'index'])->name('progress.chart');
+
+
+
+Route::post('/progress', [ProgressController::class, 'store'])->name('progress.store');
+
+Route::put('/progress/update/{id}', [ProgressController::class, 'update'])->name('progress.update');
+
+Route::get('/track-progress', [ProgressController::class, 'showProgressForm'])->name('track.progress');
 
 
 
@@ -295,13 +323,13 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
 
     // Plans
-   Route::get('/plans/dbf/create', [PlanController::class, 'create'])->name('plans.create');
-   Route::post('/plans/store', [PlanController::class, 'store'])->name('plans.store');
-   Route::get('/admin/plans', [PlanController::class, 'plans'])->name('admin.plans');
+    Route::get('/plans/dbf/create', [PlanController::class, 'create'])->name('plans.create');
+    Route::post('/plans/store', [PlanController::class, 'store'])->name('plans.store');
+    Route::get('/admin/plans', [PlanController::class, 'plans'])->name('admin.plans');
 
-   Route::get('/admin/plans/{id}/edit', [PlanController::class, 'editPlan'])->name('admin.editPlan');
-   Route::put('/admin/plans/{id}', [PlanController::class, 'updatePlan'])->name('admin.updatePlan');
-   Route::delete('/admin/plans/{id}', [PlanController::class, 'destroyPlan'])->name('admin.deletePlan');
+    Route::get('/admin/plans/{id}/edit', [PlanController::class, 'editPlan'])->name('admin.editPlan');
+    Route::put('/admin/plans/{id}', [PlanController::class, 'updatePlan'])->name('admin.updatePlan');
+    Route::delete('/admin/plans/{id}', [PlanController::class, 'destroyPlan'])->name('admin.deletePlan');
 
 
 
@@ -311,8 +339,6 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
     Route::post('/admin/logout', [AuthController::class, 'adminLogout'])
         ->name('admin.logout');
-
-
 });
 
 

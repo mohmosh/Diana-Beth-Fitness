@@ -23,6 +23,7 @@
     <!-- Main Content -->
     <div class="content-container">
         @yield('content') <!-- Dynamic content -->
+        @yield('scripts')
     </div>
 
     <!-- Footer -->

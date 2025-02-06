@@ -21,7 +21,7 @@
                                     <ul id="navigation">
                                         <li><a href="{{ url('/') }}">Home</a></li>
                                         <li><a href="{{ route('aboutUs.index') }}">About Us</a></li>
-                                        <li><a href="{{ route('user.videos.index') }}">Plans</a></li>
+                                        <li><a href="{{ route('user.videos.index') }}">{{ auth()->check() ? 'Workouts' : 'Plans' }}</a></li>
                                         <li><a href="{{ route('user.devotionals.index') }}">Devotionals</a></li>
 
                                         <li class="nav-item dropdown">

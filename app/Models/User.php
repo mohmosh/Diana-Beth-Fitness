@@ -54,7 +54,7 @@ class User extends  Authenticatable  implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    protected $dates = ['trial_started_at'];  
+    protected $dates = ['trial_started_at'];
 
     // Relationship between a role and a user
 
@@ -80,7 +80,7 @@ class User extends  Authenticatable  implements MustVerifyEmail
 
     public function videos()
     {
-    return $this->belongsToMany(Video::class)->withPivot('completed');
+        return $this->belongsToMany(Video::class)->withPivot('completed');
     }
 
     public function accessibleWorkouts()
@@ -107,6 +107,11 @@ class User extends  Authenticatable  implements MustVerifyEmail
         return $this->hasMany(VideoProgress::class);
     }
 
+    public function progress()
+    {
+        return $this->hasMany(Progress::class);
+    }
+
     // Check if the trial is active
     public function isTrialActive()
     {
@@ -129,5 +134,3 @@ class User extends  Authenticatable  implements MustVerifyEmail
 
 
 }
-
-

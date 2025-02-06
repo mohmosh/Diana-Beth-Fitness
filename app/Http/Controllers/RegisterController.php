@@ -63,11 +63,12 @@ class RegisterController extends Controller
         try {
 
             $user->sendEmailVerificationNotification();
+
             Log::info('Verification email sent to user: ' . $user->email);
 
         } catch (\Exception $e) {
 
-            // dd($e->getMessage());
+            dd($e->getMessage());
 
 
             Log::error('Error sending verification email: ' . $e->getMessage());

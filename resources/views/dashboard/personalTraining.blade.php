@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Training Videos</title>
+    <title>Personal Training</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -12,9 +12,11 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
+
     <nav class="navbar navbar-expand-lg">
         <div class="container d-flex align-items-center">
             <div class="container">
@@ -25,38 +27,41 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <div class="mx-auto">
-                            <a class="nav-link text-white text-center"
-                                href="{{ route('user.devotionals.index') }}">Devotionals</a>
-                        </div>
 
-                        <li class="nav-item">
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="submit" class="logout-btn">Logout</button>
-                            </form>
+                    <ul class="navbar-nav ml-auto">
+
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center user-dropdown" href="#" id="userDropdown"
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{{ asset('assets/img/logo/logo.png') }}" class="user-avatar rounded-circle mr-2" alt="User">
+                                <span class="user-name">{{ auth()->user()->name }}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="{{ url('/') }}">Home</a>
+                                {{-- <a class="dropdown-item" href="#">Account Settings</a>
+                                <a class="dropdown-item" href="#">Need Help?</a> --}}
+                                <div class="dropdown-divider"></div>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">Logout</button>
+                                </form>
+                            </div>
                         </li>
-                    </ul>
+
+
+
                 </div>
             </div>
     </nav>
 
     <!-- Main Content -->
     <div class="container mt-4">
-        <!-- User Level and Progress -->
-        <div class="text-center mb-4">
-            <h5>Your Current Level: <strong>{{ auth()->user()->level }}</strong></h5>
-            <p class="text-muted">Advance to the next level to unlock more content.</p>
 
-            <!-- Progress Bar -->
-            <div class="progress">
-                <div class="progress-bar bg-success" role="progressbar" id="progress-bar" style="width: 0%"
-                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                </div>
-            </div>
-            <p class="mt-2" id="progress-text">Progress: 0%</p>
+        <div class="container mt-4">
+            <a href="javascript:history.back()" class="btn btn-secondary mb-4">Back</a>
         </div>
+
 
         <!-- Video Section -->
         <div class="container mt-4">
@@ -109,10 +114,36 @@
         </div>
     </div>
 
+       <!-- Track Your Progress Section -->
+       <div class="mt-4 text-center">
+
+        <!-- Link the button to the track progress page -->
+        <a href="{{ route('track.progress') }}" class="btn btn-info btn-lg rounded-circle">Track Your Progress</a>
+
+    </div>
+</div>
+
     <!-- Bootstrap JS and Dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+       <!-- Toggle Progress Form Script -->
+       <script>
+           function toggleProgressForm() {
+               const form = document.getElementById('progress-form');
+               const button = document.getElementById('show-form-btn');
+
+               if (form.style.display === "none") {
+                   form.style.display = "block";
+                   button.textContent = "Hide Progress Form"; // Change button text when form is shown
+               } else {
+                   form.style.display = "none";
+                   button.textContent = "Track Your Progress"; // Reset button text when form is hidden
+               }
+           }
+       </script>
 
     <script>
         // Function to update progress bar and show the 'Done' button
@@ -224,8 +255,32 @@
 
     .navbar-nav .nav-link:hover {
         color: #fbc02d;
-        text-decoration: underline;
+        /* text-decoration: underline; */
     }
+
+
+
+    .dropdown-menu {
+        min-width: 180px;
+    }
+
+    .dropdown-menu .dropdown-item {
+        padding: 10px 15px;
+    }
+
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+    }
+    .user-avatar {
+    width: 70px;
+    height: 70px;
+}
+
+.user-name {
+    font-size: 30px;
+    font-weight: bold;
+}
+
 
     .logout-btn {
         background-color: #d32f2f;
@@ -299,5 +354,13 @@
         border-top: 1px solid #ddd;
         padding-top: 20px;
         margin-top: 20px;
+    }
+
+
+    .btn-lg {
+        padding: 12px 24px;
+        font-size: 18px;
+        border-radius: 10px;
+        /* Optional: makes the button corners more rounded */
     }
 </style>

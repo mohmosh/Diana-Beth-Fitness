@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Trial</title>
+    <title>Challenge</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -12,14 +12,13 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container d-flex align-items-center">
             <div class="container">
-                <a class="navbar-brand text-white" href="#">Free Trial Videos</a>
+                <a class="navbar-brand text-white" href="#">Challenges</a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,13 +26,13 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
-
-
-
+                        <!-- User Profile Dropdown -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle d-flex align-items-center user-dropdown" href="#" id="userDropdown"
-                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ asset('assets/img/logo/logo.png') }}" class="user-avatar rounded-circle mr-2" alt="User">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center user-dropdown" href="#"
+                                id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <img src="{{ asset('assets/img/logo/logo.png') }}"
+                                    class="user-avatar rounded-circle mr-2" alt="User">
                                 <span class="user-name">{{ auth()->user()->name }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -47,33 +46,38 @@
                                 </form>
                             </div>
                         </li>
+                        <div class="mx-auto">
+                            <a class="nav-link text-white text-center"
+                                href="{{ route('user.devotionals.index') }}">Devotionals</a>
+                        </div>
 
+                        <li class="nav-item">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="logout-btn">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
                 </div>
-
             </div>
     </nav>
 
     <!-- Main Content -->
     <div class="container mt-4">
 
-        <div class="alert alert-info text-center">
-            @if ($daysLeft > 0)
-                <strong>Free Trial:</strong> You have <strong>{{ round($daysLeft) }}
-                    day{{ round($daysLeft) > 1 ? 's' : '' }}</strong> left before your trial ends.
-            @else
-                <strong>Your free trial has ended.</strong> Please subscribe to either the <a
-                    href="{{ route('subscriptions.choose') }}">Build His Temple</a> or <a
-                    href="{{ route('subscriptions.choose') }}">Personal Training</a> plan.
-            @endif
+
+        <!-- Progress Bar -->
+        <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" id="progress-bar" style="width: 0%"
+                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            </div>
         </div>
-
-        <a href="javascript:history.back()" class="btn btn-secondary mb-4">Back</a>
+        <p class="mt-2" id="progress-text">Progress: 0%</p>
     </div>
-
 
     <!-- Video Section -->
     <div class="container mt-4">
-        <h1 class="text-center mb-5">Free Trial Videos</h1>
+        <h1 class="text-center mb-5">Challenges</h1>
 
         <div class="row">
             @forelse($videos as $video)
@@ -114,41 +118,17 @@
                 </div>
             @empty
                 <div class="col-12">
-                    <p class="text-center text-danger">No videos available for Free Trial.</p>
+                    <p class="text-center text-danger">No videos available for Challenges.</p>
                 </div>
             @endforelse
         </div>
     </div>
     </div>
-    <!-- Track Your Progress Section -->
-    <div class="mt-4 text-center">
 
-        <!-- Link the button to the track progress page -->
-        <a href="{{ route('track.progress') }}" class="btn btn-info btn-lg rounded-circle">Track Your Progress</a>
-
-    </div>
-    </div>
-
-   <!-- Bootstrap JS and Dependencies -->
-   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!-- Toggle Progress Form Script -->
-    <script>
-        function toggleProgressForm() {
-            const form = document.getElementById('progress-form');
-            const button = document.getElementById('show-form-btn');
-
-            if (form.style.display === "none") {
-                form.style.display = "block";
-                button.textContent = "Hide Progress Form"; // Change button text when form is shown
-            } else {
-                form.style.display = "none";
-                button.textContent = "Track Your Progress"; // Reset button text when form is hidden
-            }
-        }
-    </script>
+    <!-- Bootstrap JS and Dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
         // Function to update progress bar and show the 'Done' button
@@ -271,10 +251,14 @@
 
     .navbar-nav .nav-link:hover {
         color: #fbc02d;
+        /* Gold highlight on hover */
         text-decoration: underline;
     }
 
-
+    .navbar .dropdown-toggle::after {
+        display: none;
+        /* Hide default dropdown arrow */
+    }
 
     .dropdown-menu {
         min-width: 180px;
@@ -287,15 +271,18 @@
     .dropdown-item:hover {
         background-color: #f8f9fa;
     }
-    .user-avatar {
-    width: 70px;
-    height: 70px;
-}
 
-.user-name {
-    font-size: 30px;
-    font-weight: bold;
-}
+    .user-avatar {
+        width: 50px;
+        /* Increase profile image size */
+        height: 50px;
+    }
+
+    .user-name {
+        font-size: 18px;
+        /* Increase font size */
+        font-weight: bold;
+    }
 
 
 
@@ -384,9 +371,11 @@
         text-decoration: underline;
         color: #6a1b9a;
     }
+
     .btn-lg {
         padding: 12px 24px;
         font-size: 18px;
         border-radius: 10px;
+        /* Optional: makes the button corners more rounded */
     }
 </style>

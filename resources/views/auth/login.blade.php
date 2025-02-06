@@ -103,6 +103,11 @@
                                 <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" required>
                             </div>
 
+                            <div class="mb-4 text-end">
+                                <a href="{{ route('password.request') }}" class="text-decoration-none text-primary">Forgot Password?</a>
+                            </div>
+
+
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary btn-lg">Login</button>
                             </div>

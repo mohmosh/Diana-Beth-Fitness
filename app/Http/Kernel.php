@@ -82,6 +82,9 @@ class Kernel extends HttpKernel
         'subscription' =>\App\Http\Middleware\SubscriptionCheck::class,
         'plan' => \App\Http\Middleware\PlanMiddleware::class,
         'trial' => \App\Http\Middleware\TrialMiddleware::class,
+        'track.free.trial' => \App\Http\Middleware\TrackFreeTrial::class,
+
+
 
 
 

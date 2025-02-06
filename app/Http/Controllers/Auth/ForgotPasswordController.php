@@ -19,8 +19,11 @@ class ForgotPasswordController extends Controller
     // Send the password reset link to the user's email
     public function sendResetLinkEmail(Request $request)
     {
+        // Validate the email format and check if it exists in the users table
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users,email',
+        ], [
+            'email.exists' => 'We could not find a user with that e-mail address.',
         ]);
 
         // Attempt to send the reset link
@@ -32,8 +35,9 @@ class ForgotPasswordController extends Controller
         }
 
         // If unable to send, return back with error message
-        return back()->withErrors(['email' => 'We could not find a user with that e-mail address.']);
+        return back()->withErrors(['email' => __($response)]);
     }
+
 }
 
 

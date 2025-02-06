@@ -33,4 +33,6 @@ class UserController extends Controller
         dd('niko hapa');
         return view('dashboard.user', compact('user', 'subscription', ));
     }
+
+    
 }

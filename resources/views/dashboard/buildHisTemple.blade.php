@@ -12,82 +12,68 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
 
+
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
         <div class="container d-flex align-items-center">
+            <a class="navbar-brand" href="#">Build His Temple</a>
 
-            <div class="container">
-                <a class="navbar-brand text-white" href="#">Build His Temple</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
 
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto">
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('user.devotionals.index') }}">Devotionals</a>
-                        </li>
-                        <li class="nav-item">
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
+
+                    <!-- User Profile Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center user-dropdown" href="#" id="userDropdown"
+                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="{{ asset('assets/img/logo/logo.png') }}" class="user-avatar rounded-circle mr-2" alt="User">
+                            <span class="user-name">{{ auth()->user()->name }}</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="{{ url('/') }}">Home</a>
+                            {{-- <a class="dropdown-item" href="#">Account Settings</a>
+                            <a class="dropdown-item" href="#">Need Help?</a> --}}
+                            <div class="dropdown-divider"></div>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="logout-btn">Logout</button>
+                                <button type="submit" class="dropdown-item text-danger">Logout</button>
                             </form>
-                        </li>
-                    </ul>
-                </div>
+                        </div>
+                    </li>
+
+
+
             </div>
+        </div>
     </nav>
 
     <!-- Main Content -->
     <div class="container mt-4">
 
-        <!-- Trial Expiry Notification -->
-        @php
-            $trialExpired =
-                auth()->user()->trial_started_at && now()->diffInDays(auth()->user()->trial_started_at) >= 7;
-        @endphp
-
-        @if ($trialExpired)
-            <div class="alert alert-warning text-center">
-                <strong>Your 7-day trial has expired.</strong> Please upgrade to a paid plan to continue accessing the
-                content.
-                <a href="{{ route('subscribe') }}" class="btn btn-warning">Upgrade Now</a>
-            </div>
-        @else
-            <div class="alert alert-success text-center">
-                <strong>Enjoy your 7-day free trial!</strong> You have access to all videos and devotionals.
-            </div>
-        @endif
-
-        <!-- User Level and Progress -->
-        <div class="text-center mb-4">
-         
-
-            <!-- Progress Bar -->
-            <div class="progress">
-                <div class="progress-bar bg-success" role="progressbar" id="progress-bar" style="width: 0%"
-                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-
-                </div>
-            </div>
-            <p class="mt-2" id="progress-text">Progress: 0%</p>
+        <div class="container mt-4">
+            <a href="javascript:history.back()" class="btn btn-secondary mb-4">Back</a>
         </div>
 
 
+
         <!-- Videos Section -->
-        <h5 class="mb-3">Videos and Devotionals for Your Level</h5>
+        <h5 class="mt-3 mb-3">Videos and Devotionals for Your Level</h5>
+
         <div class="row">
             @forelse($videos as $video)
                 <div class="col-md-4 mb-4">
                     <div class="video-widget">
-                        @if (auth()->user()->level >= $video->level)
+                        @if (auth()->user()->level >= $video->level || $video->level == 1)
                             <!-- Unlocked Video -->
                             <div class="video-thumbnail">
                                 <video id="video-{{ $video->id }}" class="rounded mb-2" width="100%" controls
@@ -100,24 +86,6 @@
                             <p class="text-muted text-center">Level {{ $video->level }} unlocked</p>
 
 
-                            <!-- Devotional Content -->
-                            {{-- <div class="devotional content mt-3" id="devotional-{{ $video->id }}" style="display: none;">
-                                <h6 class="widget-title text-center">Devotional</h6>
-                                @if (Str::endsWith($video->devotional_file, '.pdf'))
-                                    <!-- PDF file, create a link to view or download -->
-                                    <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank"
-                                        class="btn btn-info">View Devotional (PDF)</a>
-                                @elseif (Str::endsWith($video->devotional_file, '.docx'))
-                                    <!-- DOCX file, create a link to download -->
-                                    <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank"
-                                        class="btn btn-info">View Devotional (DOCX)</a>
-                                @else
-                                    <!-- If the file type is not supported or is not recognized -->
-                                    <p class="text-muted">No preview available for this devotional file.</p>
-                                @endif
-                            </div> --}}
-
-                            <!-- Check if the video is watched -->
                             <!-- Devotional Content -->
                             <div class="devotional content mt-3" id="devotional-{{ $video->id }}"
                                 style="{{ auth()->user()->videos()->where('video_id', $video->id)->wherePivot('watched', true)->exists() ? 'display:block;' : 'display:none;' }}">
@@ -134,10 +102,11 @@
                             </div>
 
                             <!-- Done Button -->
-                            <div class="text-center" id="done-btn-{{ $video->id }}"
+                            <div class="text-center mt-3" id="done-btn-{{ $video->id }}"
                                 style="{{ auth()->user()->videos()->where('video_id', $video->id)->wherePivot('watched', true)->exists() ? 'display:block;' : 'display:none;' }}">
-                                <button class="btn btn-success"
-                                    onclick="markVideoDone({{ $video->id }})">Done</button>
+                                <button class="btn btn-success" onclick="markVideoDone({{ $video->id }})">
+                                    <i class="fas fa-check"></i>
+                                </button>
                             </div>
                         @else
                             <!-- Locked Video -->
@@ -151,30 +120,54 @@
                         @endif
                     </div>
                 </div>
+
             @empty
                 <p class="text-center">No videos available for your current level.</p>
             @endforelse
         </div>
+    </div>
 
-
-        <h5>Your Current Level: <strong>{{ auth()->user()->level }}</strong></h5>
-        <p class="text-muted">Advance to the next level to unlock more content.</p>
-
+    <div class="d-flex justify-content-center mt-4">
         <!-- Level Upgrade Button -->
         @if (auth()->user()->level < config('app.max_level', 3))
             <div class="text-center mt-4">
-                <form action="{{ route('upgrade.level') }}" method="POST">
+                <form action="{{ route('upgrade.level') }}" method="POST" class="mr-5">
                     @csrf
-                    <button type="submit" class="btn btn-primary">Advance to Next Level</button>
+                    <button type="submit" class="btn btn-warning btn-lg">Upgrade Level</button>
                 </form>
             </div>
         @endif
+
+
+        <!-- Track Your Progress Section -->
+        <div class="mt-4 text-center">
+
+            <!-- Link the button to the track progress page -->
+            <a href="{{ route('track.progress') }}" class="btn btn-info btn-lg rounded-circle">Track Your Progress</a>
+
+        </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Toggle Progress Form Script -->
+    <script>
+        function toggleProgressForm() {
+            const form = document.getElementById('progress-form');
+            const button = document.getElementById('show-form-btn');
+
+            if (form.style.display === "none") {
+                form.style.display = "block";
+                button.textContent = "Hide Progress Form"; // Change button text when form is shown
+            } else {
+                form.style.display = "none";
+                button.textContent = "Track Your Progress"; // Reset button text when form is hidden
+            }
+        }
+    </script>
 
     <script>
         // Function to update progress bar and show the 'Done' button
@@ -196,7 +189,6 @@
                 doneBtn.style.display = 'block';
             }
         }
-
 
         // Function to mark the video as done
         function markVideoDone(videoId) {
@@ -262,10 +254,10 @@
     </script>
 
 
-
 </body>
 
 </html>
+
 <style>
     body {
         background-color: #f8f9fa;
@@ -299,9 +291,31 @@
 
     .navbar-nav .nav-link:hover {
         color: #fbc02d;
-        /* Gold highlight on hover */
-        text-decoration: underline;
     }
+
+
+    .dropdown-menu {
+        min-width: 180px;
+    }
+
+    .dropdown-menu .dropdown-item {
+        padding: 10px 15px;
+    }
+
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+    }
+    .user-avatar {
+    width: 70px;
+    height: 70px;
+}
+
+.user-name {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+
 
     .logout-btn {
         background-color: #d32f2f;
@@ -387,5 +401,11 @@
     .devotional a:hover {
         text-decoration: underline;
         color: #6a1b9a;
+    }
+
+    .btn-lg {
+        padding: 12px 24px;
+        font-size: 18px;
+        border-radius: 10px;
     }
 </style>
