@@ -15,7 +15,7 @@ class UserController extends Controller
         // Ensure the user is authenticated
 
         $user = Auth::user();
-        dd($user);
+        // dd($user);
 
         if (!$user) {
             return redirect()->route('login');
@@ -30,9 +30,9 @@ class UserController extends Controller
 
 
         // Pass data to the view
-        dd('niko hapa');
+        // dd('niko hapa');
         return view('dashboard.user', compact('user', 'subscription', ));
     }
 
-    
+
 }

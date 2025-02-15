@@ -41,7 +41,7 @@ Route::get('test', function () {
 // Welcome Page
 Route::get('/', function () {
     return view('welcome');
-})->name('welcome');
+})->name('home');
 
 
 
@@ -109,7 +109,7 @@ Route::get('/email/confirmation', function () {
 Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
 
 Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
-    ->middleware(['signed', 'throttle:6,1'])
+    ->middleware(['throttle:6,1'])
     ->name('verification.verify');
 
 
@@ -118,27 +118,29 @@ Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify']
 
 
 
-    Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-
-    Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-
-    // Reset password routes
-    Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 
 
-    Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+// Reset password routes
+Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 
 
-// Protected Routes for Authenticated and Verified Users
-Route::middleware(['auth', 'verified'])->group(function () {
-    // User Dashboard
-    Route::get('usersDashboard', [UserController::class, 'index'])->name('users.index');
+Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-    // Testimonials
-    Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
-    Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
-    Route::post('/testimonials/upload', [TestimonialController::class, 'store'])->name('testimonials.upload');
-});
+
+// User Dashboard
+Route::get('user/dashboard', [UserController::class, 'index'])->name('users.index');
+
+// Testimonials
+Route::get('user/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
+
+Route::get('/user/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
+
+Route::post('/user/testimonials/upload', [TestimonialController::class, 'store'])->name('testimonials.store');
 
 
 // Route for users to see videos
@@ -223,7 +225,7 @@ Route::get('/videos/free-trial', [VideoController::class, 'showFreeTrialVideos']
     ->middleware('track.free.trial')
     ->name('videos.freeTrial');
 
-    Route::get('/dashboard', [VideoController::class, 'indexing'])->name('dashboard');
+Route::get('/dashboard', [VideoController::class, 'indexing'])->name('dashboard');
 
 
 

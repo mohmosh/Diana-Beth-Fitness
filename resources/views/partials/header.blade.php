@@ -28,13 +28,13 @@
                                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Community
                                             </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="{{ route('testimonials.access') }}">Challenges</a></li>
-
-                                                <li><a class="dropdown-item" href="{{ route('testimonials.access') }}">Testimonials</a></li>
-                                                <li><a class="dropdown-item" href="{{ route('forums.access') }}">Forums</a></li>
+                                            <ul class="dropdown-menu bg-dark">
+                                                <li><a class="dropdown-item text-purple w-100" href="{{ route('videos.challenges') }}">Challenges</a></li>
+                                                <li><a class="dropdown-item text-purple w-100" href="{{ route('testimonials.index') }}">Testimonials</a></li>
+                                                <li><a class="dropdown-item text-purple w-100" href="{{ route('forums.access') }}">Forums</a></li>
                                             </ul>
                                         </li>
+
 
                                     </ul>
                                 </nav>
@@ -71,3 +71,8 @@
 </header>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+

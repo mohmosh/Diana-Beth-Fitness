@@ -24,6 +24,7 @@
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <!-- User Profile Dropdown -->
@@ -33,7 +34,6 @@
                                 aria-expanded="false">
                                 <img src="{{ asset('assets/img/logo/logo.png') }}"
                                     class="user-avatar rounded-circle mr-2" alt="User">
-                                <span class="user-name">{{ auth()->user()->name }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="{{ url('/') }}">Home</a>
@@ -65,70 +65,72 @@
     <!-- Main Content -->
     <div class="container mt-4">
 
+        <div class="container mt-4">
+            <a href="javascript:history.back()" class="btn btn-secondary mb-4">Back</a>
+        </div>
 
-        <!-- Progress Bar -->
-        <div class="progress">
-            <div class="progress-bar bg-success" role="progressbar" id="progress-bar" style="width: 0%"
-                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+
+
+
+
+        <!-- Video Section -->
+        <div class="container mt-4">
+            <h1 class="text-center mb-5">Challenges</h1>
+
+            <div class="row">
+                @forelse($videos as $video)
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <!-- Video Widget -->
+                        <div class="video-widget">
+                            <video controls onended="showDoneButton(this)" data-video-id="{{ $video->id }}">
+                                <source src="{{ asset('storage/' . $video->path) }}" type="video/mp4">
+                                {{ $video->title }} - Your browser does not support the video tag.
+                            </video>
+
+                            <div class="video-widget-body">
+                                <h5 class="widget-title">{{ $video->title }}</h5>
+                                <p class="widget-description">{{ Str::limit($video->description, 100) }}</p>
+                            </div>
+
+                            <div class="devotional content mt-3" id="devotional-{{ $video->id }}"
+
+                                style="{{ auth()->check() && auth()->user()->videos()->where('video_id', $video->id)->wherePivot('watched', true)->exists() ? 'display:block;' : 'display:none;' }}"
+
+                                @if (Str::endsWith($video->devotional_file, '.pdf'))>
+                                    <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank"
+                                        class="btn btn-info">View Devotional (PDF)</a>
+                                @elseif (Str::endsWith($video->devotional_file, '.docx'))
+                                    <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank"
+                                        class="btn btn-info">View Devotional (DOCX)</a>
+                                @else
+                                    <p class="text-muted">No preview available for this devotional file.</p>
+                                @endif
+                            </div>
+
+
+                            <!-- Done Button -->
+                            <div class="text-center" id="done-btn-{{ $video->id }}"
+                                style="{{ auth()->check() && auth()->user()->videos()->where('video_id', $video->id)->wherePivot('watched', true)->exists() ? 'display:block;' : 'display:none;' }}">
+                                <button class="btn btn-success"
+                                    onclick="markVideoDone({{ $video->id }})">Done</button>
+                            </div>
+
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12">
+                        <p class="text-center text-danger">No videos available for Challenges.</p>
+                    </div>
+                @endforelse
             </div>
         </div>
-        <p class="mt-2" id="progress-text">Progress: 0%</p>
-    </div>
-
-    <!-- Video Section -->
-    <div class="container mt-4">
-        <h1 class="text-center mb-5">Challenges</h1>
-
-        <div class="row">
-            @forelse($videos as $video)
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <!-- Video Widget -->
-                    <div class="video-widget">
-                        <video controls onended="showDoneButton(this)" data-video-id="{{ $video->id }}">
-                            <source src="{{ asset('storage/' . $video->path) }}" type="video/mp4">
-                            {{ $video->title }} - Your browser does not support the video tag.
-                        </video>
-
-                        <div class="video-widget-body">
-                            <h5 class="widget-title">{{ $video->title }}</h5>
-                            <p class="widget-description">{{ Str::limit($video->description, 100) }}</p>
-                        </div>
-
-                        <div class="devotional content mt-3" id="devotional-{{ $video->id }}"
-                            style="{{ auth()->user()->videos()->where('video_id', $video->id)->wherePivot('watched', true)->exists() ? 'display:block;' : 'display:none;' }}">
-                            <h6 class="widget-title text-center">Devotional</h6>
-                            @if (Str::endsWith($video->devotional_file, '.pdf'))
-                                <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank"
-                                    class="btn btn-info">View Devotional (PDF)</a>
-                            @elseif (Str::endsWith($video->devotional_file, '.docx'))
-                                <a href="{{ asset('storage/' . $video->devotional_file) }}" target="_blank"
-                                    class="btn btn-info">View Devotional (DOCX)</a>
-                            @else
-                                <p class="text-muted">No preview available for this devotional file.</p>
-                            @endif
-                        </div>
-
-                        <!-- Done Button -->
-                        <div class="text-center" id="done-btn-{{ $video->id }}"
-                            style="{{ auth()->user()->videos()->where('video_id', $video->id)->wherePivot('watched', true)->exists() ? 'display:block;' : 'display:none;' }}">
-                            <button class="btn btn-success" onclick="markVideoDone({{ $video->id }})">Done</button>
-                        </div>
-
-                    </div>
-                </div>
-            @empty
-                <div class="col-12">
-                    <p class="text-center text-danger">No videos available for Challenges.</p>
-                </div>
-            @endforelse
-        </div>
-    </div>
     </div>
 
     <!-- Bootstrap JS and Dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
     <script>
         // Function to update progress bar and show the 'Done' button

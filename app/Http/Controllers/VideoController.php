@@ -67,13 +67,14 @@ class VideoController extends Controller
                 return view('dashboard.buildHisTemple', compact('videos', 'user', 'progress'));
             } elseif ($plan->subscription_type === 'free_trial') {
 
-                $user->free_trial_started_at = now()->subDays(5); // Testing
+                $user->free_trial_started_at = now()->subDays(4); // Testing
 
                 // Check if the free trial has expired
                 $daysPassed = Carbon::parse($user->free_trial_started_at)->diffInDays(now());
 
                 // Calculate days left for the free trial
                 $daysLeft = max(0, 7 - $daysPassed);
+
 
                 if ($daysLeft <= 0) {
                     return redirect()->route('subscriptions.choose')->with('error', 'Your free trial has expired. Please subscribe to continue.');
@@ -84,12 +85,14 @@ class VideoController extends Controller
 
                 // Pass the correct variables to the view
                 return view('dashboard.freeTrial', compact('videos', 'user', 'progress', 'daysPassed', 'daysLeft'));
+                
             } elseif ($plan->subscription_type === 'challenge') {
 
                 // Fetch Challenge videos
                 $videos = Video::where('subscription_type', 'challenge')->get();
 
                 return view('dashboard.challenges', compact('videos', 'user', 'progress'));
+
             } else {
                 return redirect()->route('plans.index')->with('warning', 'Please subscribe to a valid plan to access videos.');
             }
@@ -185,9 +188,9 @@ class VideoController extends Controller
     // Method to show challenges videos
     public function showChallengesVideos()
     {
-        $Videos = Video::where('subscription_type', 'challenge')->get();
+        $videos = Video::where('subscription_type', 'challenge')->get();
 
-        return view('dashboard.buildHisTemple', compact('videos'));
+        return view('dashboard.challenges', compact('videos'));
     }
 
 

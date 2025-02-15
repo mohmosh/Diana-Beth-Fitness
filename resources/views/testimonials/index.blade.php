@@ -1,8 +1,15 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Testimonial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-@section('title', 'All Testimonials')
+</head>
+<body>
 
-@section('content')
+
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <!-- Add the Create Testimonial Button -->
@@ -35,7 +42,30 @@
         @endforeach
     </div>
 </div>
-@endsection
+
+</body>
+</html>
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .container {
+        max-width: 600px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        text-align: center;
+        color: #343a40;
+    }
+    .btn-primary {
+        width: 100%;
+    }
+</style>
 
 
 

@@ -86,6 +86,7 @@
                             <p class="text-muted text-center">Level {{ $video->level }} unlocked</p>
 
 
+
                             <!-- Devotional Content -->
                             <div class="devotional content mt-3" id="devotional-{{ $video->id }}"
                                 style="{{ auth()->user()->videos()->where('video_id', $video->id)->wherePivot('watched', true)->exists() ? 'display:block;' : 'display:none;' }}">

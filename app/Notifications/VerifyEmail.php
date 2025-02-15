@@ -32,13 +32,16 @@ class VerifyEmail extends Notification
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('Verify Your Email')
+            ->greeting('Hello ' . $notifiable->name . '!')
+            ->line('Click the button below to verify your email and access your profile.')
+            ->action('Verify Email', url('/verify-email/' . $notifiable->id . '/' . sha1($notifiable->email)))
+            ->line('If you did not create this account, no further action is required.');
     }
+
 
     /**
      * Get the array representation of the notification.
