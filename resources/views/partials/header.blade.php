@@ -32,7 +32,7 @@
                                             <ul class="dropdown-menu bg-dark">
                                                 <li><a class="dropdown-item text-purple w-100" href="{{ route('videos.challenges') }}">Challenges</a></li>
                                                 <li><a class="dropdown-item text-purple w-100" href="{{ route('testimonials.index') }}">Testimonials</a></li>
-                                                <li><a class="dropdown-item text-purple w-100" href="{{ route('testimonials.index') }}">Forums</a></li>
+                                                <li><a class="dropdown-item text-purple w-100" href="{{ route('posts.index') }}">Forums</a></li>
                                             </ul>
                                         </li>
 
