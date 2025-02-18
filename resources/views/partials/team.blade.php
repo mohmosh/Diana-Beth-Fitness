@@ -14,12 +14,12 @@
    <div class="team-area pb-150">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="single-team mb-30">
                     <div class="team-img">
                         <img src="assets/img/gallery/11.jpg" alt="">
                         <div class="team-caption">
-                            <span>CEO</span>
+                            <span>Your Coach</span>
                             <h3><a href="#">Diana Beth</a></h3>
                             <!-- Blog Social -->
                             <div class="team-social">
@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
+            {{-- <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="single-team mb-30">
                     <div class="team-img">
                         <img src="assets/img/gallery/9.jpg" alt="">
@@ -59,8 +59,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
+            </div> --}}
+            {{-- <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="single-team mb-30">
                     <div class="team-img">
                         <img src="assets/img/gallery/10.jpg" alt="">
@@ -81,7 +81,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

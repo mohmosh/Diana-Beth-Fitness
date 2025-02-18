@@ -16,16 +16,22 @@
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+        <!-- CSS here -->
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/slicknav.css">
+        <link rel="stylesheet" href="assets/css/animated-headline.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+
     </head>
 
     <body>
         <div class="container mt-6">
 
             <div class="row justify-content-center">
-                <div class="col-md-6 d-flex align-items-center justify-content-center">
-                    <div class="card shadow-lg">
-                        <div class="card-header">
-                            {{-- <h3 class="text-center mb-0">Login</h3> --}}
+                <div class="col-md-8 d-flex align-items-center justify-content-center">
+                    <div class="card-main shadow-lg">
+                        <div class="card-header py-3">
+                            <h3 class="text-center mb-2">Login</h3>
                         </div>
                         <div class="card-body p-5">
                             <form action="{{ url('login') }}" method="POST">
@@ -66,6 +72,14 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+        <!-- JS here -->
+
+        <!-- Jquery, Popper, Bootstrap -->
+        <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+        <script src="./assets/js/jquery.slicknav.min.js"></script>
+        <script src="./assets/js/main.js"></script>
+
+
     </body>
 
     </html>
@@ -84,18 +98,13 @@
             /* Adjust this value as needed */
         }
 
-        .card {
+        .card-main {
             border: none;
             border-radius: 15px;
-            background: #f07bea;
+            background: #ffffff;
             color: #000000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            min-height: 300px;
-            /* Adjust height as needed */
+            margin-top: 180px;
+            font-size: 20px;
         }
 
         .card-header {
@@ -103,22 +112,22 @@
             color: #ffffff;
         }
 
-        .card-header h3 {
-            font-weight: bold;
+        .card-header {
+            background: #b717df;
+            color: #ffffff;
+            text-align: center;
+            font-size: 60px;
         }
 
         .form-control {
             border-radius: 10px;
-            font-size: 1.1rem;
-            padding: 1rem;
+            font-size: 15px;
+            padding: 6.5%;
         }
 
         .btn-primary {
             background: #b717df;
-            color: #fff;
             border: none;
-            font-size: 1.2rem;
-            padding: 0.8rem 1.5rem;
             transition: 0.3s ease;
         }
 
@@ -130,7 +139,7 @@
 
         .card-footer a {
             color: #b717df;
-             text-decoration: none;
+            text-decoration: none;
             font-weight: bold;
         }
 
@@ -140,9 +149,57 @@
         }
 
         .form-label {
-            font-size: 1.1rem;
+            font-size: 20px;
             font-weight: bold;
-            color: #b717df;
+            color: black;
+        }
+
+
+        /* // Small devices (landscape phones, 576px and up) */
+        @media (min-width: 576px) and (max-width: 767px) {
+            .card-main {
+                height: 600px;
+                width: 800px;
+                padding: 15%;
+            }
+        }
+
+        /* // Small devices (landscape phones, less than 768px) */
+        @media (min-width: 768px) and (max-width: 991px) {
+            .card-main {
+                height: 550px;
+                width: 1000px;
+                padding: 10%;
+            }
+        }
+
+           /* // Large devices (desktops, more than 992 and higher) */
+           @media (min-width: 992px) and (max-width:1199px) {
+            .card-main {
+                height: 600px;
+                width: 1000px;
+                padding: 7%;
+                margin-top: 120px;
+                font-size: 17px;
+
+            }
+
+            
+
+        }
+
+           /* // Large devices (desktops, more than 992 and higher) */
+           @media (min-width: 1200px) {
+                .card-main {
+                height: 700px;
+                width: 1000px;
+                padding: 10%;
+                margin-top: 90px;
+                font-size: 20px;
+
+            }
+
+
         }
     </style>
 

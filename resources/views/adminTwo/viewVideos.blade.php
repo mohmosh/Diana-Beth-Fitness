@@ -1,6 +1,7 @@
 @extends('adminTwo.dashboard')
 
 <main>
+    
 @section('content')
 <div class="container mt-4">
     <!-- Page Title -->

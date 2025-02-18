@@ -136,11 +136,21 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 Route::get('user/dashboard', [UserController::class, 'index'])->name('users.index');
 
 // Testimonials
-Route::get('user/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
 
-Route::get('/user/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
 
-Route::post('/user/testimonials/upload', [TestimonialController::class, 'store'])->name('testimonials.store');
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/user/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
+
+    Route::post('/user/testimonials/upload', [TestimonialController::class, 'store'])->name('testimonials.store');
+
+    Route::get('user/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
+
+    // In routes/web.php
+    Route::get('/testimonials/{testimonial}', [TestimonialController::class, 'show'])->name('testimonials.show');
+});
+
 
 
 // Route for users to see videos
@@ -252,25 +262,6 @@ Route::put('/progress/update/{id}', [ProgressController::class, 'update'])->name
 
 Route::get('/track-progress', [ProgressController::class, 'showProgressForm'])->name('track.progress');
 
-
-
-
-
-
-
-
-
-
-
-
-// Testimonials
-Route::middleware(['auth', 'check.subscription:Normal|Premium'])->group(function () {
-    Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.access');
-});
-
-Route::middleware(['auth', 'check.subscription:Premium'])->group(function () {
-    Route::get('/forums', [ForumController::class, 'index'])->name('forums.access');
-});
 
 
 // Subscription plans route

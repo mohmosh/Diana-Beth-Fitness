@@ -5,7 +5,10 @@
     <!-- Page Title -->
     <div class="text-center">
         <h1 class="display-4 mb-4 text-purple">Devotionals</h1>
+
     </div>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
     <!-- Success Message -->
     @if(session('success'))
@@ -119,9 +122,14 @@
 </div>
 
 <script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     function showDocumentContent(content) {
         document.getElementById('documentContent').innerText = content;
     }
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </script>
 
 @endsection

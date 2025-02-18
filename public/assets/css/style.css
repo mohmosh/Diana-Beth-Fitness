@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
 
 .white-bg {
     background: #ffffff;
@@ -351,7 +351,6 @@ hr {
     overflow: hidden;
     margin: 0;
 }
-
 
 .btn {
     background: purple;
@@ -2055,14 +2054,15 @@ hr {
 }
 .header-area .main-header {
     padding: 0px 130px;
-    background: rgba(0, 0, 0, 0.6); 
-
+    background: rgba(0, 0, 0, 0.6);
 }
+
 @media only screen and (min-width: 1200px) and (max-width: 1600px) {
     .header-area .main-header {
         padding: 0px 30px;
     }
 }
+
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .header-area .main-header {
         padding: 0px 15px;
@@ -2076,6 +2076,12 @@ hr {
 @media only screen and (min-width: 576px) and (max-width: 767px) {
     .header-area .main-header {
         padding: 22px 20px;
+    }
+
+    div.hero__caption {
+        /* background-color: red; */
+        height: 460px;
+        margin-top: 400px;
     }
 }
 @media (max-width: 575px) {
@@ -2102,11 +2108,35 @@ hr {
     position: relative;
     font-family: "Raleway", serif;
 }
+
+       /* // Large devices (desktops, more than 992 and higher) */
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .header-area .main-header .main-menu ul li a {
+        display: flex !important;
+        align-items: flex-start !important;
         padding: 39px 15px;
+        font-size: 15px;
+
+    }
+
+    a.btn.header-btn {
+        /* margin-left: 10px; */
+        font-size: 12px;
+        width: 130px;
+
+    }
+
+
+}
+
+        /* // Large devices (desktops, more than 1200 and higher) */
+@media only screen and (min-width: 1200px)  {
+    .header-area .main-header .main-menu ul li a {
+        padding: 39px 15px;
+        font-size: 27px;
     }
 }
+
 .header-area .main-header .main-menu ul li:hover > a {
     color: purple;
 }
@@ -2287,10 +2317,8 @@ hr {
     position: relative; /* Ensures caption appears above the shadow */
     z-index: 2; /* Keeps the caption above the shadow */
     color: white; /* Makes sure the text is readable */
-    background: rgba(0, 0, 0, 0.6); 
+    background: rgba(0, 0, 0, 0.6);
     padding: 10%;
-
-
 }
 
 .hero__caption span,
@@ -2303,7 +2331,6 @@ hr {
     position: relative;
     z-index: 2; /* Keeps button above the shadow */
 }
-
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .slider-area .hero__caption {
@@ -2376,7 +2403,7 @@ hr {
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
     .slider-area .hero__caption h1 {
-        font-size: 35px;
+        font-size: 20px;
         line-height: 1.4;
     }
 }

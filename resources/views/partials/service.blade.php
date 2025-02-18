@@ -33,7 +33,7 @@
     <!-- Want To work End -->
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 col-md-4 col-sm-4">
+            <div class="col-lg-6 col-md-12 col-sm-12">
                 <div class="single-cat text-center mb-50">
                     <div class="cat-icon">
                         <i class="flaticon-fitness"></i>
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-4 col-sm-4">
+            <div class="col-lg-6 col-md-12 col-sm-12">
                 <div class="single-cat text-center mb-50">
                     <div class="cat-icon">
                         <i class="flaticon-healthcare-and-medical"></i>

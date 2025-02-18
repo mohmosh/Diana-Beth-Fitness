@@ -33,6 +33,7 @@
         <!-- Canvas element to render the chart -->
         <canvas id="progressChart" width="600" height="400"></canvas> <!-- Fixed width and height -->
 
+        
         <script>
             // Data from the server passed into JavaScript
             const progressData = @json($progress);

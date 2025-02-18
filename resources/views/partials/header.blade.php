@@ -13,9 +13,10 @@
                         </div>
                     </div>
 
+
                     <!-- Navbar -->
                     <div class="col-xl-10 col-lg-10 col-md-10">
-                        <div class="d-flex align-items-center justify-content-end">
+                        <div class="d-flex align-items-center justify-content-end justify-content-lg-start  justify-content-xl-end justify-content-xxl-end">
                             <div class="main-menu f-right d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
@@ -31,7 +32,7 @@
                                             <ul class="dropdown-menu bg-dark">
                                                 <li><a class="dropdown-item text-purple w-100" href="{{ route('videos.challenges') }}">Challenges</a></li>
                                                 <li><a class="dropdown-item text-purple w-100" href="{{ route('testimonials.index') }}">Testimonials</a></li>
-                                                <li><a class="dropdown-item text-purple w-100" href="{{ route('forums.access') }}">Forums</a></li>
+                                                <li><a class="dropdown-item text-purple w-100" href="{{ route('testimonials.index') }}">Forums</a></li>
                                             </ul>
                                         </li>
 

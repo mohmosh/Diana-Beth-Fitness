@@ -263,7 +263,7 @@
 
     .navbar-nav .nav-link {
         padding: 0.8rem 1rem;
-       
+
     }
 
 

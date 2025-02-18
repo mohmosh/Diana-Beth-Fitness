@@ -5,22 +5,43 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\Testimonial;
+use Illuminate\Support\Facades\Auth;
 
 class TestimonialController extends Controller
 {
     public function index()
     {
 
-        $testimonials = Testimonial::latest()->get();
+        // $testimonials = Testimonial::latest()->get();
+
+
+        $testimonials = Testimonial::paginate(4);
+
+
+        // $testimonials = Testimonial::all();
+
 
         return view('testimonials.index', compact('testimonials'));
-
     }
+
+    // View a single testimony
+    public function show($id)
+    {
+        $testimonial = Testimonial::findOrFail($id); // Find the testimony by id
+
+        return view('testimonials.show', compact('testimonial'));
+    }
+
 
     public function create()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to create a testimonial.');
+        }
+
         return view('testimonials.create');
     }
+
 
     public function store(Request $request)
     {
@@ -60,14 +81,10 @@ class TestimonialController extends Controller
             $testimonials = Testimonial::all();
 
             return view('testimonials.index', [
+
                 'error' => 'An error occurred while uploading the testimonial. Please try again.',
                 'testimonials' => $testimonials,
             ]);
         }
     }
-
-
-
-
-
 }

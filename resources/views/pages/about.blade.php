@@ -56,8 +56,8 @@
                                                 Community
                                             </a>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="{{ route('testimonials.access') }}">Testimonials</a></li>
-                                                <li><a class="dropdown-item" href="{{ route('forums.access') }}">Forums</a></li>
+                                                <li><a class="dropdown-item" href="{{ route('testimonials.index') }}">Testimonials</a></li>
+                                                <li><a class="dropdown-item" href="{{ route('testimonials.index') }}">Forums</a></li>
                                             </ul>
                                         </li>
 
@@ -113,7 +113,7 @@
         </div>
         <!-- Hero End -->
 
-        
+
         <!--? About Area Start -->
         <section class="mission-vision-area section-padding30">
             <div class="container">

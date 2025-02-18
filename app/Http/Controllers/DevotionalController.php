@@ -24,27 +24,31 @@ class DevotionalController extends Controller
         $user = Auth::user();
 
         if ($user) {
-            // Fetch the user's subscription type and level
-            $plan = $user->subscription ? $user->subscription->plan : null;
-            $userSubscriptionType = $plan ? $plan->subscription_type : null;
+        //     // Fetch the user's subscription type and level
+        //     $plan = $user->subscription ? $user->subscription->plan : null;
 
-            // Retrieve devotionals based on subscription type and level
-            $devotionals = Devotional::when($userSubscriptionType, function ($query) use ($userSubscriptionType) {
-                $query->where('subscription_type', $userSubscriptionType);
-            })
-            ->where(function ($query) use ($user) {
-                // Include devotionals that are available at the user's level or those without level requirements
-                $query->where('level_required', '<=', $user->level)
-                      ->orWhereNull('level_required');
-            })
-            ->get();
-        } else {
-            // For unauthenticated users, fetch devotionals with subscription_type of 'free_trial' or 'challenges'
-            $devotionals = Devotional::whereIn('subscription_type', ['free_trial', 'challenges'])
-                                     ->orWhere('subscription_type', 'free_trial')
-                                     ->get();
+        //     $userSubscriptionType = $plan ? $plan->subscription_type : null;
+
+        //     // Retrieve devotionals based on subscription type and level
+        //     $devotionals = Devotional::when($userSubscriptionType, function ($query) use ($userSubscriptionType) {
+        //         $query->where('subscription_type', $userSubscriptionType);
+        //     })
+        //     ->where(function ($query) use ($user) {
+        //         // Include devotionals that are available at the user's level or those without level requirements
+        //         $query->where('level_required', '<=', $user->level)
+        //               ->orWhereNull('level_required');
+        //     })
+        //     ->get();
+        // } else {
+        //     // For unauthenticated users, fetch devotionals with subscription_type of 'free_trial' or 'challenges'
+        //     $devotionals = Devotional::whereIn('subscription_type', ['free_trial', 'challenges'])
+        //                              ->orWhere('subscription_type', 'free_trial')
+        //                              ->get();
+        // }
+
+        $devotionals = Devotional::paginate(10);
         }
-
+        
         return view('user.devotionals.index', compact('devotionals'));
     }
 

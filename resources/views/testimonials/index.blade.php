@@ -3,108 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Testimonial</title>
+    <title>Testimonials</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
 <body>
 
 
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <!-- Add the Create Testimonial Button -->
-        <a href="{{ route('testimonials.create') }}" class="btn btn-primary">Create A Testimonial</a>
-    </div>
+    <main>
+        <div class="container mt-4">
+            <h1 class="text-center fw-bold mb-4 text">Testimonials</h1>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+            <div class="container mt-4">
+                <a href="{{ route('home') }}" class="btn btn-secondary mb-4">Back</a>
+            </div>
 
-    <div class="row">
-        @foreach($testimonials as $testimonial)
-            <div class="col-md-4">
-                <div class="card mb-3">
-                    @if($testimonial->photo)
-                        <img src="{{ asset('storage/' . $testimonial->photo) }}" class="card-img-top" alt="User Photo">
-                    @endif
-                    @if($testimonial->video)
-                        <video controls class="w-100 mt-2">
-                            <source src="{{ asset('storage/' . $testimonial->video) }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    @endif
-                    <div class="card-body">
-                        <p class="card-text">{{ $testimonial->content }}</p>
-                        <p class="text-muted">By User ID: {{ $testimonial->user_id }}</p>
+            @if(session('success'))
+                <div class="alert alert-success text-center">{{ session('success') }}</div>
+            @endif
+
+            <div class="row justify-content-center">
+                @forelse($testimonials as $testimonial)
+                <div class="col-md-3">
+                    <div class="card shadow-sm border-0 rounded-3 mb-4">
+                        <!-- Make the whole card clickable -->
+                        <a href="{{ route('testimonials.show', $testimonial->id) }}">
+                            @if($testimonial->photo)
+                            <img src="{{ asset('storage/' . $testimonial->photo) }}" class="card-img-top rounded-top" alt="User Photo">
+                            @endif
+
+                            @if($testimonial->video)
+                            <video controls class="w-100 mt-2 rounded">
+                                <source src="{{ asset('storage/' . $testimonial->video) }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            @endif
+                        </a>
+
+                        <div class="card-body text-center p-3">
+                            <p class="card-text text-dark fst-italic">{{ Str::limit($testimonial->content, 100) }}...</p>
+                            <p class="text-muted small fw-bold">By User Name: {{ $testimonial->user_id }}</p>
+                        </div>
                     </div>
                 </div>
+                @empty
+                <div class="col-12 text-center">
+                    <p class="text-muted">No testimonials found. Be the first to share your experience!</p>
+                </div>
+                @endforelse
             </div>
-        @endforeach
-    </div>
-</div>
 
-</body>
-</html>
+            <div class="text-center">
+                {{ $testimonials->links('pagination::bootstrap-4') }}
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ route('testimonials.create') }}" class="btn btn-lg btn-btn shadow-sm">Create A Testimonial</a>
+            </div>
+        </div>
 
 
 <style>
     body {
-        background-color: #f8f9fa;
+        background: linear-gradient(135deg, #e3f2fd, #650781);
     }
-    .container {
-        max-width: 600px;
-        background: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    .card {
+        transition: transform 0.3s ease-in-out;
+        height: 100%;
+    }
+    .card:hover {
+        transform: translateY(-5px);
     }
     h1 {
-        text-align: center;
-        color: #343a40;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
     }
-    .btn-primary {
-        width: 100%;
+
+    .text {
+        color: black;
+    }
+
+    .btn-btn{
+        background-color: purple;
+        color: whitesmoke;
     }
 </style>
+</main>
 
-
-
-
-
-
-
-
-
-
-{{-- @extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <h1>All Testimonials</h1>
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-    <div class="row">
-        @foreach($testimonials as $testimonial)
-        <div class="col-md-4">
-            <div class="card mb-3">
-                @if($testimonial->photo)
-                <img src="{{ asset('storage/' . $testimonial->photo) }}" class="card-img-top" alt="User Photo">
-                @endif
-                @if($testimonial->video)
-                <video controls class="w-100 mt-2">
-                    <source src="{{ asset('storage/' . $testimonial->video) }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                @endif
-                <div class="card-body">
-                    <p class="card-text">{{ $testimonial->content }}</p>
-                    <p class="text-muted">By User ID: {{ $testimonial->user_id }}</p>
-                </div>
-            </div>
-        </div>
-        @endforeach
-    </div>
-</div>
-@endsection --}}
-
+</body>
+</html>
