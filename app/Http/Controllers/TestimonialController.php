@@ -9,20 +9,17 @@ use Illuminate\Support\Facades\Auth;
 
 class TestimonialController extends Controller
 {
+
     public function index()
     {
-
-        // $testimonials = Testimonial::latest()->get();
-
-
         $testimonials = Testimonial::paginate(4);
 
-
-        // $testimonials = Testimonial::all();
+        // dd($testimonials);
 
 
         return view('testimonials.index', compact('testimonials'));
     }
+
 
     // View a single testimony
     public function show($id)
@@ -69,7 +66,7 @@ class TestimonialController extends Controller
             $testimonial->save();
 
             // Fetch all testimonials to pass to the view
-            $testimonials = Testimonial::all();
+            $testimonials = Testimonial::paginate(4);
 
             return view('testimonials.index', [
                 'success' => 'Testimonial uploaded successfully.',

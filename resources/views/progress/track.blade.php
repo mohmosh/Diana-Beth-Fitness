@@ -1,43 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Build His Temple Videos</title>
+@section('content')
 
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-</head>
-
-<nav class="navbar navbar-expand-lg navbar-light  fixed-top">
-    <div class="container">
-        <div class="container mt-4">
-            <a href="javascript:history.back()" class="btn btn-secondary mb-4">Back</a>
+    <div class="slider-area2">
+        <div class="slider-height2 d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap hero-cap2 text-center pt-70">
+                            <h2>Track Your Progress</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        </li>
+    </div>
 
-        </ul>
-</nav>
-
-<body>
+<main>
     <!-- Main Content -->
     <div class="container mt-4">
+        <h1 class="text-center mb-5">Your Progress</h1>
 
-        <div class="container mt-4">
-            <a href="javascript:history.back()" class="btn btn-secondary mb-4">Back</a>
-        </div>
-
-
-        <!-- Track Your Progress Section -->
-        <div class="mt-4 text-center">
-            <h5>Track Your Progress</h5>
-            <!-- Button to toggle form visibility -->
+<div class="row">
+        <!-- Button to toggle form visibility -->
             <button id="show-form-btn" class="btn btn-info rounded-circle" onclick="toggleProgressForm()">Track Your
                 Progress</button>
 
@@ -132,10 +117,67 @@
                     </form>
                 @endif
             </div>
-            <!-- Scripts -->
-            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            @push('styles')
+            <style>
+                /* Video Widget */
+                .video-widget {
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    background-color: #fff;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    overflow: hidden;
+                }
+
+                .video-widget:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+                }
+
+                .video-widget-body {
+                    padding: 10px;
+                }
+
+                .video-widget .widget-title {
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                    color: #6a1b9a;
+                }
+
+                .video-widget .widget-description {
+                    font-size: 0.95rem;
+                    line-height: 1.5;
+                    color: #6c757d;
+                }
+
+                .video-widget video {
+                    border-radius: 10px;
+                    max-height: 200px;
+                    width: 100%;
+                }
+
+
+                .devotionals {
+                    border-top: 1px solid #ddd;
+                    padding-top: 20px;
+                    margin-top: 20px;
+                }
+
+
+                .btn-lg {
+                    padding: 12px 24px;
+                    font-size: 18px;
+                    border-radius: 10px;
+                    /* Optional: makes the button corners more rounded */
+                }
+            </style>
+
+            @push('scripts')
+
+                <!-- Bootstrap JS and Dependencies -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
             <!-- Toggle Progress Form Script -->
             <script>
@@ -239,32 +281,4 @@
 </body>
 
 </html>
-<style>
-    body {
-        padding-top: 80px;
 
-    }
-
-
-    .container {
-        margin-top: 20px;
-    }
-
-    .navbar {
-        font-size: 1.3rem;
-        padding: 1.2rem 0;
-        background-color: purple;
-    }
-
-    .navbar-brand {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
-    .navbar-nav .nav-link {
-        padding: 0.8rem 1rem;
-
-    }
-
-
-</style>

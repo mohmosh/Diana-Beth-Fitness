@@ -145,11 +145,21 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/user/testimonials/upload', [TestimonialController::class, 'store'])->name('testimonials.store');
 
+
     Route::get('user/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
 
-    // In routes/web.php
     Route::get('/testimonials/{testimonial}', [TestimonialController::class, 'show'])->name('testimonials.show');
 });
+
+
+Route::resource('posts', PostController::class);
+
+Route::post('comments', [CommentController::class, 'store'])->name('comments.store');
+
+
+Route::post('/posts/{post}/like', [PostController::class, 'like'])->middleware('auth')->name('posts.like');
+
+Route::post('/posts/{post}/comment', [PostController::class, 'comment'])->middleware('auth')->name('posts.comment');
 
 
 
@@ -174,6 +184,12 @@ Route::post('/contact', [ContactController::class, 'submit'])->name('contact.sub
 
 // About Us
 Route::get('/about', [PageController::class, 'aboutUs'])->name('aboutUs.index');
+
+Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
+
+Route::delete('/profile/remove', [UserController::class, 'removeProfile'])->name('profile.remove');
+
+
 
 
 
@@ -330,11 +346,11 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
 
 
+
     Route::post('/admin/logout', [AuthController::class, 'adminLogout'])
         ->name('admin.logout');
 });
 
 
-Route::resource('posts', PostController::class);
 
-Route::post('comments', [CommentController::class, 'store'])->name('comments.store');
+

@@ -32,7 +32,8 @@ class User extends  Authenticatable  implements MustVerifyEmail
         'role_id',
         'on_trial',
         'trial_start_date',
-        'trial_end_date'
+        'trial_end_date',
+        'profile_picture'
     ];
 
     /**
@@ -131,6 +132,12 @@ class User extends  Authenticatable  implements MustVerifyEmail
         }
         return 0;
     }
+
+    public function likes()
+{
+    return $this->hasMany(Like::class);
+}
+
 
 
 }

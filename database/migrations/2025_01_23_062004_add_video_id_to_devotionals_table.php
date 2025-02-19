@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('devotionals', function (Blueprint $table) {
-
-
-            $table->foreignId('video_id')->constrained()->onDelete('cascade');
-        });
+        if (!Schema::hasColumn('devotionals', 'video_id')) { 
+            Schema::table('devotionals', function (Blueprint $table) {
+                $table->bigInteger('video_id')->unsigned()->notNull();
+            });
+        }
     }
 
     public function down()
     {
         Schema::table('devotionals', function (Blueprint $table) {
-            
+
             $table->dropForeign(['video_id']);
         });
     }

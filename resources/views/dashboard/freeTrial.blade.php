@@ -1,60 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Trial</title>
+@section('content')
 
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container d-flex align-items-center">
+    <div class="slider-area2">
+        <div class="slider-height2 d-flex align-items-center">
             <div class="container">
-                <a class="navbar-brand text-white" href="#">Free Trial Videos</a>
-
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-
-
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle d-flex align-items-center user-dropdown" href="#" id="userDropdown"
-                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ asset('assets/img/logo/logo.png') }}" class="user-avatar rounded-circle mr-2" alt="User">
-                                <span class="user-name">{{ auth()->user()->name }}</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{{ url('/') }}">Home</a>
-                                {{-- <a class="dropdown-item" href="#">Account Settings</a>
-                                <a class="dropdown-item" href="#">Need Help?</a> --}}
-                                <div class="dropdown-divider"></div>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item text-danger">Logout</button>
-                                </form>
-                            </div>
-                        </li>
-
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap hero-cap2 text-center pt-70">
+                            <h2>Your Workouts</h2>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-    </nav>
+        </div>
+    </div>
+
+
 
     <!-- Main Content -->
-    <div class="container mt-4">
+     <!-- Video Section -->
+     <div class="container mt-4">
+        <h1>Free Trial</h1>
 
         <div class="alert alert-info text-center">
             @if ($daysLeft > 0)
@@ -65,10 +32,7 @@
                     href="{{ route('subscriptions.choose') }}">Build His Temple</a> or <a
                     href="{{ route('subscriptions.choose') }}">Personal Training</a> plan.
             @endif
-        </div>
-
-        <a href="javascript:history.back()" class="btn btn-secondary mb-4">Back</a>
-    </div>
+     
 
 
     <!-- Video Section -->
@@ -129,10 +93,69 @@
     </div>
     </div>
 
-   <!-- Bootstrap JS and Dependencies -->
-   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</main>
+
+@push('styles')
+<style>
+    /* Video Widget */
+    .video-widget {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .video-widget:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .video-widget-body {
+        padding: 10px;
+    }
+
+    .video-widget .widget-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #6a1b9a;
+    }
+
+    .video-widget .widget-description {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: #6c757d;
+    }
+
+    .video-widget video {
+        border-radius: 10px;
+        max-height: 200px;
+        width: 100%;
+    }
+
+
+    .devotionals {
+        border-top: 1px solid #ddd;
+        padding-top: 20px;
+        margin-top: 20px;
+    }
+
+
+    .btn-lg {
+        padding: 12px 24px;
+        font-size: 18px;
+        border-radius: 10px;
+        /* Optional: makes the button corners more rounded */
+    }
+</style>
+
+@push('scripts')
+
+    <!-- Bootstrap JS and Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- Toggle Progress Form Script -->
     <script>
@@ -237,156 +260,4 @@
 
 </html>
 
-<!-- Custom Styles -->
-<style>
-    body {
-        background-color: #f8f9fa;
-        /* Light gray background */
-        font-family: 'Roboto', sans-serif;
-    }
 
-    h1 {
-        font-family: 'Roboto', sans-serif;
-        font-weight: 700;
-        color: #6a1b9a;
-    }
-
-    p.text-danger {
-        font-size: 1rem;
-    }
-
-    .navbar {
-        padding: 1.4rem;
-        background-color: #8a0f9b;
-        /* Distinct purple header */
-        color: white;
-    }
-
-    .navbar-nav .nav-link {
-        font-size: 1rem;
-        margin-right: 15px;
-        color: white;
-        transition: color 0.3s ease, text-decoration 0.3s ease;
-    }
-
-    .navbar-nav .nav-link:hover {
-        color: #fbc02d;
-        text-decoration: underline;
-    }
-
-
-
-    .dropdown-menu {
-        min-width: 180px;
-    }
-
-    .dropdown-menu .dropdown-item {
-        padding: 10px 15px;
-    }
-
-    .dropdown-item:hover {
-        background-color: #f8f9fa;
-    }
-    .user-avatar {
-    width: 70px;
-    height: 70px;
-}
-
-.user-name {
-    font-size: 30px;
-    font-weight: bold;
-}
-
-
-
-    .logout-btn {
-        background-color: #d32f2f;
-        /* Red button color */
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
-        font-weight: bold;
-        border-radius: 5px;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .logout-btn:hover {
-        background-color: #b71c1c;
-        /* Darker red */
-        transform: scale(1.05);
-    }
-
-    /* Video Widget */
-    .video-widget {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-    }
-
-    .video-widget:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .video-widget-body {
-        padding: 10px;
-        background-color: #0c0b0b
-    }
-
-    .video-widget .widget-title {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #6a1b9a;
-    }
-
-    .video-widget .widget-description {
-        font-size: 0.95rem;
-        line-height: 1.5;
-        color: #6c757d;
-        /* Muted text color */
-    }
-
-    .video-widget video {
-        border-radius: 10px;
-        max-height: 200px;
-        width: 100%;
-    }
-
-
-    .progress {
-        height: 25px;
-    }
-
-    .devotionals {
-        border-top: 1px solid #e0e0e0;
-        padding-top: 10px;
-    }
-
-    .devotional h6 {
-        font-size: 1rem;
-        font-weight: bold;
-    }
-
-    .devotional p {
-        font-size: 0.9rem;
-        color: #6c757d;
-    }
-
-    .devotional a {
-        font-size: 0.85rem;
-        color: #8a0f9b;
-    }
-
-    .devotional a:hover {
-        text-decoration: underline;
-        color: #6a1b9a;
-    }
-    .btn-lg {
-        padding: 12px 24px;
-        font-size: 18px;
-        border-radius: 10px;
-    }
-</style>

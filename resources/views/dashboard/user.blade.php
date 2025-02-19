@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+
+
 @section('content')
     <main>
         {{-- @if (session('success'))
@@ -60,7 +62,7 @@
                                 <h5 class="card-title">See Our Communities</h5>
                                 <p class="card-text">Join our vibrant communities and connect with like-minded individuals.
                                 </p>
-                                {{-- <a href="{{ route('communities.index') }}" class="btn btn-primary">Join Now</a> --}}
+                                <a href="{{ route('posts.index') }}" class="btn btn-primary">Join Now</a>
                             </div>
                         </div>
                     </div>
