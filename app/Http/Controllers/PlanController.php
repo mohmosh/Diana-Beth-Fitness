@@ -21,6 +21,7 @@ class PlanController extends Controller
         return view('plans.index', compact('plans', 'user'));
     }
 
+    
 
     public function show($id)
     {

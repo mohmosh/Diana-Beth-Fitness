@@ -17,6 +17,7 @@
     </div>
 
 
+
     <div class="container my-5">
         <h2 class="text-center mb-5">Subscribe to a plan to view workouts</h2>
 
@@ -43,3 +44,11 @@
     </div>
 </main>
 @endsection
+
+@push('scripts')
+
+<!-- Bootstrap JS and Dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

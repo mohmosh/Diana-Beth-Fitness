@@ -51,64 +51,58 @@
 
                             <!-- Logged-in Users -->
                             @auth
-                                <div class="header-right-btn f-right d-none d-lg-block ml-15">
-                                    <div class="dropdown">
-                                        <a class="dropdown-toggle" href="#" role="button" id="userProfileDropdown"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img id="userAvatar"
-                                                src="{{ auth()->user()->profile_picture ? asset('uploads/profile_pictures/' . auth()->user()->profile_picture . '?' . time()) : asset('assets/img/default-avatar.png') }}"
-                                                alt="User Profile" class="profile-avatar">
-                                            <span class="user-name">{{ auth()->user()->name }}</span>
-                                        </a>
+                            <div class="header-right-btn f-right d-none d-lg-block ml-15">
+                                <div class="dropdown">
+                                    @php
+                                    $defaultAvatar = asset('assets/img/avatar.jpeg');
 
-                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileDropdown">
-                                            <li class="dropdown-item text-center">
-                                                <strong>{{ auth()->user()->name }}</strong>
-                                            </li>
-                                            <li><hr class="dropdown-divider"></li>
+                                    // Use timestamp to force image refresh
+                                    $profilePicture = auth()->user()->profile_picture
+                                        ? asset('storage/profile_pictures/' . auth()->user()->profile_picture) . '?' . time()
+                                        : $defaultAvatar;
+                                @endphp
 
-                                            <!-- Profile Picture Upload Form -->
-                                            <li class="px-3 text-center">
-                                                <img id="profileImage"
-                                                    src="{{ auth()->user()->profile_picture ? asset('uploads/profile_pictures/' . auth()->user()->profile_picture . '?' . time()) : asset('assets/img/default-avatar.png') }}"
-                                                    alt="User Profile" class="profile-img">
+                                    <a class="dropdown-toggle" href="javascript:void(0);" role="button" id="userProfileDropdown"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
 
-                                                <br>
-                                                <label class="small">
-                                                    <a href="#" class="change-profile-link"
-                                                        onclick="document.getElementById('profilePictureInput').click(); return false;">
-                                                        Change Profile Picture
-                                                    </a>
-                                                </label>
+                                        <img id="userAvatar" src="{{ $profilePicture }}"
+                                        onerror="this.onerror=null; this.src='{{ $defaultAvatar }}';"
+                                        alt="User Profile" class="profile-avatar">
 
-                                                <form id="profileForm" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <input type="file" name="profile_picture" id="profilePictureInput" class="d-none">
-                                                </form>
+                                        <span class="user-name">{{ auth()->user()->name }}</span>
 
-                                                {{-- @if(auth()->user()->profile_picture)
-                                                    <form id="removeProfileForm" action="{{ route('profile.remove') }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger mt-2">Remove Profile Picture</button>
-                                                    </form>
-                                                @endif --}}
-                                            </li>
+                                    </a>
 
-                                            <li><hr class="dropdown-divider"></li>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileDropdown">
+                                        <li class="dropdown-item text-center">
+                                            <strong>{{ auth()->user()->name }}</strong>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
 
-                                            <!-- Logout Button -->
-                                            <li>
-                                                <form action="{{ route('logout') }}" method="POST">
-                                                    @csrf
-                                                    <button type="submit" class="dropdown-item text-danger">Logout</button>
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                        <!-- Profile Link -->
+                                        <li>
+                                            <a href="{{ route('profile.edit') }}" class="dropdown-item">Profile</a>
+                                        </li>
+
+                                        <li><hr class="dropdown-divider"></li>
+
+                                        <!-- Logout Button -->
+                                        <li>
+                                            <form action="{{ route('logout') }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="dropdown-item text-danger">Logout</button>
+                                            </form>
+                                        </li>
+                                    </ul>
                                 </div>
+                            </div>
                             @endauth
+
+
+
+
+
+
                         </div>
                     </div>
 
@@ -124,6 +118,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+
 @push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -138,7 +135,21 @@
             }, 1000);
         }
     });
+
+    document.querySelector('input[name="profile_picture"]').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('userAvatar').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 </script>
+
+
+
 @endpush
 
 @push('styles')
@@ -177,5 +188,13 @@
         text-decoration: underline;
         color: #0056b3;
     }
+    .user-name {
+        font-size: 24px; /* Increase the font size */
+        font-family: 'Poppins', sans-serif; /* Cool modern font */
+        font-weight: bold; /* Make it bold */
+        text-decoration: none; /* Remove underline */
+        color: whitesmoke; /* Optional: Stylish color */
+    }
+
 </style>
 

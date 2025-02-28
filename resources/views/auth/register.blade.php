@@ -206,6 +206,7 @@
         .form-control {
             border-radius: 10px;
             padding: 6.5%;
+            font-size: 15px;
         }
 
         .btn-primary {
@@ -228,6 +229,9 @@
             color: #8e44ad;
             text-decoration: underline;
         }
+
+
+
 
 
         /* // Small devices (landscape phones, 576px and up) */

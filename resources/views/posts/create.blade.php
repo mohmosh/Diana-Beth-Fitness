@@ -58,7 +58,6 @@
         background-color: #f8f9fa;
     }
 
-
     h1 {
         text-align: center;
         color: #343a40;
@@ -67,7 +66,22 @@
 @endpush
 
 @push('scripts')
+
+<!-- CKEditor 5 -->
+<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+
+<!-- Initialize CKEditor -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        ClassicEditor
+            .create(document.querySelector('#content'))
+            .catch(error => console.error('CKEditor Error:', error));
+    });
+</script>
+
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 @endpush
 
 @endsection

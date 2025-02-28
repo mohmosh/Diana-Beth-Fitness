@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,11 +23,26 @@
         @if (auth()->check() && auth()->user()->subscription == null)
             <div class="form-container">
                 <h2>Subscribe to {{ $plan->name }}</h2>
-                <form action="{{ route('subscriptions.store') }}" method="POST">
+
+                <!-- Paystack Subscription Form -->
+                <form id="paystackForm" action="{{ route('paystack.pay') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+                    <input type="hidden" name="amount" id="planAmount" value="{{ $plan->price * 100 }}">
+                    <input type="hidden" name="plan_id" value="{{ $plan->id }}">
+
+                    <button type="submit" class="btn btn-success">Subscribe with Paystack</button>
+                </form>
+
+
+
+                {{-- <form action="{{ route('subscriptions.store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="plan_id" value="{{ $plan->id }}">
                     <button type="submit" class="btn btn-success">Subscribe</button>
-                </form>
+                </form> --}}
+
+
             </div>
         @elseif(!auth()->check())
             <div class="form-container">

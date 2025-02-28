@@ -79,7 +79,6 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         // Other middleware
         'isAdmin' => \App\Http\Middleware\IsAdmin::class,
-        'subscription' =>\App\Http\Middleware\SubscriptionCheck::class,
         'plan' => \App\Http\Middleware\PlanMiddleware::class,
         'trial' => \App\Http\Middleware\TrialMiddleware::class,
         'track.free.trial' => \App\Http\Middleware\TrackFreeTrial::class,

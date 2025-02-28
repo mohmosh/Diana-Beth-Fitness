@@ -15,31 +15,30 @@
         </div>
     </div>
 
-   <main>
-    <div class="container mt-4">
-        <h1>Create a Testimonial</h1>
-        <form action="{{ route('testimonials.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="mb-3">
-                <label for="content" class="form-label">Content</label>
-                <textarea name="content" id="content" class="form-control" rows="4" ></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="photo" class="form-label">Photo</label>
-                <input type="file" name="photo" id="photo" class="form-control">
-            </div>
-            <div class="mb-3">
-                <label for="video" class="form-label">Video</label>
-                <input type="file" name="video" id="video" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <a href="{{ route('posts.index') }}" class="btn btn-secondary mt-2 w-100">Cancel</a>
+    <main>
+        <div class="container mt-4">
+            <h1>Create a Testimonial</h1>
+            <form action="{{ route('testimonials.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <label for="content" class="form-label">Content</label>
+                    <textarea name="content" id="content" class="form-control" rows="4"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="photo" class="form-label">Photo</label>
+                    <input type="file" name="photo" id="photo" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="video" class="form-label">Video</label>
+                    <input type="file" name="video" id="video" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{{ route('posts.index') }}" class="btn btn-secondary mt-2 w-100">Cancel</a>
+            </form>
+        </div>
+    </main>
 
-        </form>
-    </div>
-   </main>
-
-   @push('styles')
+@push('styles')
 <style>
     body {
         background-color: #115294;
@@ -53,14 +52,23 @@
         width: 100%;
     }
 </style>
+@endpush
 
 @push('scripts')
 
-    <!-- Bootstrap JS and Dependencies -->
+    <!-- CKEditor -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+
+    <!-- Initialize CKEditor -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ClassicEditor
+                .create(document.querySelector('#content')) // Corrected ID
+                .catch(error => console.error(error));
+        });
+    </script>
+
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
-
+@endpush

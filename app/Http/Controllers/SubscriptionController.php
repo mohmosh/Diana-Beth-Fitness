@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Unicodeveloper\Paystack\Facades\Paystack;
 
 class SubscriptionController extends Controller
 {
@@ -114,5 +115,58 @@ class SubscriptionController extends Controller
         // dd($plan);
 
         return view('subscriptions.form', compact('plan'));
+    }
+
+
+
+    public function initiatePayment(Request $request)
+    {
+        $plan = Plan::findOrFail($request->plan_id);
+
+        $user = Auth::user();
+        $amount = $plan->price * 100; // Convert to kobo
+
+        $data = [
+            "amount" => $amount,
+            "email" => $user->email,
+            "currency" => "NGN",
+            "callback_url" => route('paystack.callback'),
+            "metadata" => [
+                "user_id" => $user->id,
+                "plan_id" => $plan->id
+            ]
+        ];
+
+        $paystack = new \Unicodeveloper\Paystack\Paystack();
+
+        return $paystack->getAuthorizationUrl($data)->redirectNow();
+    }
+
+    public function handleGatewayCallback()
+    {
+        $paymentDetails = Paystack::getPaymentData();
+
+        if ($paymentDetails['status'] && $paymentDetails['data']['status'] == 'success') {
+            $user_id = $paymentDetails['data']['metadata']['user_id'];
+            $plan_id = $paymentDetails['data']['metadata']['plan_id'];
+
+            // Subscription::create([
+            //     'user_id' => $user_id,
+            //     'plan_id' => $plan_id,
+            //     'status' => 'active'
+            // ]);
+            Subscription::create([
+                'user_id' => $user_id,
+                'plan_id' => $plan_id,
+                'status' => 'active',
+                'start_date' => now(),
+                'end_date' => now()->addMonth(), // Set expiry date
+            ]);
+
+
+            return redirect()->route('dashboard')->with('success', 'Subscription successful!');
+        }
+
+        return redirect()->route('dashboard')->with('error', 'Payment failed. Try again.');
     }
 }

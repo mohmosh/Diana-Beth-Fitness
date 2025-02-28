@@ -21,6 +21,7 @@ use App\Http\Controllers\{
     WorkoutController,
     PostController,
     CommentController,
+    MpesaController,
     ProgressController
 };
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -28,6 +29,9 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Models\Devotional;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\PaystackController;
+
 
 // Auth::routes(['verify' => true]);
 
@@ -185,9 +189,12 @@ Route::post('/contact', [ContactController::class, 'submit'])->name('contact.sub
 // About Us
 Route::get('/about', [PageController::class, 'aboutUs'])->name('aboutUs.index');
 
-Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
 
-Route::delete('/profile/remove', [UserController::class, 'removeProfile'])->name('profile.remove');
+
+Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
+
+Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
+
 
 
 
@@ -236,6 +243,20 @@ Route::post('/subscriptions', [SubscriptionController::class, 'store'])->name('s
 
 // Subscribing
 Route::get('/subscriptions/form/{plan}', [SubscriptionController::class, 'showForm'])->name('subscriptions.form');
+
+
+
+Route::post('/subscribe', [SubscriptionController::class, 'initiatePayment'])->name('subscriptions.pay');
+
+
+Route::post('/paystack/pay', [PaystackController::class, 'pay'])->name('paystack.pay');
+
+Route::get('/paystack/callback', [PaystackController::class, 'callback'])->name('paystack.callback'); 
+
+Route::post('/paystack/webhook', [PaystackController::class, 'webhook'])->name('paystack.webhook');
+
+
+
 
 
 
