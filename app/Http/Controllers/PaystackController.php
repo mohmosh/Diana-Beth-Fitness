@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Mail;
 
 class PaystackController extends Controller
 {
-
     public function pay(Request $request)
     {
         $request->validate([
@@ -45,15 +44,12 @@ class PaystackController extends Controller
 
             // Redirect the user to Paystack checkout page
             return redirect()->away($payment->url);
-
         } catch (\Exception $e) {
             Log::error('Paystack Payment Error: ' . $e->getMessage());
 
             return back()->with('error', 'Error initializing payment: ' . $e->getMessage());
         }
     }
-
-
 
     public function handlePaystackCallback()
     {
@@ -65,41 +61,34 @@ class PaystackController extends Controller
 
         if ($paymentDetails['data']['status'] == 'success') {
             $email = $paymentDetails['data']['customer']['email'];
-            $amount = $paymentDetails['data']['amount'] / 100;
+            $amount = $paymentDetails['data']['amount'];
             $planId = $paymentDetails['data']['metadata']['plan_id'];
 
             $user = User::where('email', $email)->first();
             $plan = Plan::find($planId);
 
             if ($user && $plan) {
-                // Create a subscription record
+                // Create or update the subscription
                 Subscription::updateOrCreate(
-                    ['user_id' => $user->id], // Ensure the user has only one active subscription
+                    ['user_id' => $user->id],
                     ['plan_id' => $plan->id, 'status' => 'active']
                 );
 
-                // Send confirmation email
-                Mail::to($user->email)->send(new PaymentConfirmationMail($user, $plan));
+                // Send confirmation email with name, amount, plan, and date
+                Mail::to($user->email)->send(new PaymentConfirmationMail($user, $plan, $amount));
 
-                // Redirect to workouts page
-               // Redirect based on the subscription plan
-            if ($plan->name === 'Personal Training') {
-
-                return redirect()->route('videos.personalTraining')->with('success', 'Payment successful! Your personal training workouts are now unlocked.');
-
-            } elseif ($plan->name === 'Build His Temple') {
-
-                return redirect()->route('videos.BuildHisTemple')->with('success', 'Payment successful! Your Build His Temple workouts are now unlocked.');
-
-            }  elseif ($plan->name === 'Testing Plan') {
-
-                return redirect()->route('videos.personalTraining')->with('success', 'Payment successful! Your Build His Temple workouts are now unlocked.');
-            }
-            else {
-                return redirect()->route('workouts.index')->with('success', 'Payment successful! Your workouts are now unlocked.');
+                // Redirect based on the subscription plan
+                if ($plan->name === 'Personal Training') {
+                    return redirect()->route('videos.personalTraining')->with('success', 'Payment successful! Your personal training workouts are now unlocked.');
+                } elseif ($plan->name === 'Build His Temple') {
+                    return redirect()->route('videos.BuildHisTemple')->with('success', 'Payment successful! Your Build His Temple workouts are now unlocked.');
+                } elseif ($plan->name === 'Testing Plan') {
+                    return redirect()->route('videos.personalTraining')->with('success', 'Payment successful! Your Build His Temple workouts are now unlocked.');
+                } else {
+                    return redirect()->route('workouts.index')->with('success', 'Payment successful! Your workouts are now unlocked.');
+                }
             }
         }
-    }
 
         return redirect()->route('subscription.error')->with('error', 'Payment not successful.');
     }

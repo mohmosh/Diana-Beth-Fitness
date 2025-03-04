@@ -3,9 +3,11 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\User;
+use App\Models\Plan;
+use Carbon\Carbon;
 
 class PaymentConfirmationMail extends Mailable
 {
@@ -13,28 +15,28 @@ class PaymentConfirmationMail extends Mailable
 
     public $user;
     public $plan;
+    public $amount;
+    public $datePaid;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct($user, $plan)
+    public function __construct(User $user, Plan $plan, $amount)
     {
         $this->user = $user;
         $this->plan = $plan;
+        $this->amount = $amount;
+        $this->datePaid = Carbon::now()->toFormattedDateString(); // Format the date
     }
 
-    /**
-     * Build the message.
-     */
     public function build()
     {
-        return $this->subject('Payment Confirmation - Diana Beth Fitness')
+        return $this->subject('Payment Confirmation')
                     ->view('emails.payment_confirmation')
                     ->with([
                         'name' => $this->user->name,
                         'plan' => $this->plan->name,
-                        'amount' => $this->plan->price,
+                        'amount' => number_format($this->amount, 2) . ' KES',
+                        'datePaid' => $this->datePaid,
                     ]);
     }
 }
+
 
