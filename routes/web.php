@@ -251,7 +251,7 @@ Route::post('/subscribe', [SubscriptionController::class, 'initiatePayment'])->n
 
 Route::post('/paystack/pay', [PaystackController::class, 'pay'])->name('paystack.pay');
 
-Route::get('/paystack/callback', [PaystackController::class, 'callback'])->name('paystack.callback'); 
+Route::get('/paystack/callback', [PaystackController::class, 'handlePaystackCallback'])->name('paystack.callback');
 
 Route::post('/paystack/webhook', [PaystackController::class, 'webhook'])->name('paystack.webhook');
 

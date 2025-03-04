@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Unicodeveloper\Paystack\Facades\Paystack;
 
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+
 class SubscriptionController extends Controller
 {
     public function index()
@@ -119,54 +122,109 @@ class SubscriptionController extends Controller
 
 
 
-    public function initiatePayment(Request $request)
-    {
-        $plan = Plan::findOrFail($request->plan_id);
+    // public function pay(Request $request)
+    // {
+    //     $request->validate([
+    //         'email' => 'required|email',
+    //         'amount' => 'required|numeric|min:1',
+    //         'plan_id' => 'required|exists:plans,id',
+    //     ]);
 
-        $user = Auth::user();
-        $amount = $plan->price * 100; // Convert to kobo
+    //     try {
+    //         $data = [
+    //             'email' => $request->email,
+    //             'amount' => $request->amount * 100, // Paystack expects amount in kobo/cents
+    //             'currency' => 'KES',
+    //             'callback_url' => route('paystack.callback'),
+    //             'metadata' => [
+    //                 'plan_id' => $request->plan_id
+    //             ]
+    //         ];
 
-        $data = [
-            "amount" => $amount,
-            "email" => $user->email,
-            "currency" => "NGN",
-            "callback_url" => route('paystack.callback'),
-            "metadata" => [
-                "user_id" => $user->id,
-                "plan_id" => $plan->id
-            ]
-        ];
+    //         Log::info('Initializing Paystack Payment', $data);
 
-        $paystack = new \Unicodeveloper\Paystack\Paystack();
+    //         $payment = Paystack::getAuthorizationUrl($data)->redirectNow();
 
-        return $paystack->getAuthorizationUrl($data)->redirectNow();
-    }
+    //         return response()->json([
+    //             'status' => 'success',
+    //             'authorization_url' => $payment,
+    //         ]);
 
-    public function handleGatewayCallback()
-    {
-        $paymentDetails = Paystack::getPaymentData();
+    //     } catch (\Exception $e) {
+    //         Log::error('Paystack Payment Error: ' . $e->getMessage());
 
-        if ($paymentDetails['status'] && $paymentDetails['data']['status'] == 'success') {
-            $user_id = $paymentDetails['data']['metadata']['user_id'];
-            $plan_id = $paymentDetails['data']['metadata']['plan_id'];
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => 'Error initializing payment: ' . $e->getMessage()
+    //         ], 400);
+    //     }
+    // }
 
-            // Subscription::create([
-            //     'user_id' => $user_id,
-            //     'plan_id' => $plan_id,
-            //     'status' => 'active'
-            // ]);
-            Subscription::create([
-                'user_id' => $user_id,
-                'plan_id' => $plan_id,
-                'status' => 'active',
-                'start_date' => now(),
-                'end_date' => now()->addMonth(), // Set expiry date
-            ]);
+    // public function handlePaystackCallback()
+    // {
+    //     $paymentDetails = Paystack::getPaymentData();
 
+    //     if ($paymentDetails['status'] && $paymentDetails['data']['status'] == 'success') {
+    //         $user = User::where('email', $paymentDetails['data']['customer']['email'])->first();
 
-            return redirect()->route('dashboard')->with('success', 'Subscription successful!');
-        }
+    //         if ($user) {
+    //             Subscription::create([
+    //                 'user_id' => $user->id,
+    //                 'plan_id' => $paymentDetails['data']['metadata']['plan_id'] ?? null,
+    //                 'status' => 'active',
+    //                 'start_date' => now(),
+    //                 'end_date' => now()->addMonth(),
+    //             ]);
+    //         }
 
-        return redirect()->route('dashboard')->with('error', 'Payment failed. Try again.');
-    }
+    //         return redirect()->route('dashboard')->with('success', 'Payment successful!');
+    //     }
+
+    //     return redirect()->route('subscriptions.index')->with('error', 'Payment failed. Please try again.');
+    // }
+
+    // public function webhook(Request $request)
+    // {
+    //     Log::info('Paystack Webhook:', $request->all());
+
+    //     if ($request->event == 'charge.success') {
+    //         $paymentDetails = $request->data;
+    //         $reference = $paymentDetails['reference'];
+
+    //         Log::info('Verifying transaction: ' . $reference);
+
+    //         $paystackResponse = Http::withHeaders([
+    //             'Authorization' => 'Bearer ' . env('PAYSTACK_SECRET_KEY'),
+    //             'Content-Type' => 'application/json',
+    //         ])->get("https://api.paystack.co/transaction/verify/" . $reference);
+
+    //         $verification = $paystackResponse->json();
+
+    //         if (!$verification['status']) {
+    //             Log::error('Paystack Webhook Error: Payment verification failed', $verification);
+    //             return response()->json(['status' => 'failed'], 200); // ✅ Return 200 to prevent retries
+    //         }
+
+    //         $user = User::where('email', $paymentDetails['customer']['email'])->first();
+
+    //         if ($user) {
+    //             Subscription::updateOrCreate(
+    //                 ['user_id' => $user->id],
+    //                 [
+    //                     'plan_id' => $paymentDetails['metadata']['plan_id'] ?? null,
+    //                     'status' => 'active',
+    //                     'start_date' => now(),
+    //                     'end_date' => now()->addMonth(),
+    //                 ]
+    //             );
+    //         }
+    //     }
+
+    //     return response()->json(['status' => 'success'], 200); // ✅ Always return 200 OK
+    // }
 }
+
+
+
+
+
