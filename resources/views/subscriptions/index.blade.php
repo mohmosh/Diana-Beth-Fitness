@@ -2,6 +2,28 @@
 
 @section('content')
 <main>
+    <div>
+        <!-- Display Validation Errors -->
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+        <!-- Display Success Message -->
+        @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
+
+    </div>
+
+
     <div class="slider-area2">
         <div class="slider-height2 d-flex align-items-center">
             <div class="container ">
@@ -24,20 +46,21 @@
         <div class="d-flex justify-content-center">
             <div class="row row-cols-1 row-cols-md-2 g-4">
                 @foreach ($plans as $plan)
-                    <div class="col">
-                        <div class="widget p-4 shadow-lg rounded text-center bg-light mb-4" style="height: 300px;">
-                            <h4 class="text-primary mb-3">{{ $plan->name }}</h4>
-                            <p class="text-muted mb-4">{{ $plan->description }}</p>
-                            <h5 class="text-success mb-4">${{ $plan->price }} / month</h5>
+                <!-- If a subscription exists with the plan id and the user id of the logged in user,do not show it or show already subscribed,go to workouts -->
+                <div class="col">
+                    <div class="widget p-4 shadow-lg rounded text-center bg-light mb-4" style="height: 300px;">
+                        <h4 class="text-primary mb-3">{{ $plan->name }}</h4>
+                        <p class="text-muted mb-4">{{ $plan->description }}</p>
+                        <h5 class="text-success mb-4">${{ $plan->price }} / month</h5>
 
-                            <div class="d-grid gap-2" style="position: relative; bottom: 20px;">
-                                <a href="{{ route('subscriptions.form', ['plan' => $plan->id]) }}"
-                                   class="btn btn-lg btn-outline-primary">
-                                    Subscribe
-                                </a>
-                            </div>
+                        <div class="d-grid gap-2" style="position: relative; bottom: 20px;">
+                            <a href="{{ route('subscriptions.form', ['plan' => $plan->id]) }}"
+                                class="btn btn-lg btn-outline-primary">
+                                Subscribe
+                            </a>
                         </div>
                     </div>
+                </div>
                 @endforeach
             </div>
         </div>

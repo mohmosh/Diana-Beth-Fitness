@@ -1,50 +1,118 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>@yield('title', 'Diana Beth Fitness')</title>
-    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}"> --}}
-    <!-- Include any CSS files here -->
+
+    <!-- Include Bootstrap 4/5 or Tailwind if not already present -->
+    <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/your-slider-library.css') }}"> {{-- If using Swiper or Owl --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}"> {{-- Your custom styles --}}
+    <style>
+        .slider-area {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider-height {
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero__caption {
+            color: white;
+            padding-top: 80px;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        .hero__caption h1 {
+            font-size: 48px;
+            font-weight: 700;
+        }
+
+        .hero-btn {
+            background-color: #ff3e6c;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            margin-top: 20px;
+            display: inline-block;
+            transition: 0.3s ease-in-out;
+        }
+
+        .hero-btn:hover {
+            background-color: #e9345e;
+        }
+
+        .video-icon {
+            position: absolute;
+            right: 30px;
+            bottom: 30px;
+        }
+
+        .video-icon .btn-icon {
+            font-size: 24px;
+            background: white;
+            color: #ff3e6c;
+            border-radius: 50%;
+            padding: 12px 16px;
+            transition: all 0.3s;
+        }
+
+        .video-icon .btn-icon:hover {
+            background: #ff3e6c;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .hero__caption h1 {
+                font-size: 32px;
+            }
+
+            .hero__caption span {
+                font-size: 16px;
+            }
+
+            .hero-btn {
+                padding: 10px 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <main>
-        <!--? slider Area Start-->
-        <div class="slider-area position-relative">
-
+        <!-- Slider Area Start -->
+        <div class="slider-area">
             <div class="slider-active">
-                <!-- Single Slider -->
-                <div class="single-slider slider-height d-flex align-items-center">
+                <!-- Slide 1 -->
+                <div class="single-slider slider-height d-flex align-items-center" style="background-image: url('{{ asset('assets/img/slider1.jpg') }}');">
                     <div class="container">
                         <div class="row">
-                            <div class="col-xl-7 col-lg-9 col-md-8 col-sm-9">
+                            <div class="col-lg-8">
                                 <div class="hero__caption">
-                                    <span data-animation="fadeInLeft" data-delay="0.1s">Welcome To</span>
-                                    <h1 data-animation="fadeInLeft" data-delay="0.4s">DIANA BETH FITNESS</h1>
-                                    <a class="btn hero-btn " data-animation="fadeInLeft" data-delay="0.8s"
-                                        href="{{ url('/register') }}">Join Now</a>
+                                    <span>Welcome To</span>
+                                    <h1>DIANA BETH FITNESS</h1>
+                                    <a href="{{ url('/register') }}" class="btn hero-btn">Join Now</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Single Slider -->
-                <div class="single-slider slider-height d-flex align-items-center">
+                <!-- Slide 2 -->
+                <div class="single-slider slider-height d-flex align-items-center" style="background-image: url('{{ asset('assets/img/slider2.jpg') }}');">
                     <div class="container">
                         <div class="row">
-                            <div class="col-xl-7 col-lg-9 col-md-8 col-sm-9">
+                            <div class="col-lg-8">
                                 <div class="hero__caption">
-                                    <span data-animation="fadeInLeft" data-delay="0.1s">Welcome To</span>
-                                            <h1 data-animation="fadeInLeft" data-delay="0.4s">DIANA BETH FITNESS</h1>
-                                            <a class="btn hero-btn " data-animation="fadeInLeft" data-delay="0.8s"
-                                                href="{{ url('/register') }}">Join Now</a>
-
-                                            {{-- <a href="from.html" class="btn hero-btn" data-animation="fadeInLeft" data-delay="0.8s">became a member</a> --}}
+                                    <span>Welcome To</span>
+                                    <h1>DIANA BETH FITNESS</h1>
+                                    <a href="{{ url('/register') }}" class="btn hero-btn">Join Now</a>
                                 </div>
                             </div>
                         </div>
@@ -54,12 +122,20 @@
 
             <!-- Video icon -->
             <div class="video-icon">
-                <a class="popup-video btn-icon" href="https://www.youtube.com/watch?v=w3MyigEwok8"><i
-                        class="fas fa-play"></i></a>
+                <a class="popup-video btn-icon" href="https://www.youtube.com/watch?v=w3MyigEwok8">
+                    <i class="fas fa-play"></i>
+                </a>
             </div>
         </div>
-        <!-- slider Area End-->
+        <!-- Slider Area End -->
     </main>
+
+    <!-- Scripts -->
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/your-slider-library.js') }}"></script> {{-- e.g., Swiper, OwlCarousel --}}
+    <script>
+        // Initialize slider if using Swiper/Owl
+    </script>
 </body>
 
 </html>

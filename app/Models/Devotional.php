@@ -15,6 +15,7 @@ class Devotional extends Model
         'uploaded_by',
         'subscription_type',
         'level_required',
+        'document_path',
         'document_content',
         'video_id'
 

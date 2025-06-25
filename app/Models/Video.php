@@ -18,6 +18,7 @@ class Video extends Model implements HasMedia
         'subscription_plan',
         'url',
         'subscription_type',
+        'plan_id',
         'level',
         'devotional_content',
         'devotional_file'
@@ -66,6 +67,10 @@ class Video extends Model implements HasMedia
         return $this->belongsToMany(User::class)->withPivot('watched')->withTimestamps();
     }
 
+    // public function plan()
+    // {
+    //     return $this->belongsTo(Plan::class);
+    // }
 
 
     /**

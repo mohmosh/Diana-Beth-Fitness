@@ -75,8 +75,8 @@
                                         N/A
                                     @endif
                                 </td>
-                                {{-- <td>{{ $video->created_at->format('d M, Y') }}</td>
-                                <td>
+                                <td>{{ $video->created_at->format('d M, Y') }}</td>
+                                <!-- <td>
                                     @if($video->devotional_content)
                                     @if(Storage::exists('public/' . $video->devotional_content))
                                         <a href="{{ asset('storage/' . $video->devotional_content) }}" target="_blank">View Devotional File</a>
@@ -87,7 +87,7 @@
                                     <span class="text-muted">No devotional text available</span>
                                 @endif
 
-                                </td> --}}
+                                </td>  -->
                                 <td>
                                     @if($video->devotional_file)
                                     @if(Storage::exists('public/' . $video->devotional_file))

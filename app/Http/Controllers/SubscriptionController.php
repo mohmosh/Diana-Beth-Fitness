@@ -29,12 +29,40 @@ class SubscriptionController extends Controller
         $challenges = Plan::where('subscription_type', 'challenge')->get();
 
 
-
         // merge both plans into one array
         $plans = $personalTrainingPlans->merge($buildHisTemplePlans)->merge($freeTrial)->merge($challenges);
 
+        if (auth()->check()) {
+            // $user = auth()->user();
+            $subs = auth()->user()->subscriptions;
+
+            //    $my_plans = [];
+            //    // Get only the plans which the user is not subscribed.
+            //    foreach ($plans as $plan)
+            //    {
+            //             foreach($subs as $sub)
+            //             {
+            //                     if($sub->plan_id == $plan->id)
+            //                     {
+            //                         array_push($my_plans, $plan);
+            //                     }
+            //             }
+            //    }
+
+            $plans = $plans->filter(function ($aItem) use ($subs) {
+                return $subs->contains(function ($bItem) use ($aItem) {
+                    return ( !($bItem->plan_id === $aItem->id) && ($bItem->user_id === auth()->user()->id) ) ;
+                });
+            });
+
+            // dd($plans);
+
+
+        }
+
+
         // Pass the merged plans to the view
-        return view('subscriptions.index', compact('plans'));
+        return view('subscriptions.index', compact('plans', 'subs'));
     }
 
 
@@ -223,8 +251,3 @@ class SubscriptionController extends Controller
     //     return response()->json(['status' => 'success'], 200); // ✅ Always return 200 OK
     // }
 }
-
-
-
-
-

@@ -8,7 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Writer\HTML;
 use Illuminate\Support\Facades\Storage;
+use HTMLPurifier;
+use HTMLPurifier_Config;
+
 
 class DevotionalController extends Controller
 {
@@ -19,36 +23,48 @@ class DevotionalController extends Controller
         return view('adminTwo.viewDevotionals', compact('devotionals'));
     }
 
+    public function show($id)
+    {
+        $devotional = Devotional::findOrFail($id);
+        return view('devotionals.show', compact('devotional'));
+    }
+
+
     public function usersDevotionals()
     {
         $user = Auth::user();
 
         if ($user) {
-        //     // Fetch the user's subscription type and level
-        //     $plan = $user->subscription ? $user->subscription->plan : null;
+            //     // Fetch the user's subscription type and level
+            //     $plan = $user->subscription ? $user->subscription->plan : null;
 
-        //     $userSubscriptionType = $plan ? $plan->subscription_type : null;
+            //     $userSubscriptionType = $plan ? $plan->subscription_type : null;
 
-        //     // Retrieve devotionals based on subscription type and level
-        //     $devotionals = Devotional::when($userSubscriptionType, function ($query) use ($userSubscriptionType) {
-        //         $query->where('subscription_type', $userSubscriptionType);
-        //     })
-        //     ->where(function ($query) use ($user) {
-        //         // Include devotionals that are available at the user's level or those without level requirements
-        //         $query->where('level_required', '<=', $user->level)
-        //               ->orWhereNull('level_required');
-        //     })
-        //     ->get();
-        // } else {
-        //     // For unauthenticated users, fetch devotionals with subscription_type of 'free_trial' or 'challenges'
-        //     $devotionals = Devotional::whereIn('subscription_type', ['free_trial', 'challenges'])
-        //                              ->orWhere('subscription_type', 'free_trial')
-        //                              ->get();
-        // }
+            //     // Retrieve devotionals based on subscription type and level
+            //     $devotionals = Devotional::when($userSubscriptionType, function ($query) use ($userSubscriptionType) {
+            //         $query->where('subscription_type', $userSubscriptionType);
+            //     })
+            //     ->where(function ($query) use ($user) {
+            //         // Include devotionals that are available at the user's level or those without level requirements
+            //         $query->where('level_required', '<=', $user->level)
+            //               ->orWhereNull('level_required');
+            //     })
+            //     ->get();
+            // } else {
+            //     // For unauthenticated users, fetch devotionals with subscription_type of 'free_trial' or 'challenges'
+            //     $devotionals = Devotional::whereIn('subscription_type', ['free_trial', 'challenges'])
+            //                              ->orWhere('subscription_type', 'free_trial')
+            //                              ->get();
+            // }
 
-        $devotionals = Devotional::paginate(10);
+            $devotionals = Devotional::paginate(10);
         }
-        
+
+        else
+        {
+            $devotionals = [];
+        }
+
         return view('user.devotionals.index', compact('devotionals'));
     }
 
@@ -78,7 +94,7 @@ class DevotionalController extends Controller
         $documentContent = null;
 
         if ($request->hasFile('document')) {
-            $documentPath = $request->file('document')->store('documents', 'public');
+            $documentPath = $request->file('document')->store('documents/devotionals', 'public');
             $extension = $request->file('document')->getClientOriginalExtension();
 
             try {
@@ -87,7 +103,32 @@ class DevotionalController extends Controller
                 }
 
                 if (in_array($extension, ['docx', 'doc'])) {
-                    $phpWord = IOFactory::load(storage_path('app/public/' . $documentPath));
+                    // Get the full absolute path
+                    $fullPath = storage_path('app/public/' . $documentPath);
+
+                    // Optional: check if file exists
+                    if (!file_exists($fullPath)) {
+                        return response()->json(['error' => 'File not found at: ' . $fullPath], 404);
+                    }
+
+                    try {
+                        $phpWord = IOFactory::load($fullPath);
+                        // Step 2: Convert to HTML using output buffer
+                        $htmlWriter = new HTML($phpWord);
+                        ob_start();
+                        $htmlWriter->save('php://output');
+                        $html = ob_get_clean();
+                        $config = HTMLPurifier_Config::createDefault();
+                        $purifier = new HTMLPurifier($config);
+
+                        $cleanHtml = $purifier->purify($html);
+                    } catch (\Exception $e) {
+                        return response()->json([
+                            'error' => 'Failed to load Word file',
+                            'message' => $e->getMessage()
+                        ], 500);
+                    }
+
                     $text = '';
 
                     foreach ($phpWord->getSections() as $section) {
@@ -111,13 +152,15 @@ class DevotionalController extends Controller
             }
         }
 
+
         Devotional::create([
             'title' => $request->title,
             'content' => $request->content,
             'subscription_type' => $request->subscription_type,
             'level' => $request->level,
             'document_path' => $documentPath,
-            'document_content' => $documentContent,
+            // 'document_content' => $documentContent,
+            'document_content' => $cleanHtml,
             'uploaded_by' => Auth::user()->id,
         ]);
 

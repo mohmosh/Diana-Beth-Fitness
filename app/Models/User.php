@@ -74,9 +74,9 @@ class User extends  Authenticatable  implements MustVerifyEmail
         return $this->belongsTo(Plan::class, 'subscription_plan_id');
     }
 
-    public function subscription()
+    public function subscriptions()
     {
-        return $this->hasOne(Subscription::class);
+        return $this->hasMany(Subscription::class);
     }
 
     public function videos()

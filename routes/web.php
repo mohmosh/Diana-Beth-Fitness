@@ -172,6 +172,12 @@ Route::get('/user/videos', [VideoController::class, 'usersVideos'])->name('user.
 
 Route::get('/user/devotionals', [DevotionalController::class, 'usersDevotionals'])->name('user.devotionals.index');
 
+
+// View Devotionals
+Route::get('/view_devotional/{id}', [DevotionalController::class, 'show'])->name('devotional.view');
+Route::get('/view_video_devotional/{id}', [VideoController::class, 'showDevotional'])->name('video.devotional.view');
+
+
 // routes/web.php
 Route::post('/mark-video-done', [VideoController::class, 'markVideoDone'])->name('mark.video.done');
 
@@ -249,7 +255,8 @@ Route::get('/subscriptions/form/{plan}', [SubscriptionController::class, 'showFo
 Route::post('/subscribe', [SubscriptionController::class, 'initiatePayment'])->name('subscriptions.pay');
 
 
-Route::post('/paystack/pay', [PaystackController::class, 'pay'])->name('paystack.pay');
+// Route::post('/paystack/pay', [PaystackController::class, 'pay'])->name('paystack.pay');
+Route::post('/paystack/pay', [PaystackController::class, 'sendStkPush'])->name('paystack.pay');
 
 Route::get('/paystack/callback', [PaystackController::class, 'handlePaystackCallback'])->name('paystack.callback');
 
@@ -324,6 +331,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
     Route::get('/admin/videos/upload', [VideoController::class, 'create'])->name('admin.uploadVideo');
     Route::post('/admin/videos/upload', [VideoController::class, 'store'])->name('admin.storeVideo');
+    Route::post('/upload-chunked', [VideoController::class, 'upload']);
 
     // Edit video form
     Route::get('admin/videos/{id}/edit', [VideoController::class, 'edit'])->name('admin.editVideo');

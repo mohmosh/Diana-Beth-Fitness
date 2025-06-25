@@ -40,4 +40,9 @@ class Plan extends Model
     {
         return $this->hasMany(Devotional::class);
     }
+
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
+    }
 }

@@ -8,7 +8,14 @@ use App\Models\Video;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpWord\IOFactory;
 use Carbon\Carbon;
+use PhpOffice\PhpWord\Writer\HTML;
+use HTMLPurifier;
+use HTMLPurifier_Config;
+use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
+use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
+use App\Jobs\CompressVideo;
 
 
 
@@ -29,6 +36,13 @@ class VideoController extends Controller
         return view('layouts.dashboard', compact('videos'));
     }
 
+    public function showDevotional($id)
+    {
+        $video = Video::findOrFail($id);
+        return view('videos.devotionals.show', compact('video'));
+    }
+
+
 
     // Display videos for users based on subscription type and level
     public function usersVideos()
@@ -41,13 +55,35 @@ class VideoController extends Controller
             return view('subscriptions.index', compact('plans'));
         }
 
+
         // Ensure the user has a valid subscription
-        if ($user->subscription) {
+        if ($user->subscriptions) {
 
             // Fetch the user's progress
             $progress = $user->progress()->get();
+            $subs = auth()->user()->subscriptions;
 
-            $plan = $user->subscription->plan; // Fetch the user's current plan
+            $all_plans = Plan::all();
+
+            $plans = $all_plans->filter(function ($plan) use ($subs) {
+                return $subs->contains(function ($sub) use ($plan) {
+                    return (($sub->plan_id === $plan->id) && ($sub->user_id === auth()->user()->id));
+                });
+            });
+
+            $unsub_plans = $all_plans->diff($plans);
+
+            $videos = Video::all();
+
+            $videos = $videos->filter(function ($aItem) use ($plans) {
+                return $plans->contains(function ($bItem) use ($aItem) {
+                    return $aItem->plan_id === $bItem->id;
+                });
+            });
+
+            // dd($videos);
+            return view('dashboard.buildHisTemple', compact('videos', 'user', 'progress', 'plans', 'unsub_plans'));
+
 
             if ($plan->subscription_type === 'personal_training') {
 
@@ -85,14 +121,12 @@ class VideoController extends Controller
 
                 // Pass the correct variables to the view
                 return view('dashboard.freeTrial', compact('videos', 'user', 'progress', 'daysPassed', 'daysLeft'));
-                
             } elseif ($plan->subscription_type === 'challenge') {
 
                 // Fetch Challenge videos
                 $videos = Video::where('subscription_type', 'challenge')->get();
 
                 return view('dashboard.challenges', compact('videos', 'user', 'progress'));
-
             } else {
                 return redirect()->route('plans.index')->with('warning', 'Please subscribe to a valid plan to access videos.');
             }
@@ -199,62 +233,97 @@ class VideoController extends Controller
     // Admin side - Display the upload form
     public function create()
     {
-        return view('adminTwo.uploadVideo');
+        $plans = Plan::all();
+        return view('adminTwo.uploadVideo', compact('plans'));
     }
 
 
+    // Admin side - Handle the video upload finally.
 
-    // Admin side - Handle video upload
     public function store(Request $request)
     {
 
-        // dd($request->all());
+        Log::info("Storing the video");
         $request->validate([
             'title' => 'required|string|max:255',
-            'video' => 'required|file|mimes:mp4,mkv,avi,flv|max:102400', // 100MB max size
-            'description' => 'nullable|string',
+            'video' => 'required|string',
+            'plan_id' => 'nullable',
             'url' => 'nullable|url|max:255',
             'subscription_type' => 'nullable|in:personal_training,build_his_temple,free_trial,challenge',
-            'level' => 'nullable|integer|min:1', // Only for Build His Temple
-            // 'devotional_content' => 'nullable|string', // For text-based devotionals
-            'devotional_file' => 'nullable|file|mimes:pdf,docx,txt|max:102400' // 100MB max size for file uploads
+            'level' => 'nullable|integer|min:1',
+            'devotional_file' => 'nullable|file|mimes:pdf,docx,doc,txt|max:102400'
         ]);
 
-        //
+        // Check what the subscription type is 
 
-        // Store the video
+        $devotionalPath = null;
+        $devotionalContent = null;
 
-        if ($request->hasFile('video')) {
-
-            // TODO : Fix naming convention for videos
-            $path = $request->file('video')->store('videos', 'public');
-        }
-        // Save file-based devotional
-
+        // Handle devotional file if uploaded
         if ($request->hasFile('devotional_file')) {
+            $devotionalPath = $request->file('devotional_file')->store('devotionals', 'public');
+            $extension = $request->file('devotional_file')->getClientOriginalExtension();
+            $fullPath = storage_path('app/public/' . $devotionalPath);
 
-            // TODO : Fix naming convention for devotionals
+            try {
+                if ($extension === 'txt') {
+                    $text = file_get_contents($fullPath);
+                    $devotionalContent = $text;
+                }
 
-            $devotional_path = $request->file('devotional_file')->store('devotionals', 'public');
+                if (in_array($extension, ['docx', 'doc'])) {
+                    $phpWord = IOFactory::load($fullPath);
+
+                    $text = '';
+                    foreach ($phpWord->getSections() as $section) {
+                        foreach ($section->getElements() as $element) {
+                            if ($element instanceof \PhpOffice\PhpWord\Element\TextRun) {
+                                foreach ($element->getElements() as $textElement) {
+                                    if ($textElement instanceof \PhpOffice\PhpWord\Element\Text) {
+                                        $text .= $textElement->getText();
+                                    }
+                                }
+                            } elseif ($element instanceof \PhpOffice\PhpWord\Element\Text) {
+                                $text .= $element->getText();
+                            }
+                        }
+                    }
+
+                    $devotionalContent = $text;
+                }
+
+                // Purify HTML content if any
+                if ($devotionalContent) {
+                    $config = HTMLPurifier_Config::createDefault();
+                    $purifier = new HTMLPurifier($config);
+                    $devotionalContent = $purifier->purify(nl2br(e($devotionalContent)));
+                }
+            } catch (\Exception $e) {
+                Log::error('Error processing devotional file: ' . $e->getMessage());
+            }
         }
 
-        // dd($devotional_path);
+        $plan = Plan::where('id', $request->plan_id)->first();
 
-
-        // Create the video record
-        $video = Video::create([
+        // Dispatch compression + DB save
+        $data = [
             'title' => $request->title,
-            'path' => $path,
-            'description' => $request->description,
+            'plan_id' => $request->plan_id,
             'url' => $request->url,
-            'subscription_type' => $request->subscription_type,
+            'subscription_type' => $plan->subscription_type ?? 'default',
             'level' => $request->level,
-            'devotional_content' => $request->devotional_content,
-            'devotional_file' => $devotional_path
-        ]);
+            'video' => $request->video,
+            'devotional_file' => $devotionalPath,
+            'devotional_content' => $devotionalContent
+        ];
 
+        // dd($data);
 
-        return redirect()->route('admin.viewVideos')->with('success', 'Video uploaded successfully!');
+        Log::info("Calling the compress job,not compressing for now,will set it up in the server");
+
+        CompressVideo::dispatch($data);
+
+        return redirect()->route('admin.viewVideos')->with('success', 'Your video is ready.');
     }
 
 
@@ -365,5 +434,45 @@ class VideoController extends Controller
 
         // Redirect to the Build His Temple dashboard with a success message
         return redirect()->route('videos.buildHisTemple')->with('success', 'You have advanced to the next level.');
+    }
+
+    public function upload(Request $request)
+    {
+        try {
+            $receiver = new FileReceiver("file", $request, HandlerFactory::classFromRequest($request));
+
+            if ($receiver->isUploaded()) {
+                $save = $receiver->receive();
+
+                if ($save->isFinished()) {
+                    $file = $save->getFile();
+
+                    $path = $file->storeAs("videos/full", uniqid() . '.' . $file->getClientOriginalExtension(), 'public');
+
+                    // Dispatch to queue for compression
+                    // CompressVideo::dispatch($path);
+
+                    return response()->json([
+                        'done' => true,
+                        'path' => $path
+                    ]);
+                }
+
+                $handler = $save->handler();
+                return response()->json([
+                    "done" => false,
+                    "percentage" => $handler->getPercentageDone(),
+                ]);
+            }
+
+            return response()->json(['error' => 'Upload failed'], 400);
+        } catch (\Throwable $e) {
+            Log::error("Chunk upload error: " . $e->getMessage());
+
+            return response()->json([
+                'error' => 'An error occurred during upload.',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

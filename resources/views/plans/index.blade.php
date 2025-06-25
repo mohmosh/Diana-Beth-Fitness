@@ -26,7 +26,7 @@
                         <div class="widget p-4 shadow-lg rounded text-center bg-light mb-4" style="height: 300px;">
                             <h4 class="text-primary mb-3">{{ $plan->name }}</h4>
                             <p class="text-muted mb-4">{{ $plan->description }}</p>
-                            <h5 class="text-success mb-4">${{ $plan->price }} / month</h5>
+                            <h5 class="text-success mb-4"> Ksh. {{ $plan->price }} </h5>
 
                             <div class="d-grid gap-2" style="position: relative; bottom: 20px;">
                                 <a href="{{ route('subscriptions.form', ['plan' => $plan->id]) }}"

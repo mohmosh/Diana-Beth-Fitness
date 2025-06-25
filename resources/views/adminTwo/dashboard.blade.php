@@ -109,11 +109,19 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="users-profile.html" >
                 <i class="bi bi-gear"></i>
                 <span>Account Settings</span>
               </a>
             </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{{ route('home') }}" target="_blank">
+                <i class="bi bi-person"></i>
+                <span>View as User</span>
+              </a>
+            </li>
+
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -153,7 +161,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('adminTwo.dashboard') }}">
               <i class="bi bi-grid"></i>
-              <span>Admin Dashboard</span>
+              <!-- <span>Admin Dashboard</span> -->
             </a>
           </li>
 
@@ -235,7 +243,7 @@
   <main id="main" class="main">
 
 
-    <a href="{{ route('adminTwo.dashboard') }}">Admin Admin Dashboard</a>
+    <a href="{{ route('adminTwo.dashboard') }}">Admin Dashboard</a>
 
     @yield('content')
 

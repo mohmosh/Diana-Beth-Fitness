@@ -33,14 +33,20 @@
                                     $documentPath = asset('storage/' . $devotional->document_path);
                                 @endphp
 
-                                <p>Document Path: {{ $documentPath }}</p> <!-- Debugging line to display the document URL -->
+                                <!-- <p>Document Path: {{ $documentPath }}</p> Debugging line to display the document URL -->
 
                                 @if(Str::endsWith($devotional->document_path, '.pdf'))
                                     <!-- For PDF files, embed the PDF -->
-                                    <embed src="{{ $documentPath }}" type="application/pdf" width="100%" height="500px">
-                                @elseif(Str::endsWith($devotional->document_path, '.txt'))
+                                    <!-- <embed src="{{ $documentPath }}" type="application/pdf" width="100%" height="500px"> -->
+                                      <a href="{{ url('/view_devotional/' . $devotional->id) }}" class="btn btn-primary" target="_blank">
+                                    View Devotional
+                                </a>
+                                @elseif(Str::endsWith($devotional->document_path, '.docx'))
                                     <!-- For text files, display the content -->
-                                    <pre>{{ \Illuminate\Support\Facades\Storage::get('public/' . $devotional->document_path) }}</pre>
+                                    <!-- <pre>{{ \Illuminate\Support\Facades\Storage::get('public/' . $devotional->document_path) }}</pre> -->
+                                      <a href="{{ url('/view_devotional/' . $devotional->id) }}" class="btn btn-primary" target="_blank">
+                                    View Devotional
+                                </a>
                                 @else
                                     <p>Unsupported document type.</p>
                                 @endif
